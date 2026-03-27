@@ -29,10 +29,6 @@ class CsvToLength
      */
     CsvToLength(const string& filePath);
 
-
-
 };
-
-
 
 #endif
