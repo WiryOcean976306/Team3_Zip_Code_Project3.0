@@ -48,6 +48,25 @@ int main() {
     outFile1.close();
     outFile2.close();
 
+
+
+// Instructions:
+//      Your blocked sequence set generation program's command line options should include:
+//          - The name of the blocked sequence set data file
+//          - All other information necessary for the header file
+
+
+//      Process sequentially a blocked sequence set file using buffer classes. {functionality from Group Projects 1 & 2}
+
+
+
+
+
+
+
+
+
+
     return 0;
 }
 
