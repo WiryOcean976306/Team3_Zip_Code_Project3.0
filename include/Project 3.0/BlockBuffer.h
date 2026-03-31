@@ -47,18 +47,26 @@
 
         BlockBuffer(const Block& RecordBlock);
 
+        // int Pack (const void*, int size = -1);
 
-
-        /**
-         * @brief 
-         * @param 
-         */   
-
-        bool readBlock();
+        
+        int Unpack (void * field, int maxBytes = -1); 
 
 
 
-        bool writeBlock();
+
+
+
+        // /**
+        //  * @brief 
+        //  * @param 
+        //  */   
+
+        // bool readBlock();
+
+
+
+        // bool writeBlock();
 
 
 
