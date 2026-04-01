@@ -12,6 +12,18 @@
 #include "../include/Printer.h"
 #include "../include/PrinterCSV.h"
 
+void test_function ()
+{
+    cout << "\nTesting Buffer"<< endl;
+    BlockedBuffer B_Buffer
+    
+}
+
+
+
+
+
+
 
 int main() {
 
@@ -59,9 +71,13 @@ int main() {
 //      Process sequentially a blocked sequence set file using buffer classes. {functionality from Group Projects 1 & 2}
 
     
+    //unpacks a record from a block into a record buffer
+    BlockBuffer B_Buffer(//"block sequence file")
+    
+    //unpacks fields from record buffer into record object
+    Length_Indicated_ZipCodeBuffer Z_Buffer(//record buffer//)
 
-
-
+    while(B_buffer.readNext(/*placeholder*/)
 
 
 
