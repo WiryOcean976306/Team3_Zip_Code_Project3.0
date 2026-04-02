@@ -10,7 +10,7 @@
 #include <sstream>    // for std::stringstream
 #include <iomanip>    // for stream formatting
 #include <cstring>    // for string operations
-
+#include <cstdint> 
 
 /**
  * @brief Constructor for Length_Indicated_ZipCodeBuffer that opens the specified length-indicated file.

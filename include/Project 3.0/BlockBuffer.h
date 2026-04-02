@@ -45,40 +45,29 @@
          */
 
 
-        BlockBuffer(const Block& RecordBlock);
-
-        // int Pack (const void*, int size = -1);
-
-
-        int Unpack (void * field, int maxBytes = -1); 
-
-
+        BlockBuffer(int maxBytes = 512);
 
         
+        void Clear (); // clear fields from buffer
+        int Read (istream& stream);
+        int Write (ostream& stream) const;
+        int Pack(const char*, short size = -1);
+            // set the value of the next field of the buffer
+        int Unpack (char *);
+            // extract the value of the next field of the buffer
+        void Print (ostream&) const;
+        int init (int maxBytes = 1000);
 
+    private:
 
-        // /**
-        //  * @brief 
-        //  * @param 
-        //  */   
-
-        // bool readBlock();
-
-
-
-        // bool writeBlock();
-
-
-
-
-
-  }
-
+        char * Buffer; // character array to hold field values
+        int BufferSize; // size of packed fields
+        int MaxBytes; // maximum number of characters in the buffer
+        int NextByte; // packing/unpacking position in the buffer
 
 
 
-
-
+  };
 
 
 

@@ -11,20 +11,22 @@
 
 
  #include "block.h"
+ #include "BlockBuffer.h"
  
 
 
-int BlockBuffer::Unpack ( void* field, int maxBytes) {
-    if (NextRecord == RecordCount || Packing)
-    // buffer is full or not in unpacking mode
-    return -1;
-    int start = Nextbyte; // first byte to be unpacked
-    int packSize = FieldSize(NextRecord); // bytes to be unpacked
-    memcpy (field, &buffer[start], packSize); // move the bytes
-    NextByte += packSize; // advance NextByte to the following char
-    NextRecord ++; // advance NextField
-    if (NextRecord == RecordCount) clear(); // all fields unpacked
-        return packSize;
+int BlockBuffer :: Unpack (char * str)
+// extract the value of the next field of the buffer
+{
+	short len; // length of packed string
+	if (NextByte >= BufferSize) return false; // no more fields
+	int start = NextByte; // first character to be unpacked
+	memcpy (&len, &Buffer[start], sizeof(short));
+	NextByte += len + sizeof(short);
+	if (NextByte > BufferSize) return false;
+	strncpy (str, &Buffer[start+sizeof(short)], len);
+	str [len] = 0; // zero termination for string 
+	return true;
 }
 
 

@@ -12,17 +12,6 @@
 #include "../include/Printer.h"
 #include "../include/PrinterCSV.h"
 
-void test_function ()
-{
-    cout << "\nTesting Buffer"<< endl;
-    BlockedBuffer B_Buffer
-    
-}
-
-
-
-
-
 
 
 int main() {
@@ -72,18 +61,18 @@ int main() {
 
     
     //unpacks a record from a block into a record buffer
-    BlockBuffer B_Buffer(//"block sequence file")
+    // BlockBuffer B_Buffer(//"block sequence file")
     
-    //unpacks fields from record buffer into record object
-    Length_Indicated_ZipCodeBuffer Z_Buffer(//record buffer//)
+    // //unpacks fields from record buffer into record object
+    // Length_Indicated_ZipCodeBuffer Z_Buffer(//record buffer//)
 
-    while(B_buffer.readNext(/*placeholder*/)
-
-
+    // while(B_buffer.readNext(/*placeholder*/)
 
 
 
-    return 0;
+
+
+    // return 0;
 }
 
         
