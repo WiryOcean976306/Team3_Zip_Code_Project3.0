@@ -17,7 +17,7 @@
  #include <fstream>
  #include <string>
  #include <memory>
-
+#include <cstring>
  #include "Block.h"
  
 
@@ -45,18 +45,18 @@
          */
 
 
-        BlockBuffer(int maxBytes = 512);
+        BlockBuffer (int maxBytes = 512);
 
         
         void Clear (); // clear fields from buffer
         int Read (istream& stream);
         int Write (ostream& stream) const;
-        int Pack(const char*, short size = -1);
+        int Pack (const char*, short size = -1);
             // set the value of the next field of the buffer
         int Unpack (char *);
             // extract the value of the next field of the buffer
         void Print (ostream&) const;
-        int init (int maxBytes = 1000);
+        int init (int maxBytes = 512);
 
     private:
 

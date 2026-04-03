@@ -12,7 +12,21 @@
 
  #include "block.h"
  #include "BlockBuffer.h"
- 
+ #include <string.h>
+
+
+
+
+
+BlockBuffer :: BlockBuffer (int maxBytes)
+// construct witha  maximum of maxFields
+{
+    Init (maxBytes);
+}
+
+
+
+
 
 
 int BlockBuffer :: Unpack (char * str)
@@ -32,7 +46,18 @@ int BlockBuffer :: Unpack (char * str)
 
 
 
+int BlockBuffer:: Init (int maxBytes)
+// construct with a maximum of maxFields
 
+{
+    if (maxBytes < 0) maxBytes = 0;
+    MaxBytes = maxBytes;
+    Buffer = new char[MaxBytes];
+    Clear ();
+    return 1;
+    
+
+}
 
 
 
