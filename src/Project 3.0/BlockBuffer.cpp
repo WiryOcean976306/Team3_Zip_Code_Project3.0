@@ -10,7 +10,7 @@
 
 
 
- #include "block.h"
+
  #include "BlockBuffer.h"
  #include <string.h>
 
@@ -19,13 +19,35 @@
 
 
 BlockBuffer :: BlockBuffer (int maxBytes)
-// construct witha  maximum of maxFields
+// construct with  maximum of maxFields
 {
     Init (maxBytes);
 }
 
 
+void BlockBuffer :: clear ()
+// clear fields from buffer
+{
+    NextByte = 0;
+    BufferSize = 0;
+}
 
+int BlockBuffer :: Read (istream & stream)
+{
+    Clear();
+    stream . read(reinterpret_cast<char*>(&BufferSize), sizeof(BufferSize));
+    if (stream.fail()) return false;
+    if (BufferSize > MaxBytes) return false; // buffer overflow
+    stream . read (Buffer, BufferSize);
+    return stream . good (); 
+}
+
+
+int BlockBuffer :: Write (ostream & stream) const
+{
+    stream . write (reinterpret_cast<const char*>(&BufferSize), sizeof(BufferSize));
+    stream . write (Buffer, BufferSize)
+}
 
 
 

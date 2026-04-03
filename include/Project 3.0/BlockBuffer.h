@@ -56,7 +56,7 @@
         int Unpack (char *);
             // extract the value of the next field of the buffer
         void Print (ostream&) const;
-        int init (int maxBytes = 512);
+        int Init (int maxBytes = 512);
 
     private:
 
