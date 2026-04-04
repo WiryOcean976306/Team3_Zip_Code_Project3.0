@@ -34,7 +34,7 @@ BlockBuffer :: BlockBuffer (int maxBytes)
  * @brief Clears the buffer state so it can be reused.
  * @details Resets the current cursor position and stored size to zero.
  */
-void BlockBuffer :: clear ()
+void BlockBuffer :: Clear ()
 // clear fields from buffer
 {
     NextByte = 0;
@@ -68,7 +68,7 @@ int BlockBuffer :: Read (istream & stream)
 int BlockBuffer :: Write (ostream & stream) const
 {
     stream . write (reinterpret_cast<const char*>(&BufferSize), sizeof(BufferSize));
-    stream . write (Buffer, BufferSize)
+    stream . write (Buffer, BufferSize);
 }
 
 
@@ -80,7 +80,7 @@ int BlockBuffer :: Write (ostream & stream) const
  * @details Stores the string length first, then copies the character data into
  *          the internal buffer and advances the cursor.
  */
-int BlockBuffer :: Pack (const char * str, short size)
+int BlockBuffer :: Pack (const char* str, short size)
 // set the value of the next field of the buffer;
 // if size = -1 (default) use strlen(str) as length of field
 {

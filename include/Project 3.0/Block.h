@@ -34,7 +34,8 @@ class Block
     public:
 
         /**
-         * @brief Constructs a Block with the given previous RBN and current RBN, initializing all other members to default values.
+         * @brief Constructs a Block with the given previous RBN and current RBN, 
+         * initializing all other members to default values.
          * @param prevrbn The RBN of the previous block.
          * @param rbn The RBN of this block.
         */
