@@ -69,6 +69,7 @@ int BlockBuffer :: Write (ostream & stream) const
 {
     stream . write (reinterpret_cast<const char*>(&BufferSize), sizeof(BufferSize));
     stream . write (Buffer, BufferSize);
+    return stream . good ();
 }
 
 

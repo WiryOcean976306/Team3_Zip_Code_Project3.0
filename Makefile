@@ -6,7 +6,7 @@ BINDIR = bin
 TARGET = $(BINDIR)/main
 TEST_TARGET = $(BINDIR)/TestDriver
 TEST_SOURCE = $(SRCDIR)/Project\ 3.0/TestDriver.cpp
-TEST_LINK_SOURCES = "./src/Project 3.0/TestDriver.cpp" "./src/ZipCodeRecord.cpp" "./src/Project 3.0/BlockBuffer.cpp"
+TEST_LINK_SOURCES = "./src/Project 3.0/TestDriver.cpp" "./src/ZipCodeRecord.cpp" "./src/Project 3.0/BlockBuffer.cpp" "./src/Length_Indicated_ZipCodeBuffer.cpp"
 
 EXCLUDE := $(SRCDIR)/printer.cpp 
 EXCLUDE += $(SRCDIR)/main.cpp
@@ -20,6 +20,7 @@ OBJECTS = $(SOURCES:$(SRCDIR)/%.cpp=$(BINDIR)/%.o)
 
 TEST_DEPS = $(SRCDIR)/ZipCodeRecord.cpp
 TEST_DEPS += $(SRCDIR)/Project\ 3.0/BlockBuffer.cpp
+TEST_DEPS += $(SRCDIR)/Length_Indicated_ZipCodeBuffer.cpp
 
 all: $(TARGET)
 

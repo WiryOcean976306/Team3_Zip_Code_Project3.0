@@ -1,6 +1,7 @@
 #include <fstream>
 #include <string>
 #include <iomanip>
+#include <iostream>
 
 #include "Length_Indicated_ZipCodeBuffer.h"
 #include "BlockBuffer.h"
@@ -15,11 +16,15 @@ void testBlockBuffer ()
     
     ZipCodeRecord record(zip, state, lat, longi);
     BlockBuffer Buff;
-    Length_Indicated_ZipCodeBuffer LIrecBuff("/data/Length_Indicated_us_postal_codes.csv");
+    Length_Indicated_ZipCodeBuffer LIrecBuff("data/Length_Indicated_us_postal_codes.csv");
     // Block :: InitBuffer (Buff); // Unnecessary
 
-    // cout << record.getState() << ", " << record.getLatitude() <<  ", " << record.getLongitude();
 
+    // Record Object test "ZipCodeRecord"
+    cout << record.getZip() << ", " << record.getState() << ", " << record.getLatitude() <<  ", " << record.getLongitude();
+
+    // Block Buffer Test
+    
 
 
        
@@ -34,6 +39,6 @@ int main() {
 
 
 
-return 1;
+return 0;
 
 }

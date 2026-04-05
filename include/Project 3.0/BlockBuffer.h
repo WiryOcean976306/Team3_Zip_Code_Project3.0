@@ -33,10 +33,6 @@
         std::string csvPath;
         bool BufferRead;
         
-
-
-
-
     public:
 
         /**
