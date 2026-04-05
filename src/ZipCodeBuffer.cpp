@@ -22,7 +22,7 @@ ZipCodeBuffer::ZipCodeBuffer(const std::string& filePath) {
         throw std::runtime_error("Could not open file: " + csvPath);
     }
     std::string header;
-    std::getline(file, header); // reads header line and stores it in header
+    std::getline(file, header); // reads the first row of the CSV and stores it in header
     // Parse the header line to determine the indices of the relevant columns (zip code, state, latitude, longitude)
     std::stringstream ss(header);
     std::string column;

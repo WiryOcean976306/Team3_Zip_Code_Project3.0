@@ -2,7 +2,10 @@
  * @file BlockedSequence.h
  * @author Zach Houck
  * @date 2026-03-26
- * @brief Declares BlockedSequence as a DLL of Block by RBN values.
+ * @brief Declares the BlockedSequence container used to manage linked blocks by RBN.
+ *
+ * The sequence stores blocks in memory and maintains logical ordering through
+ * each block's previous and next relative block number (RBN).
  */
 
 #ifndef BLOCKEDSEQUENCE_H
@@ -18,56 +21,86 @@ using namespace std;
 class BlockedSequence
 {
     private:
+        /** Maps each block's RBN to the corresponding in-memory Block object. */
         map<int, Block> blocks;
+        /** RBN of the first block in the logical sequence (0 when empty). */
         int HeadRBN = 0;
+        /** RBN of the last block in the logical sequence (0 when empty). */
         int TailRBN = 0;
+        /** Next RBN value to assign when a new block is created. */
         int NextRBN = 1;
 
     public:
         
         /**
-         * @brief Constructs an empty BlockedSequence with the given starting RBN for new blocks.
-         * @param startRBN The RBN to assign to the first block added to the
+         * @brief Constructs an empty blocked sequence.
+         * @param startRBN Initial RBN value to assign to the first created block.
+         * @details Initializes head and tail as empty (0) and stores the next
+         *          RBN counter used for newly allocated blocks.
          */
         BlockedSequence(int startRBN = 1);
 
         /**
-         * @brief Checks if the BlockedSequence is empty by verifying if the HeadRBN is 0.
-         * @return True if the sequence is empty, false otherwise.
+         * @brief Indicates whether the sequence has any blocks.
+         * @return True when no blocks are currently linked; otherwise false.
          */
         bool IsEmpty();
 
         /**
-         * @brief Getters for the head RBN, tail RBN, next RBN, and count of blocks in the sequence.
+         * @brief Returns the RBN of the head block.
+         * @return Head block RBN, or 0 when the sequence is empty.
          */
         int GetHeadRBN();
+
+        /**
+         * @brief Returns the RBN of the tail block.
+         * @return Tail block RBN, or 0 when the sequence is empty.
+         */
         int GetTailRBN();
+
+        /**
+         * @brief Returns the next RBN that will be assigned to a new block.
+         * @return Next available RBN value.
+         */
         int GetNextRBN();
+
+        /**
+         * @brief Returns the number of blocks currently tracked in memory.
+         * @return Count of blocks in the internal map.
+         */
         int GetCount();
 
         /**
-         * @brief Appends a record to the end of the BlockedSequence, creating new blocks as necessary when the current tail block is full.
-         * @param recordCsv The record string to append, formatted as a CSV.
-         * @return True if the record was appended successfully, false if there was an error (
+         * @brief Appends one packed record to the logical tail of the sequence.
+         * @param recordCsv Length-indicated record payload to append.
+         * @return True if the record is inserted into an existing or new block;
+         *         otherwise false.
+         * @details If the current tail block has space, the record is inserted there.
+         *          If not, a new block is created, linked after the tail, and the
+         *          record is inserted into the new block.
          */
         bool AppendRecord(const string& recordCsv);
 
         /**
-         * @brief Writes all blocks in the sequence to disk, starting from the head block and following the next RBN links until the end of the sequence.
-         * @return True if all blocks were written successfully, false if there was an error writing
+         * @brief Writes every linked block from head to tail.
+         * @return True if all blocks are written successfully; otherwise false.
+         * @details Traverses the active chain using each block's next-RBN pointer
+         *          and calls Block::WriteBlock on each visited block.
          */
         bool WriteAll();
 
         /**
-         * @brief Loads all blocks in the sequence from disk, starting from the head block and following the next RBN links until the end of the sequence.
-         * @return True if all blocks were loaded successfully, false if there was an error loading
+         * @brief Reads every linked block from head to tail.
+         * @return True if all blocks are read successfully; otherwise false.
+         * @details Traverses the active chain using each block's next-RBN pointer
+         *          and calls Block::ReadBlock on each visited block.
          */
         bool LoadAllFromHead();
 
         /**
-         * @brief Retrieves a pointer to the Block with the specified RBN from the sequence.
-         * @param rbn The RBN of the block to retrieve.
-         * @return A pointer to the Block if found, or nullptr if no block with the specified RBN exists in the sequence.
+         * @brief Looks up a block by relative block number.
+         * @param rbn RBN key of the block to locate.
+         * @return Pointer to the matching block, or nullptr if not found.
          */
         Block* GetBlock(int rbn);
 };

@@ -2,7 +2,11 @@
  * @file Block.h
  * @author Zach Houck
  * @date 2026-03-26
- * @brief Declares Block, a chunk of complete records that is a certain size.
+ * @brief Declares the Block container used to store packed records within a
+ * fixed byte-capacity unit.
+ *
+ * Each block tracks metadata (record count, RBN links, byte usage) and stores
+ * length-indicated record payloads.
  */
 
 #ifndef BLOCK_H
@@ -18,50 +22,98 @@ class Block
 {
     private:
 
+        /** Number of records currently stored in this block. */
         int RecordCount = 0;
+        /** Relative block number (RBN) identifying this block. */
         int RBN = 0;
+        /** RBN of the previous block in the active chain. */
         int PrevRBN = 0;
+        /** RBN of the next block in the active chain. */
         int NextRBN = 0;
+        /** Total bytes currently used by record payloads. */
         int ByteSize = 0;
-        int ByteMaxSize = 512; //512 is default 
+        /** Maximum payload capacity in bytes for this block. */
+        int ByteMaxSize = 512; //512 is default
+        /** Byte length of the serialized header string. */
         int HeaderSize = 0;
 
-        string BlockHeader; //Formatted as: HeaderSize,RecordCount,RBN,PrevRBN,NextRBN 
+        /** Serialized metadata header: HeaderSize,RecordCount,RBN,PrevRBN,NextRBN. */
+        string BlockHeader;
+        /** Record payloads stored in insertion order. */
         vector<string> Records;
 
+        /** Rebuilds the serialized header after metadata changes. */
         void UpdateHeader();
 
     public:
 
         /**
-         * @brief Constructs a Block with the given previous RBN and current RBN, 
-         * initializing all other members to default values.
-         * @param prevrbn The RBN of the previous block.
-         * @param rbn The RBN of this block.
+         * @brief Constructs an empty block and initializes link metadata.
+         * @param prevrbn RBN of the previous block in the sequence.
+         * @param rbn RBN assigned to this block.
         */
         Block(int prevrbn, int rbn);
 
         /**
-         * @brief Attempts to add a record to the block, checking if it fits within the byte size limit.
-         * @param Record The record string to add.
-         * @return True if the record was added successfully, false if it would exceed the block.
+         * @brief Attempts to append one packed record into this block.
+         * @param Record Length-indicated record text to add.
+         * @return True if the record is valid and fits in the remaining capacity;
+         *         otherwise false.
          */
         bool AddRecord(const string& Record);
-    
+
+        /**
+         * @brief Reads this block's serialized representation from storage.
+         * @return True on successful read and parse; otherwise false.
+         */
         bool ReadBlock();
 
+        /**
+         * @brief Writes this block's serialized representation to storage.
+         * @return True on successful write; otherwise false.
+         */
         bool WriteBlock();
 
         /**
-         * @brief Getters and setters for block properties.
-         * @details Getters return the current value of the property. The setter for NextRBN also updates the block header to reflect the new value.
+         * @brief Returns the number of records stored in this block.
+         * @return Current record count.
          */
         int GetRecordCount();
+
+        /**
+         * @brief Returns this block's RBN.
+         * @return Current block RBN.
+         */
         int GetRBN();
+
+        /**
+         * @brief Returns the previous block's RBN.
+         * @return Previous block RBN.
+         */
         int GetPrevRBN();
+
+        /**
+         * @brief Returns the next block's RBN.
+         * @return Next block RBN.
+         */
         int GetNextRBN();
+
+        /**
+         * @brief Returns total payload bytes currently consumed in the block.
+         * @return Number of used payload bytes.
+         */
         int GetByteSize();
+
+        /**
+         * @brief Provides mutable access to stored record payloads.
+         * @return Reference to the internal record vector.
+         */
         vector<string>& GetRecords();
+
+        /**
+         * @brief Updates the next-block link and refreshes serialized header data.
+         * @param nextRbn RBN value to assign as the next block link.
+         */
         void SetNextRBN(int nextRbn);
 
 };

@@ -47,16 +47,16 @@ CsvToLength::CsvToLength(const string& FilePath)
         stringstream ss(line);
         getline(ss, column, ',');
         digitCount = column.size();
-        if(digitCount == 5)
-        {}
-        else if(digitCount == 4)
-        {
-            line = string("0") + line;
-        }
-        else if(digitCount == 3)
-        {
-            line = "00" + line;
-        }
+            if(digitCount == 5)
+            {}
+            else if(digitCount == 4)
+            {
+                line = string("0") + line;
+            }
+            else if(digitCount == 3)
+            {
+                line = "00" + line;
+            }
 
         line += "\n";
         Out << line.size() + 3 << "," << line;
