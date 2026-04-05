@@ -1,12 +1,12 @@
 CXX = g++
-CXXFLAGS = -std=c++17 -I./include
+CXXFLAGS = -std=c++17 -g -O0 -I./include -I"./include/Project 3.0"
 
 SRCDIR = src
 BINDIR = bin
 TARGET = $(BINDIR)/main
 TEST_TARGET = $(BINDIR)/TestDriver
 TEST_SOURCE = $(SRCDIR)/Project\ 3.0/TestDriver.cpp
-TEST_LINK_SOURCES = "./src/Project 3.0/TestDriver.cpp" "./src/ZipCodeRecord.cpp" "./src/Project 3.0/BlockBuffer.cpp" "./src/Length_Indicated_ZipCodeBuffer.cpp"
+TEST_LINK_SOURCES = "./src/Project 3.0/TestDriver.cpp" "./src/ZipCodeRecord.cpp" "./src/Project 3.0/BlockBuffer.cpp" "./src/Length_Indicated_ZipCodeBuffer.cpp" "./src/Project 3.0/BlockedSequence.cpp" "./src/Project 3.0/Block.cpp"
 
 EXCLUDE := $(SRCDIR)/printer.cpp 
 EXCLUDE += $(SRCDIR)/main.cpp
@@ -21,6 +21,14 @@ OBJECTS = $(SOURCES:$(SRCDIR)/%.cpp=$(BINDIR)/%.o)
 TEST_DEPS = $(SRCDIR)/ZipCodeRecord.cpp
 TEST_DEPS += $(SRCDIR)/Project\ 3.0/BlockBuffer.cpp
 TEST_DEPS += $(SRCDIR)/Length_Indicated_ZipCodeBuffer.cpp
+TEST_DEPS += $(SRCDIR)/Project\ 3.0/BlockedSequence.cpp
+TEST_DEPS += $(SRCDIR)/Project\ 3.0/Block.cpp
+
+ifeq ($(OS),Windows_NT)
+RM_BIN = if exist $(BINDIR) rmdir /s /q $(BINDIR)
+else
+RM_BIN = rm -rf $(BINDIR)
+endif
 
 all: $(TARGET)
 
@@ -37,12 +45,12 @@ run: $(TARGET)
 	./$(TARGET)
 
 $(TEST_TARGET): $(TEST_SOURCE) $(TEST_DEPS) | $(BINDIR)
-	$(CXX) $(CXXFLAGS) -I"./include/Project 3.0" -o $@ $(TEST_LINK_SOURCES)
+	$(CXX) $(CXXFLAGS) -o $@ $(TEST_LINK_SOURCES)
 
 run-test: $(TEST_TARGET)
 	./$(TEST_TARGET)
 
 clean:
-	rm -rf $(BINDIR)
+	$(RM_BIN)
 
 .PHONY: all run run-test clean

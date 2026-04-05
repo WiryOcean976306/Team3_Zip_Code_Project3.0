@@ -1,0 +1,36 @@
+{
+    "tasks": [
+        {
+            "type": "shell",
+            "label": "Build TestDriver",
+            "command": "make",
+            "args": [
+                "bin/TestDriver"
+            ],
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "problemMatcher": [],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "detail": "Build TestDriver via Makefile"
+        },
+        {
+            "type": "shell",
+            "label": "Run TestDriver",
+            "command": "make",
+            "args": [
+                "run-test"
+            ],
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "problemMatcher": [],
+            "group": "test",
+            "detail": "Build and run TestDriver via Makefile"
+        }
+    ],
+    "version": "2.0.0"
+}

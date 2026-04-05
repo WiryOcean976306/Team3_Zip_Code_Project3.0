@@ -146,4 +146,24 @@ bool Block::AddRecord(const string& Record)
     return true;
 }
 
+/**
+ * @brief Placeholder read implementation for current project phase.
+ * @return True to indicate the call completed.
+ * @details Full on-disk block deserialization is not implemented yet.
+ */
+bool Block::ReadBlock()
+{
+    return true;
+}
+
+/**
+ * @brief Placeholder write implementation for current project phase.
+ * @return True to indicate the call completed.
+ * @details Full on-disk block serialization is not implemented yet.
+ */
+bool Block::WriteBlock()
+{
+    return true;
+}
+
 #endif

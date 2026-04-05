@@ -42,11 +42,15 @@ void testBlockedSequence ()
     BlockedSequence sequence;
     ZipCodeRecord record;
 
+
+    
     while(LIBuff2.readNext(record))
     {    
-        sequence.AppendRecord(LIBuff2.)
+        sequence.AppendRecord(LIBuff2.packRecord(record));
     }
     
+    cout << "Sequence Test output, " << sequence.GetHeadRBN() << "." << endl;
+
     
 }
 
@@ -57,6 +61,7 @@ int main() {
 
     // testBlockBuffer();
 
+    testBlockedSequence();
 
 
 

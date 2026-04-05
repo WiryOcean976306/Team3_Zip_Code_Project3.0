@@ -32,49 +32,52 @@ Length_Indicated_ZipCodeBuffer::Length_Indicated_ZipCodeBuffer(const std::string
  * @details Reads a size indicator (integer) followed by the record data. The record is parsed into zip code, state, latitude, and longitude fields, then constructed into a ZipCodeRecord object.
  */
 bool Length_Indicated_ZipCodeBuffer::readNext(ZipCodeRecord& recordOut) {
-    // Read the record size (4-byte integer)
-    uint32_t recordSize = 0;
-    file.read(reinterpret_cast<char*>(&recordSize), sizeof(uint32_t));
-    
-    // Check if we successfully read the size
-    if (file.eof() || file.fail()) {
-        return false;  // End of file or read error
+    // Project file format is text length-indicated rows:
+    // <len>,<zip>,<city>,<state>,<county>,<lat>,<long>
+    // plus a metadata header row that should be skipped.
+    std::string line;
+    while (std::getline(file, line)) {
+        if (!line.empty() && line.back() == '\r') {
+            line.pop_back();
+        }
+        if (line.empty()) {
+            continue;
+        }
+
+        std::stringstream ss(line);
+        std::string lenText;
+        std::string zip;
+        std::string city;
+        std::string state;
+        std::string county;
+        std::string latText;
+        std::string longText;
+
+        if (!std::getline(ss, lenText, ',')) continue;
+        if (!std::getline(ss, zip, ',')) continue;
+        if (!std::getline(ss, city, ',')) continue;
+        if (!std::getline(ss, state, ',')) continue;
+        if (!std::getline(ss, county, ',')) continue;
+        if (!std::getline(ss, latText, ',')) continue;
+        if (!std::getline(ss, longText, ',')) continue;
+
+        try {
+            double latitude = std::stod(latText);
+            double longitude = std::stod(longText);
+            recordOut = ZipCodeRecord(zip, state, latitude, longitude);
+            return true;
+        }
+        catch (const std::invalid_argument&) {
+            // Skip metadata or malformed rows and keep scanning.
+            continue;
+        }
+        catch (const std::out_of_range&) {
+            // Skip malformed rows and keep scanning.
+            continue;
+        }
     }
-    
-    // Read the record data
-    std::string recordData(recordSize, '\0');
-    file.read(&recordData[0], recordSize);
-    
-    // Check if we successfully read the entire record
-    if (file.fail()) {
-        return false;
-    }
-    
-    // Parse the record data (comma-separated fields)
-    std::stringstream ss(recordData);
-    std::string zip, state;
-    double latitude, longitude;
-    std::string column;
-    
-    // Extract zip code
-    if (!std::getline(ss, column, ',')) return false;
-    zip = column;
-    
-    // Extract state
-    if (!std::getline(ss, column, ',')) return false;
-    state = column;
-    
-    // Extract latitude
-    if (!std::getline(ss, column, ',')) return false;
-    latitude = std::stod(column);
-    
-    // Extract longitude
-    if (!std::getline(ss, column, ',')) return false;
-    longitude = std::stod(column);
-    
-    // Construct and return the ZipCodeRecord
-    recordOut = ZipCodeRecord(zip, state, latitude, longitude);
-    return true;
+
+    return false;
 }
 
 /**
