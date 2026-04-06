@@ -53,8 +53,8 @@ std::string HeaderBuffer::packHeader(const HeaderRecord& header) const {
  * @param payload Serialized header payload.
  * @param headerOut Output object to populate.
  * @return true if parsing succeeded; otherwise false.
- * @details Parsing logic is a placeholder and should be replaced with
- *          full metadata field extraction/validation.
+ * @details Parses both core schema fields and Project 3.0 blocked-sequence
+ *          metadata fields (block size, capacities, list heads, stale flag).
  */
 bool HeaderBuffer::unpackHeader(const std::string& payload, HeaderRecord& headerOut) const {
 	std::vector<std::string> fields;

@@ -151,6 +151,13 @@ int BlockBuffer:: Init (int maxBytes)
 
 }
 
+/**
+ * @brief Copies one packed record from a block into a record-buffer string.
+ * @param block Source block containing packed records.
+ * @param recordIndex Zero-based index of the desired record.
+ * @param recordBufferOut Output packed record string.
+ * @return true when the index is valid and the record is copied; otherwise false.
+ */
 bool BlockBuffer::UnpackRecordFromBlock(Block& block, int recordIndex, std::string& recordBufferOut) const
 {
     std::vector<std::string>& records = block.GetRecords();
@@ -163,6 +170,12 @@ bool BlockBuffer::UnpackRecordFromBlock(Block& block, int recordIndex, std::stri
     return true;
 }
 
+/**
+ * @brief Parses one packed record buffer into a ZipCodeRecord object.
+ * @param recordBuffer Packed record in format <len>,<zip>,<state>,<lat>,<long>.
+ * @param recordOut Output ZipCodeRecord populated from parsed fields.
+ * @return true when parsing and conversions succeed; otherwise false.
+ */
 bool BlockBuffer::UnpackFieldsToRecord(const std::string& recordBuffer, ZipCodeRecord& recordOut) const
 {
     std::stringstream ss(recordBuffer);
@@ -201,6 +214,13 @@ bool BlockBuffer::UnpackFieldsToRecord(const std::string& recordBuffer, ZipCodeR
     }
 }
 
+/**
+ * @brief Convenience overload that performs both unpack stages.
+ * @param block Source block.
+ * @param recordIndex Zero-based record index in the block.
+ * @param recordOut Output record object.
+ * @return true when both unpack-from-block and parse-to-record succeed.
+ */
 bool BlockBuffer::UnpackRecordFromBlock(Block& block, int recordIndex, ZipCodeRecord& recordOut) const
 {
     std::string recordBuffer;

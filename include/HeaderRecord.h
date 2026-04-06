@@ -63,12 +63,12 @@ class HeaderRecord
         //    Modify your data file header record buffer class to read and write the blocked sequence set data file header record
         //
         
-        int BlockSize = 512;
-        int MinBlockCapacity = 50;
-        int BlockCount = 0;
-        int availListHeadRBN = 0;
-        int ActiveListHeadRBN = 0;
-        bool StaleFlag = false;
+        int BlockSize = 512; /**< Fixed block size in bytes for blocked-sequence files. */
+        int MinBlockCapacity = 50; /**< Minimum expected capacity percentage for active blocks. */
+        int BlockCount = 0; /**< Number of active blocks in the sequence set. */
+        int availListHeadRBN = 0; /**< RBN head pointer for the available-block list. */
+        int ActiveListHeadRBN = 0; /**< RBN head pointer for the active logical block list. */
+        bool StaleFlag = false; /**< True when dependent metadata/index files are stale. */
 
 
 
@@ -101,12 +101,21 @@ class HeaderRecord
     //
 
     /**
-     * @brief
-     * @param@ 
-     * @param@
+     * @brief Writes a serialized header record to a stream.
+     * @param out Output stream receiving the header line.
+     * @param header Header model to serialize and write.
+     * @return true when the write succeeds; otherwise false.
+     * @details This legacy method remains for compatibility. Prefer HeaderBuffer::writeHeader.
      */
     bool WriteHeader(std::fstream& out, const HeaderRecord& header);
 
+    /**
+     * @brief Reads and parses a serialized header record from a stream.
+     * @param in Input stream containing a header line.
+     * @param header Output header model populated from parsed data.
+     * @return true when parse succeeds; otherwise false.
+     * @details This legacy method remains for compatibility. Prefer HeaderBuffer::readHeader.
+     */
     bool ReadHeader(std::fstream& in, HeaderRecord& header);
 
         /**

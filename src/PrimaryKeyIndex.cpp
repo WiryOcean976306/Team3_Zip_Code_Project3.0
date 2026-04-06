@@ -25,11 +25,21 @@ using namespace std;
 
 namespace {
 
+/**
+ * @brief Checks whether a path matches the expected block filename pattern.
+ * @param path Candidate filesystem path.
+ * @return true for files named block_<rbn>.blk; otherwise false.
+ */
 bool IsBlockFile(const filesystem::path& path)
 {
     return path.extension() == ".blk" && path.filename().string().rfind("block_", 0) == 0;
 }
 
+/**
+ * @brief Extracts the numeric RBN suffix from a block filename.
+ * @param path Block file path with stem block_<rbn>.
+ * @return Parsed RBN value, or -1 when parsing fails.
+ */
 int ExtractRbnFromFileName(const filesystem::path& path)
 {
     string stem = path.stem().string();
@@ -49,11 +59,12 @@ int ExtractRbnFromFileName(const filesystem::path& path)
     }
 }
 
-string GetBlockFilePathForRbn(int rbn)
-{
-    return string("data/blocks/block_") + to_string(rbn) + ".blk";
-}
-
+/**
+ * @brief Parses ZIP code key from one packed record string.
+ * @param packedRecord Packed record in format <len>,<zip>,...
+ * @param zipOut Output ZIP key.
+ * @return true when both separators are found and key extraction succeeds.
+ */
 bool ParsePackedZip(const string& packedRecord, string& zipOut)
 {
     size_t firstComma = packedRecord.find(',');
@@ -74,6 +85,11 @@ bool ParsePackedZip(const string& packedRecord, string& zipOut)
 
 } // namespace
 
+/**
+ * @brief Extracts ZIP key text from one packed record.
+ * @param packedRecord Packed record string.
+ * @return ZIP key text, or empty string when parsing fails.
+ */
 string PrimaryKeyIndex::ExtractZipKey(const string& packedRecord)
 {
     string zip;
@@ -84,11 +100,21 @@ string PrimaryKeyIndex::ExtractZipKey(const string& packedRecord)
     return zip;
 }
 
+/**
+ * @brief Builds the on-disk block file path for one RBN.
+ * @param rbn Relative block number.
+ * @return Full path under the configured block directory.
+ */
 string PrimaryKeyIndex::GetBlockFilePath(int rbn) const
 {
     return BlockDirectory + string("/block_") + to_string(rbn) + string(".blk");
 }
 
+/**
+ * @brief Writes the current simple index map to disk.
+ * @param path Output index file path.
+ * @return true when write succeeds; otherwise false.
+ */
 bool PrimaryKeyIndex::WriteToFile(const string& path)
 {
     filesystem::path outPath(path);
@@ -109,6 +135,12 @@ bool PrimaryKeyIndex::WriteToFile(const string& path)
     return true;
 }
 
+/**
+ * @brief Builds an in-memory simple index from physical block files.
+ * @param blockDirectory Directory containing block_<rbn>.blk files.
+ * @return true when directory scan and index build complete; otherwise false.
+ * @details Stores pairs <highest ZIP key in block, RBN> for active blocks.
+ */
 bool PrimaryKeyIndex::BuildFromBlocks(const string& blockDirectory)
 {
     Index.clear();
@@ -201,6 +233,11 @@ bool PrimaryKeyIndex::BuildFromBlocks(const string& blockDirectory)
     return true;
 }
 
+/**
+ * @brief Reads a previously written simple index file into memory.
+ * @param path Index file path.
+ * @return true when parse succeeds; otherwise false.
+ */
 bool PrimaryKeyIndex::ReadFromFile(const string& path)
 {
     Index.clear();
@@ -236,6 +273,11 @@ bool PrimaryKeyIndex::ReadFromFile(const string& path)
     return true;
 }
 
+/**
+ * @brief Constructs an index object rooted at a block directory.
+ * @param FilePath Block directory path.
+ * @details If the directory exists, attempts immediate in-memory build.
+ */
 PrimaryKeyIndex::PrimaryKeyIndex(const string& FilePath)
 {
     if (filesystem::exists(FilePath) && filesystem::is_directory(FilePath))
@@ -244,6 +286,12 @@ PrimaryKeyIndex::PrimaryKeyIndex(const string& FilePath)
     }
 }
 
+/**
+ * @brief Searches requested ZIP keys using the simple block index.
+ * @param Zips CLI-style ZIP arguments (supports -Z<zip> or raw zip values).
+ * @return First found ZipCodeRecord; default/empty record when none found.
+ * @details Uses index to select candidate block, then scans that block only.
+ */
 ZipCodeRecord PrimaryKeyIndex::find(vector<string> Zips)
 {
     ZipCodeRecord found;
@@ -360,6 +408,10 @@ ZipCodeRecord PrimaryKeyIndex::find(vector<string> Zips)
     return found;
 }
 
+/**
+ * @brief Produces a readable dump of simple index entries.
+ * @return Newline-separated CSV lines in format <highestZipKey,RBN>.
+ */
 string PrimaryKeyIndex::Dump() const
 {
     ostringstream out;

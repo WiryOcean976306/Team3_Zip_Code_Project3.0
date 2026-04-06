@@ -30,6 +30,11 @@ string operator+(int value, const string& s)
     return to_string(value) + s;
 }
 
+/**
+ * @brief Rebuilds the in-memory serialized header string from object fields.
+ * @details Encodes core schema metadata and blocked-sequence metadata as one
+ *          comma-separated header record prefixed by total header size bytes.
+ */
 void HeaderRecord::RebuildHeader()
 {
     Header.clear();
@@ -99,6 +104,17 @@ string HeaderRecord::GetHeader() const
     return Header;
 }
 
+/**
+ * @brief Configures blocked-sequence metadata fields and regenerates header text.
+ * @param indexFileName Index filename/path stored in the header metadata.
+ * @param recordCount Number of active records written into the sequence set.
+ * @param blockCount Number of active blocks in the sequence set.
+ * @param blockSize Block size in bytes.
+ * @param minBlockCapacity Minimum capacity percentage (0-100).
+ * @param availHeadRBN Avail-list head RBN.
+ * @param activeHeadRBN Active-list head RBN.
+ * @param staleFlag True when related metadata/index data is stale.
+ */
 void HeaderRecord::ConfigureBlockedSequenceHeader(
     const string& indexFileName,
     int recordCount,
