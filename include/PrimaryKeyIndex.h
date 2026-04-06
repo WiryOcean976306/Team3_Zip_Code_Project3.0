@@ -32,6 +32,7 @@ class PrimaryKeyIndex
         map<string, int> Index;
 
         string BlockDirectory = "data/blocks";
+        string IndexFilePath = "";
 
         /** Extracts the ZIP key from a packed record string. */
         static string ExtractZipKey(const string& packedRecord);
@@ -46,6 +47,12 @@ class PrimaryKeyIndex
         * @param FilePath Path to the block directory (default: data/blocks).
         */
         PrimaryKeyIndex(const string& FilePath);
+
+        /**
+         * @brief Sets the block directory used to resolve RBN -> block file path.
+         * @param blockDirectory Directory containing block_*.blk files.
+         */
+        void SetBlockDirectory(const string& blockDirectory);
 
         /**
          * @brief Builds the in-memory index from the current block directory.
@@ -73,6 +80,13 @@ class PrimaryKeyIndex
          * @return true if the index was successfully read, false otherwise.
          */
         bool ReadFromFile(const string& path);
+
+        /**
+         * @brief Loads a simple index file into RAM and remembers its file path.
+         * @param indexPath Path to simple index file.
+         * @return true when index file was loaded successfully; otherwise false.
+         */
+        bool LoadFromIndexFile(const string& indexPath);
 
         /**
          * @brief Returns a readable dump of the current index contents.

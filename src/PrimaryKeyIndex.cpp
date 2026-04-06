@@ -20,6 +20,7 @@
 
 #include "PrimaryKeyIndex.h"
 #include "ZipCodeRecord.h"
+#include "Project 3.0/BlockBuffer.h"
 
 using namespace std;
 
@@ -282,8 +283,24 @@ PrimaryKeyIndex::PrimaryKeyIndex(const string& FilePath)
 {
     if (filesystem::exists(FilePath) && filesystem::is_directory(FilePath))
     {
+        BlockDirectory = FilePath;
         BuildFromBlocks(FilePath);
     }
+    else
+    {
+        IndexFilePath = FilePath;
+    }
+}
+
+void PrimaryKeyIndex::SetBlockDirectory(const string& blockDirectory)
+{
+    BlockDirectory = blockDirectory;
+}
+
+bool PrimaryKeyIndex::LoadFromIndexFile(const string& indexPath)
+{
+    IndexFilePath = indexPath;
+    return ReadFromFile(indexPath);
 }
 
 /**
@@ -320,7 +337,15 @@ ZipCodeRecord PrimaryKeyIndex::find(vector<string> Zips)
 
     if (Index.empty())
     {
-        if (filesystem::exists(BlockDirectory) && filesystem::is_directory(BlockDirectory))
+        if (!IndexFilePath.empty())
+        {
+            if (!ReadFromFile(IndexFilePath))
+            {
+                cout << "Primary key index not found for file: " << IndexFilePath << "\n";
+                return found;
+            }
+        }
+        else if (filesystem::exists(BlockDirectory) && filesystem::is_directory(BlockDirectory))
         {
             if (!BuildFromBlocks(BlockDirectory))
             {
@@ -328,9 +353,9 @@ ZipCodeRecord PrimaryKeyIndex::find(vector<string> Zips)
                 return found;
             }
         }
-        else if (!ReadFromFile(BlockDirectory))
+        else
         {
-            cout << "Primary key index not found for file: " << BlockDirectory << "\n";
+            cout << "Primary key index source is unavailable.\n";
             return found;
         }
     }
@@ -362,30 +387,19 @@ ZipCodeRecord PrimaryKeyIndex::find(vector<string> Zips)
 
         bool foundInBlock = false;
         string recordLine;
+        BlockBuffer recordBuffer;
         while (getline(InFile, recordLine))
         {
-            string zipStr = ExtractZipKey(recordLine);
-            if (zipStr != Zip)
+            ZipCodeRecord record;
+            if (!recordBuffer.UnpackFieldsToRecord(recordLine, record))
             {
                 continue;
             }
 
-            stringstream ss(recordLine);
-            string lengthStr, city, state, county, latStr, longStr;
-            getline(ss, lengthStr, ',');
-            getline(ss, zipStr, ',');
-            getline(ss, state, ',');
-            getline(ss, latStr, ',');
-            getline(ss, longStr, ',');
-
-            double latitude = 0.0;
-            double longitude = 0.0;
-            try { latitude = stod(latStr); } catch (...) {}
-            try { longitude = stod(longStr); } catch (...) {}
-
-            string zipCopy = zipStr;
-            string stateCopy = state;
-            ZipCodeRecord record(zipCopy, stateCopy, latitude, longitude);
+            if (record.getZip() != Zip)
+            {
+                continue;
+            }
 
             cout << record.getZip() << ", " << record.getState() << ", "
                  << record.getLatitude() << ", " << record.getLongitude() << "\n";
