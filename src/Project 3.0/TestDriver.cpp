@@ -30,6 +30,10 @@ struct Options {
     string indexDumpFile = "data/simple_index_dump.txt";
     bool printRecords = false;
     int maxPrint = 50;
+    string addFile;                           /**< File containing records to add. */
+    string deleteFile;                        /**< File containing keys to delete. */
+    string addLogFile = "data/addition_log.txt";     /**< Output log for add operations. */
+    string deleteLogFile = "data/deletion_log.txt";  /**< Output log for delete operations. */
 };
 
 void PrintUsage(const char* program)
@@ -133,6 +137,22 @@ bool ParseArgs(int argc, char* argv[], Options& opts)
             else if (arg == "-maxPrint")
             {
                 opts.maxPrint = stoi(value);
+            }
+            else if (arg == "-a")
+            {
+                opts.addFile = value;
+            }
+            else if (arg == "-d")
+            {
+                opts.deleteFile = value;
+            }
+            else if (arg == "-addLog")
+            {
+                opts.addLogFile = value;
+            }
+            else if (arg == "-deleteLog")
+            {
+                opts.deleteLogFile = value;
             }
             else
             {
@@ -251,10 +271,9 @@ bool WriteIndexArtifacts(const Options& opts)
     return true;
 }
 
-int GenerateBlockedSet(const Options& opts)
+int GenerateBlockedSet(const Options& opts, BlockedSequence& sequence)
 {
     Length_Indicated_ZipCodeBuffer input(opts.inputFile);
-    BlockedSequence sequence(opts.startRBN);
     ZipCodeRecord record;
 
     int recordCount = 0;
@@ -341,6 +360,134 @@ int GenerateBlockedSet(const Options& opts)
     return 0;
 }
 
+/**
+ * @brief Processes record additions from an input file.
+ * @param addFile Path to file containing packed records to add.
+ * @param sequence Reference to blocked sequence to modify.
+ * @param logFile Output log file path.
+ * @param verbose If true, print to console.
+ * @return Number of records successfully added.
+ */
+int ProcessAdditions(const string& addFile, BlockedSequence& sequence, 
+                     const string& logFile, bool verbose = true)
+{
+    if (addFile.empty())
+        return 0;
+
+    ifstream inFile(addFile);
+    if (!inFile.is_open())
+    {
+        cerr << "Error: Cannot open add file: " << addFile << "\n";
+        return 0;
+    }
+
+    ofstream log(logFile, ios::app);
+    if (!log.is_open())
+    {
+        cerr << "Error: Cannot open log file: " << logFile << "\n";
+        return 0;
+    }
+
+    log << "\n=== Record Addition Session ===\n";
+    if (verbose)
+        cout << "\n=== Processing Additions ===\n";
+
+    int added = 0;
+    string line;
+    while (getline(inFile, line))
+    {
+        if (line.empty())
+            continue;
+
+        string eventLog;
+        if (sequence.Insert(line, eventLog))
+        {
+            added++;
+            log << eventLog;
+            if (verbose)
+                cout << eventLog;
+        }
+        else
+        {
+            log << "[FAIL] Could not insert record.\n";
+            if (verbose)
+                cout << "[FAIL] Could not insert record.\n";
+        }
+    }
+
+    log << "[SUMMARY] Added " << added << " records.\n";
+    cout << "Records added: " << added << "\n";
+    cout << "Log: " << logFile << "\n";
+
+    inFile.close();
+    log.close();
+    return added;
+}
+
+/**
+ * @brief Processes record deletions from an input file.
+ * @param deleteFile Path to file containing ZIP keys to delete.
+ * @param sequence Reference to blocked sequence to modify.
+ * @param logFile Output log file path.
+ * @param verbose If true, print to console.
+ * @return Number of records successfully deleted.
+ */
+int ProcessDeletions(const string& deleteFile, BlockedSequence& sequence,
+                     const string& logFile, bool verbose = true)
+{
+    if (deleteFile.empty())
+        return 0;
+
+    ifstream inFile(deleteFile);
+    if (!inFile.is_open())
+    {
+        cerr << "Error: Cannot open delete file: " << deleteFile << "\n";
+        return 0;
+    }
+
+    ofstream log(logFile, ios::app);
+    if (!log.is_open())
+    {
+        cerr << "Error: Cannot open log file: " << logFile << "\n";
+        return 0;
+    }
+
+    log << "\n=== Record Deletion Session ===\n";
+    if (verbose)
+        cout << "\n=== Processing Deletions ===\n";
+
+    int deleted = 0;
+    string line;
+    while (getline(inFile, line))
+    {
+        if (line.empty())
+            continue;
+
+        string eventLog;
+        if (sequence.Delete(line, eventLog))
+        {
+            deleted++;
+            log << eventLog;
+            if (verbose)
+                cout << eventLog;
+        }
+        else
+        {
+            log << "[FAIL] Could not delete ZIP: " << line << "\n";
+            if (verbose)
+                cout << "[FAIL] Could not delete ZIP: " << line << "\n";
+        }
+    }
+
+    log << "[SUMMARY] Deleted " << deleted << " records.\n";
+    cout << "Records deleted: " << deleted << "\n";
+    cout << "Log: " << logFile << "\n";
+
+    inFile.close();
+    log.close();
+    return deleted;
+}
+
 } // namespace
 
 void testBlockBuffer ()
@@ -400,7 +547,39 @@ int main(int argc, char* argv[]) {
     }
 
     try {
-        return GenerateBlockedSet(options);
+        BlockedSequence sequence(options.startRBN);
+
+        // Generate initial blocked sequence set
+        int result = GenerateBlockedSet(options, sequence);
+        if (result != 0)
+            return result;
+
+        // If add or delete operations requested, perform them
+        if (!options.addFile.empty() || !options.deleteFile.empty())
+        {
+            // Process additions if requested
+            if (!options.addFile.empty())
+            {
+                ProcessAdditions(options.addFile, sequence, options.addLogFile, true);
+            }
+
+            // Process deletions if requested
+            if (!options.deleteFile.empty())
+            {
+                ProcessDeletions(options.deleteFile, sequence, options.deleteLogFile, true);
+            }
+
+            // Write modified sequence back to disk
+            if (!sequence.WriteAll())
+            {
+                cerr << "Error: Failed to write modified blocks back to disk.\n";
+                return 1;
+            }
+
+            cout << "\nModified blocks written to disk.\n";
+        }
+
+        return 0;
     }
     catch (const exception& ex)
     {

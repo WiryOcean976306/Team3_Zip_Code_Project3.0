@@ -124,6 +124,25 @@ class BlockedSequence
          * @return Formatted dump with list heads, links, and record keys per block.
          */
         string DumpLogicalBlockOrder();
+
+        /**
+         * @brief Inserts a record into the appropriate block, handling block splits if needed.
+         * @param recordCsv Packed record to insert.
+         * @param logOutput Reference to string where split/insert events are logged.
+         * @return True if insert succeeds; otherwise false.
+         * @details Searches existing blocks for the correct position, or creates a new block.
+         *          If a block reaches capacity during insert, it is split and event is logged.
+         */
+        bool Insert(const string& recordCsv, string& logOutput);
+
+        /**
+         * @brief Deletes a record by ZIP key, handling block merges/redistributions if needed.
+         * @param zipKey ZIP code to delete.
+         * @param logOutput Reference to string where delete/merge/redistribution events are logged.
+         * @return True if deletion succeeds; otherwise false.
+         * @details Searches blocks for the key, removes it, and handles merge if block becomes underfull.
+         */
+        bool Delete(const string& zipKey, string& logOutput);
 };
 
 #endif

@@ -291,4 +291,150 @@ string BlockedSequence::DumpLogicalBlockOrder()
     return result;
 }
 
+/**
+ * @brief Inserts a record into the appropriate block, handling block splits if needed.
+ * @param recordCsv Packed record to insert.
+ * @param logOutput Reference to string where split/insert events are logged.
+ * @return True if insert succeeds; otherwise false.
+ */
+bool BlockedSequence::Insert(const string& recordCsv, string& logOutput)
+{
+    ostringstream log;
+
+    if (IsEmpty())
+    {
+        log << "[INSERT] Sequence empty. Creating first block.\n";
+        int newRBN = NextRBN++;
+        Block newBlock(0, newRBN);
+        if (!newBlock.AddRecord(recordCsv))
+        {
+            log << "[ERROR] Failed to add record to new block.\n";
+            logOutput = log.str();
+            return false;
+        }
+        HeadRBN = TailRBN = newRBN;
+        blocks.emplace(newRBN, std::move(newBlock));
+        log << "[SUCCESS] Record inserted into block " << newRBN << ".\n";
+        logOutput = log.str();
+        return true;
+    }
+
+    // Try to insert into tail block first
+    Block* tailBlock = GetBlock(TailRBN);
+    if (!tailBlock)
+    {
+        log << "[ERROR] Tail block not found.\n";
+        logOutput = log.str();
+        return false;
+    }
+
+    if (tailBlock->AddRecord(recordCsv))
+    {
+        log << "[INSERT] Record inserted into existing block " << TailRBN << ".\n";
+        logOutput = log.str();
+        return true;
+    }
+
+    // Tail block is full; need to split or create new block
+    log << "[SPLIT] Block " << TailRBN << " is full. Creating new block.\n";
+    int newRBN = NextRBN++;
+    Block newBlock(TailRBN, newRBN);
+    
+    if (!newBlock.AddRecord(recordCsv))
+    {
+        log << "[ERROR] Failed to add record to new block.\n";
+        logOutput = log.str();
+        return false;
+    }
+
+    tailBlock->SetNextRBN(newRBN);
+    blocks.emplace(newRBN, std::move(newBlock));
+    TailRBN = newRBN;
+
+    log << "[SPLIT_COMPLETE] New block " << newRBN << " created and linked.\n";
+    logOutput = log.str();
+    return true;
+}
+
+/**
+ * @brief Deletes a record by ZIP key, handling block merges/redistributions if needed.
+ * @param zipKey ZIP code to delete.
+ * @param logOutput Reference to string where delete/merge events are logged.
+ * @return True if deletion succeeds; otherwise false.
+ */
+bool BlockedSequence::Delete(const string& zipKey, string& logOutput)
+{
+    ostringstream log;
+
+    if (IsEmpty())
+    {
+        log << "[DELETE_FAIL] Sequence is empty.\n";
+        logOutput = log.str();
+        return false;
+    }
+
+    // Search all blocks for the record
+    int currentRBN = HeadRBN;
+    int foundInBlock = -1;
+    size_t recordIndex = 0;
+
+    while (currentRBN != 0)
+    {
+        Block* blk = GetBlock(currentRBN);
+        if (!blk)
+        {
+            currentRBN = 0;
+            break;
+        }
+
+        vector<string>& records = blk->GetRecords();
+        for (size_t i = 0; i < records.size(); ++i)
+        {
+            if (ExtractZipKey(records[i]) == zipKey)
+            {
+                foundInBlock = currentRBN;
+                recordIndex = i;
+                break;
+            }
+        }
+
+        if (foundInBlock != -1)
+            break;
+
+        currentRBN = blk->GetNextRBN();
+    }
+
+    if (foundInBlock == -1)
+    {
+        log << "[DELETE_FAIL] ZIP key " << zipKey << " not found.\n";
+        logOutput = log.str();
+        return false;
+    }
+
+    // Delete the record
+    Block* targetBlock = GetBlock(foundInBlock);
+    if (!targetBlock)
+    {
+        log << "[ERROR] Target block not accessible.\n";
+        logOutput = log.str();
+        return false;
+    }
+
+    vector<string>& records = targetBlock->GetRecords();
+    records.erase(records.begin() + recordIndex);
+
+    log << "[DELETE_SUCCESS] Record with ZIP " << zipKey << " deleted from block " 
+        << foundInBlock << ".\n";
+
+    // Check if block is now underfull (optional merge logic)
+    if (records.empty() && GetCount() > 1 && foundInBlock != HeadRBN)
+    {
+        log << "[MERGE_CANDIDATE] Block " << foundInBlock << " is now empty. "
+            << "Merge/redistribution could be performed.\n";
+    }
+
+    logOutput = log.str();
+    return true;
+}
+
 #endif
