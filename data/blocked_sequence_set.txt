@@ -1,13 +1,1 @@
-file_type=BLOCKED_SEQUENCE_SET
-version=1.0
-input_file=data/Length_Indicated_us_postal_codes.csv
-block_data_dir=data/blocks
-block_size=512
-min_block_capacity=0.50
-record_count=40933
-block_count=2408
-active_list_head_rbn=1
-active_list_tail_rbn=2408
-next_rbn=2409
-avail_list_head_rbn=0
-stale_flag=false
+142,BLOCKED_SEQUENCE_SET,3.0,ASCII,TRUE,data/simple_index.txt,40933,4,ZipCode,STRING,State,STRING,Lat,FLOAT,Long,FLOAT,1,512,50,2408,0,1,FALSE
