@@ -34,6 +34,8 @@ class Block
         int ByteSize = 0;
         /** Maximum payload capacity in bytes for this block. */
         int ByteMaxSize = 512; //512 is default
+        /** Minimum payload capacity in bytes for this block. */
+        int ByteMinSize = 256; //256 is default
         /** Byte length of the serialized header string. */
         int HeaderSize = 0;
 
@@ -103,6 +105,18 @@ class Block
          * @return Number of used payload bytes.
          */
         int GetByteSize();
+
+        /**
+         * @brief Returns the maximum payload capacity in bytes for this block.
+         * @return Maximum byte capacity.
+         */
+        int GetByteMaxSize();
+
+        /**
+         * @brief Returns the minimum payload capacity in bytes for this block.
+         * @return Minimum byte capacity.
+         */
+        int GetByteMinSize();
 
         /**
          * @brief Provides mutable access to stored record payloads.

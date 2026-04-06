@@ -29,6 +29,8 @@ class BlockedSequence
         int TailRBN = 0;
         /** Next RBN value to assign when a new block is created. */
         int NextRBN = 1;
+        /** Queue of RBNs for blocks that have been deleted and are available for reuse. */
+        queue<int> availList;
 
     public:
         
@@ -143,6 +145,12 @@ class BlockedSequence
          * @details Searches blocks for the key, removes it, and handles merge if block becomes underfull.
          */
         bool Delete(const string& zipKey, string& logOutput);
+
+        /**
+         * @brief Returns the number of blocks currently in the available list.
+         * @return Count of blocks in the available list.
+         */
+        int GetAvailListSize();
 };
 
 #endif

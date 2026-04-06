@@ -73,6 +73,24 @@ int Block::GetByteSize()
 }
 
 /**
+ * @brief Returns the maximum payload capacity in bytes for this block.
+ * @return Maximum byte capacity.
+ */
+int Block::GetByteMaxSize()
+{
+    return ByteMaxSize;
+}
+
+/**
+ * @brief Returns the minimum payload capacity in bytes for this block.
+ * @return Minimum byte capacity.
+ */
+int Block::GetByteMinSize()
+{
+    return ByteMinSize;
+}
+
+/**
  * @brief Returns mutable access to the block's stored records.
  * @return Reference to the record vector.
  */

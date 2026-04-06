@@ -155,7 +155,16 @@ bool BlockedSequence::AppendRecord(const string& recordCsv)
 {
     if (IsEmpty())
     {
-        int newRBN = NextRBN++;
+        int newRBN;
+        if (!availList.empty())
+        {
+            newRBN = availList.front();
+            availList.pop();
+        } 
+        else 
+        {
+            newRBN = NextRBN++;
+        }
         Block newBlock(0, newRBN);
         if (!newBlock.AddRecord(recordCsv))
             return false;
@@ -174,7 +183,16 @@ bool BlockedSequence::AppendRecord(const string& recordCsv)
         return true;
     }
 
-    int newRBN = NextRBN++;
+    int newRBN;
+    if (!availList.empty())
+    {
+        newRBN = availList.front();
+        availList.pop();
+    } 
+    else 
+    {
+        newRBN = NextRBN++;
+    }
     Block newBlock(TailRBN, newRBN);
     if (!newBlock.AddRecord(recordCsv))
         return false;
@@ -184,6 +202,8 @@ bool BlockedSequence::AppendRecord(const string& recordCsv)
     TailRBN = newRBN;
 
     return true;
+
+    
 }
 
 /**
@@ -427,14 +447,57 @@ bool BlockedSequence::Delete(const string& zipKey, string& logOutput)
         << foundInBlock << ".\n";
 
     // Check if block is now underfull (optional merge logic)
-    if (records.empty() && GetCount() > 1 && foundInBlock != HeadRBN)
+    if (targetBlock->GetByteSize() < targetBlock->GetByteMinSize() && GetCount() > 1 && foundInBlock != HeadRBN)
     {
+        
+        //MERGE/REDISTRIBUTION LOGIC TO BE IMPLEMENTED
+        
+        //After the merge/redistribution, the empty block is added to the avail list.
+
+        int emptyRBN = foundInBlock; //Change foundInBlock to the empty block if foundInBlock is not supposed to be the empty block.
+        int prevRBN = targetBlock->GetPrevRBN();
+        int nextRBN = targetBlock->GetNextRBN();
+
+        if (prevRBN != 0)
+        {
+            Block* prevBlock = GetBlock(prevRBN);
+            if (prevBlock)
+            {
+                prevBlock->SetNextRBN(nextRBN);
+            }
+        }
+        else
+        {
+            HeadRBN = nextRBN;
+        }
+
+        if (nextRBN != 0)
+        {
+            Block* nextBlock = GetBlock(nextRBN);
+            if (nextBlock)
+            {
+                nextBlock->SetPrevRBN(prevRBN);
+            }
+        }
+        else
+        {
+            TailRBN = prevRBN;
+        }
+
+        blocks.erase(emptyRBN);
+        availList.push(emptyRBN);
+
         log << "[MERGE_CANDIDATE] Block " << foundInBlock << " is now empty. "
             << "Merge/redistribution could be performed.\n";
     }
 
     logOutput = log.str();
     return true;
+}
+
+int BlockedSequence::GetAvailListSize()
+{
+    return static_cast<int>(availList.size());
 }
 
 #endif
