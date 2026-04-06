@@ -14,10 +14,18 @@
 #include <sstream>
 #include <string>
 #include <vector>
+#include <filesystem>
 
 #include "Block.h"
 
 using namespace std;
+
+namespace {
+string GetBlockFilePath(int rbn)
+{
+    return string("data/blocks/block_") + to_string(rbn) + ".blk";
+}
+}
 
 /**
  * @brief Returns the number of records stored in this block.
@@ -147,23 +155,84 @@ bool Block::AddRecord(const string& Record)
 }
 
 /**
- * @brief Placeholder read implementation for current project phase.
- * @return True to indicate the call completed.
- * @details Full on-disk block deserialization is not implemented yet.
+ * @brief Reads this block's serialized representation from disk.
+ * @return True on successful read and parse; otherwise false.
+ * @details first line is block metadata, then one record per line.
  */
 bool Block::ReadBlock()
 {
+    ifstream in(GetBlockFilePath(RBN), ios::binary);
+    if (!in.is_open())
+        return false;
+
+    string headerLine;
+    if (!getline(in, headerLine))
+        return false;
+
+    string field;
+    stringstream hs(headerLine);
+    vector<int> values;
+    while (getline(hs, field, ','))
+    {
+        try {
+            values.push_back(stoi(field));
+        }
+        catch (...) {
+            return false;
+        }
+    }
+
+    // Expected order: RecordCount,RBN,Pr evRBN,NextRBN,ByteSize,ByteMaxSize
+    if (values.size() != 6)
+        return false;
+
+    RecordCount = values[0];
+    RBN = values[1];
+    PrevRBN = values[2];
+    NextRBN = values[3];
+    ByteSize = values[4];
+    ByteMaxSize = values[5];
+
+    Records.clear();
+    for (int i = 0; i < RecordCount; ++i)
+    {
+        string record;
+        if (!getline(in, record))
+            return false;
+        Records.push_back(record);
+    }
+
+    UpdateHeader();
     return true;
 }
 
 /**
- * @brief Placeholder write implementation for current project phase.
- * @return True to indicate the call completed.
- * @details Full on-disk block serialization is not implemented yet.
+ * @brief Writes this block's serialized representation to disk.
+ * @return True on successful write; otherwise false.
+ * @details Uses a simple textbook-style format:
+ *          first line is block metadata, then one record per line.
  */
 bool Block::WriteBlock()
 {
-    return true;
+    std::filesystem::create_directories("data/blocks");
+
+    ofstream out(GetBlockFilePath(RBN), ios::binary | ios::trunc);
+    if (!out.is_open())
+        return false;
+
+    out << RecordCount << ","
+        << RBN << ","
+        << PrevRBN << ","
+        << NextRBN << ","
+        << ByteSize << ","
+        << ByteMaxSize << "\n";
+
+    for (const string& record : Records)
+    {
+        out << record << "\n";
+    }
+
+    return out.good();
 }
 
 #endif

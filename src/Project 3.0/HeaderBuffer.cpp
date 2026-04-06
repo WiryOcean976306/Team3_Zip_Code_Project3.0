@@ -9,6 +9,8 @@
 #define  HEADBUFFER_CPP
 
 #include "../include/HeaderBuffer.h"
+#include <sstream>
+#include <vector>
 
 /**
  * @brief Writes the serialized header to an output stream.
@@ -55,9 +57,48 @@ std::string HeaderBuffer::packHeader(const HeaderRecord& header) const {
  *          full metadata field extraction/validation.
  */
 bool HeaderBuffer::unpackHeader(const std::string& payload, HeaderRecord& headerOut) const {
-	(void)payload;
-	(void)headerOut;
-	return true;
+	std::vector<std::string> fields;
+	std::stringstream ss(payload);
+	std::string token;
+	while (std::getline(ss, token, ','))
+	{
+		fields.push_back(token);
+	}
+
+	if (fields.size() < 21)
+	{
+		return false;
+	}
+
+	try
+	{
+		std::size_t index = 0;
+		headerOut.HeaderSizeBytes = std::stoi(fields[index++]);
+		headerOut.FileStructureType = fields[index++];
+		headerOut.Version = fields[index++];
+		headerOut.SizeFormatType = (fields[index++] == "Binary");
+		headerOut.SizeInclusion = (fields[index++] == "TRUE");
+		headerOut.PrimaryKeyIndex = fields[index++];
+		headerOut.RecordCount = std::stoi(fields[index++]);
+		headerOut.FieldCount = std::stoi(fields[index++]);
+
+		headerOut.Fields.clear();
+		headerOut.FieldTypes.clear();
+		for (int i = 0; i < headerOut.FieldCount; ++i)
+		{
+			headerOut.Fields.push_back(fields[index++]);
+			headerOut.FieldTypes.push_back(fields[index++]);
+		}
+
+		headerOut.PrimaryKey = std::stoi(fields[index++]);
+
+		headerOut.RebuildHeader();
+		return true;
+	}
+	catch (...)
+	{
+		return false;
+	}
 }
 
 #endif 

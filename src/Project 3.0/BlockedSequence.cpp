@@ -13,11 +13,67 @@
 
 #include <map>
 #include <string>
+#include <sstream>
+#include <vector>
 
 #include "BlockedSequence.h"
 #include "Block.h"
 
 using namespace std;
+
+namespace {
+
+string ExtractZipKey(const string& packedRecord)
+{
+    size_t firstComma = packedRecord.find(',');
+    if (firstComma == string::npos)
+    {
+        return "?";
+    }
+
+    size_t secondComma = packedRecord.find(',', firstComma + 1);
+    if (secondComma == string::npos)
+    {
+        return packedRecord.substr(firstComma + 1);
+    }
+
+    return packedRecord.substr(firstComma + 1, secondComma - firstComma - 1);
+}
+
+string FormatBlockLine(Block& blk)
+{
+    ostringstream line;
+    line << blk.GetRBN() << " [prev=" << blk.GetPrevRBN()
+         << ", next=" << blk.GetNextRBN() << "] ";
+
+    vector<string>& records = blk.GetRecords();
+    if (records.empty())
+    {
+        line << "*available*";
+        return line.str();
+    }
+
+    for (size_t i = 0; i < records.size(); ++i)
+    {
+        if (i > 0)
+        {
+            line << " ";
+        }
+        line << ExtractZipKey(records[i]);
+    }
+
+    return line.str();
+}
+
+string BuildDumpHeader(int headRBN)
+{
+    ostringstream out;
+    out << "List Head: " << headRBN << "\n";
+    out << "Avail Head: 0\n";
+    return out.str();
+}
+
+} // namespace
 
 /**
  * @brief Constructs an empty blocked sequence.
@@ -178,6 +234,61 @@ bool BlockedSequence::LoadAllFromHead()
     }
 
     return true;
+}
+
+
+string BlockedSequence::DumpLogicalOrder()
+{
+    string result;
+    if  (IsEmpty())
+        return result;
+
+    int currentRBN = HeadRBN;
+    while (currentRBN != 0)
+    {
+        Block* blk = GetBlock(currentRBN);
+        if (!blk)
+            break;
+
+        for (const string& record : blk->GetRecords())
+        {
+            result += record + "\n";
+        }
+
+        currentRBN = blk->GetNextRBN();
+    }
+    return result;
+
+}
+
+string BlockedSequence::DumpPhysicalBlockOrder()
+{
+    string result = BuildDumpHeader(HeadRBN);
+    for (auto& kv : blocks)
+    {
+        result += FormatBlockLine(kv.second) + "\n";
+    }
+    return result;
+}
+
+string BlockedSequence::DumpLogicalBlockOrder()
+{
+    string result = BuildDumpHeader(HeadRBN);
+
+    int currentRBN = HeadRBN;
+    while (currentRBN != 0)
+    {
+        Block* blk = GetBlock(currentRBN);
+        if (!blk)
+        {
+            break;
+        }
+
+        result += FormatBlockLine(*blk) + "\n";
+        currentRBN = blk->GetNextRBN();
+    }
+
+    return result;
 }
 
 #endif

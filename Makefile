@@ -6,7 +6,7 @@ BINDIR = bin
 TARGET = $(BINDIR)/main
 TEST_TARGET = $(BINDIR)/TestDriver
 TEST_SOURCE = $(SRCDIR)/Project\ 3.0/TestDriver.cpp
-TEST_LINK_SOURCES = "./src/Project 3.0/TestDriver.cpp" "./src/ZipCodeRecord.cpp" "./src/Project 3.0/BlockBuffer.cpp" "./src/Length_Indicated_ZipCodeBuffer.cpp" "./src/Project 3.0/BlockedSequence.cpp" "./src/Project 3.0/Block.cpp"
+TEST_LINK_SOURCES = "./src/Project 3.0/TestDriver.cpp" "./src/ZipCodeRecord.cpp" "./src/Project 3.0/BlockBuffer.cpp" "./src/Length_Indicated_ZipCodeBuffer.cpp" "./src/Project 3.0/BlockedSequence.cpp" "./src/Project 3.0/Block.cpp" "./src/PrimaryKeyIndex.cpp"
 
 EXCLUDE := $(SRCDIR)/printer.cpp 
 EXCLUDE += $(SRCDIR)/main.cpp
@@ -23,6 +23,7 @@ TEST_DEPS += $(SRCDIR)/Project\ 3.0/BlockBuffer.cpp
 TEST_DEPS += $(SRCDIR)/Length_Indicated_ZipCodeBuffer.cpp
 TEST_DEPS += $(SRCDIR)/Project\ 3.0/BlockedSequence.cpp
 TEST_DEPS += $(SRCDIR)/Project\ 3.0/Block.cpp
+TEST_DEPS += $(SRCDIR)/PrimaryKeyIndex.cpp
 
 ifeq ($(OS),Windows_NT)
 RM_BIN = if exist $(BINDIR) rmdir /s /q $(BINDIR)

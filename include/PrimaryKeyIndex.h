@@ -31,16 +31,27 @@ class PrimaryKeyIndex
         */
         map<string, int> Index;
 
-        string File = "";
-        string header = "";
+        string BlockDirectory = "data/blocks";
+
+        /** Extracts the ZIP key from a packed record string. */
+        static string ExtractZipKey(const string& packedRecord);
+
+        /** Returns the block file path for a given RBN. */
+        string GetBlockFilePath(int rbn) const;
 
     public:
 
         /**
-        * @brief Creates a Primary Key Index for a provided ZipCodeRecord.
-        * @param file The file a Primary Key index will be made for.
+        * @brief Creates a Primary Key Index builder rooted at a block directory.
+        * @param FilePath Path to the block directory (default: data/blocks).
         */
         PrimaryKeyIndex(const string& FilePath);
+
+        /**
+         * @brief Builds the in-memory index from the current block directory.
+         * @return true if the index was built successfully; otherwise false.
+         */
+        bool BuildFromBlocks(const string& blockDirectory);
 
         /**
          * @brief Finds the ZipCodeRecord for a provided Zip Codes.
@@ -62,6 +73,12 @@ class PrimaryKeyIndex
          * @return true if the index was successfully read, false otherwise.
          */
         bool ReadFromFile(const string& path);
+
+        /**
+         * @brief Returns a readable dump of the current index contents.
+         * @return Text listing highest-key / RBN pairs.
+         */
+        string Dump() const;
 };
 
 #endif

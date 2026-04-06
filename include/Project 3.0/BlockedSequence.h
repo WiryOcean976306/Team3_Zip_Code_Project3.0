@@ -103,6 +103,27 @@ class BlockedSequence
          * @return Pointer to the matching block, or nullptr if not found.
          */
         Block* GetBlock(int rbn);
+
+
+        /**
+         * @brief Dumps the logical sequence of records from head to tail as a string.
+         * @return A string representation of all records in logical order.
+         * @details Traverses the active chain and concatenates the records from each
+         *          block into a single string for display or debugging purposes.
+         */
+        string DumpLogicalOrder();
+
+        /**
+         * @brief Dumps active blocks in physical order (ascending RBN map order).
+         * @return Formatted dump with list heads, links, and record keys per block.
+         */
+        string DumpPhysicalBlockOrder();
+
+        /**
+         * @brief Dumps active blocks in logical order (following next-RBN chain).
+         * @return Formatted dump with list heads, links, and record keys per block.
+         */
+        string DumpLogicalBlockOrder();
 };
 
 #endif

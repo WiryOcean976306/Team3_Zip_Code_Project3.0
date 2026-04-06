@@ -12,6 +12,7 @@
 #include <fstream>
 #include <filesystem>
 #include <string>
+#include <sstream>
 
 using namespace std;
 
@@ -27,6 +28,40 @@ string operator+(int value, const string& s)
 {
     // Convenience overload used by this file when assembling comma-separated metadata.
     return to_string(value) + s;
+}
+
+void HeaderRecord::RebuildHeader()
+{
+    Header.clear();
+
+    for (int i = 0; i < FieldCount; i++)
+    {
+        Header += Fields[i] + "," + FieldTypes[i] + ",";
+    }
+
+    string sizeFormatTypeString = SizeFormatType ? "Binary" : "ASCII";
+    string sizeInclusionString = SizeInclusion ? "TRUE" : "FALSE";
+
+    ostringstream body;
+    body << FileStructureType << ','
+         << Version << ','
+         << sizeFormatTypeString << ','
+         << sizeInclusionString << ','
+         << PrimaryKeyIndex << ','
+         << RecordCount << ','
+         << FieldCount << ','
+         << Header << PrimaryKey;
+
+    Header = body.str();
+
+    size_t size = Header.size();
+    HeaderSizeBytes = static_cast<int>(size);
+    if (SizeInclusion)
+    {
+        HeaderSizeBytes += 4;
+    }
+
+    Header = to_string(HeaderSizeBytes) + "," + Header;
 }
 
 /**
@@ -46,48 +81,7 @@ HeaderRecord::HeaderRecord(const string& InFile)
     string line;
     while(getline(OldCSV, line))
         ++RecordCount;
-
-    for(int i = 0; i < FieldCount; i++)
-        Header += Fields[i] + "," + FieldTypes[i] + ",";
-
-    string HeaderFront = "";
-    string comma = ",";
-    string SizeFormatTypeString;
-    string SizeInclutionString;
-
-    if(SizeFormatType)
-        SizeFormatTypeString = "Binary";
-    else
-        SizeFormatTypeString = "ASCII";
-
-    if(SizeInclusion)
-        SizeInclutionString = "TRUE";
-    else
-        SizeInclutionString = "FALSE";
-
-    HeaderFront += FileStructureType + comma +
-                   Version + comma +
-                   SizeFormatTypeString + comma +
-                   SizeInclutionString + comma +
-                   PrimaryKeyIndex + comma +
-                   RecordCount + comma +
-                   FieldCount + comma;              //https://www.youtube.com/watch?v=-teyuf0rARk
-
-    Header = string(",") + HeaderFront + Header + PrimaryKey;
-
-    if(SizeFormatType) //binary count
-    {
-        
-    }
-    else //ASCII count
-    {
-        size_t size = Header.size();
-        HeaderSizeBytes = static_cast<int>(size);
-        if(SizeInclusion)
-            HeaderSizeBytes += 4;
-    }
-
-    Header = to_string(HeaderSizeBytes) + Header;
+    RebuildHeader();
 }
 
 /**

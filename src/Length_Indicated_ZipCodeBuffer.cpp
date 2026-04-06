@@ -83,8 +83,11 @@ bool Length_Indicated_ZipCodeBuffer::readNext(ZipCodeRecord& recordOut) {
 /**
  * @brief Packs a ZipCodeRecord into a length-indicated format string.
  * @param record The ZipCodeRecord to pack.
- * @return A string containing the packed record in "size,data" format where size is the byte count.
- * @details Converts the record fields into a comma-separated string, prefixes it with a 4-byte size indicator, and returns the combined data suitable for writing to a file.
+ * @return A string containing the packed record in "size,data" format where 
+ * size is the byte count.
+ * @details Converts the record fields into a comma-separated string, 
+ * prefixes it with an ASCII size indicator, and returns the combined
+ * data suitable for adding to a block.
  */
 std::string Length_Indicated_ZipCodeBuffer::packRecord(ZipCodeRecord& record) const {
     // Build the comma-separated data string
@@ -95,22 +98,17 @@ std::string Length_Indicated_ZipCodeBuffer::packRecord(ZipCodeRecord& record) co
                << std::fixed << std::setprecision(6) << record.getLongitude();
     
     std::string dataStr = dataStream.str();
-    
-    // Create output with size prefix (4-byte unsigned integer)
-    std::stringstream output;
-    uint32_t size = static_cast<uint32_t>(dataStr.length());
-    
-    // Write size as binary
-    output.write(reinterpret_cast<const char*>(&size), sizeof(uint32_t));
-    // Write data
-    output.write(dataStr.c_str(), dataStr.length());
-    
-    return output.str();
+
+    // Emit text length-indicated format expected by Block::AddRecord:
+    // <size>,<payload>
+    return std::to_string(dataStr.size()) + "," + dataStr;
 }
 
 /**
- * @brief Destructor for Length_Indicated_ZipCodeBuffer that closes the file stream if it is open.
- * @details Ensures proper cleanup of the file stream resource when the object is destroyed.
+ * @brief Destructor for Length_Indicated_ZipCodeBuffer that 
+ * closes the file stream if it is open.
+ * @details Ensures proper cleanup of the file stream resource when the
+ *  object is destroyed.
  */
 Length_Indicated_ZipCodeBuffer::~Length_Indicated_ZipCodeBuffer() {
     if (file.is_open()) {

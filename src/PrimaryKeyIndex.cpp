@@ -16,30 +16,188 @@
 #include <vector>
 #include <memory>
 #include <map>
+#include <algorithm>
 
 #include "PrimaryKeyIndex.h"
 #include "ZipCodeRecord.h"
 
 using namespace std;
 
+namespace {
+
+bool IsBlockFile(const filesystem::path& path)
+{
+    return path.extension() == ".blk" && path.filename().string().rfind("block_", 0) == 0;
+}
+
+int ExtractRbnFromFileName(const filesystem::path& path)
+{
+    string stem = path.stem().string();
+    size_t underscore = stem.find('_');
+    if (underscore == string::npos)
+    {
+        return -1;
+    }
+
+    try
+    {
+        return stoi(stem.substr(underscore + 1));
+    }
+    catch (...)
+    {
+        return -1;
+    }
+}
+
+string GetBlockFilePathForRbn(int rbn)
+{
+    return string("data/blocks/block_") + to_string(rbn) + ".blk";
+}
+
+bool ParsePackedZip(const string& packedRecord, string& zipOut)
+{
+    size_t firstComma = packedRecord.find(',');
+    if (firstComma == string::npos)
+    {
+        return false;
+    }
+
+    size_t secondComma = packedRecord.find(',', firstComma + 1);
+    if (secondComma == string::npos)
+    {
+        return false;
+    }
+
+    zipOut = packedRecord.substr(firstComma + 1, secondComma - firstComma - 1);
+    return true;
+}
+
+} // namespace
+
+string PrimaryKeyIndex::ExtractZipKey(const string& packedRecord)
+{
+    string zip;
+    if (!ParsePackedZip(packedRecord, zip))
+    {
+        return "";
+    }
+    return zip;
+}
+
+string PrimaryKeyIndex::GetBlockFilePath(int rbn) const
+{
+    return BlockDirectory + string("/block_") + to_string(rbn) + string(".blk");
+}
+
 bool PrimaryKeyIndex::WriteToFile(const string& path)
 {
-    filesystem::path p(path);
-    string filename = p.filename().string();
+    filesystem::path outPath(path);
+    if (outPath.has_parent_path())
+    {
+        filesystem::create_directories(outPath.parent_path());
+    }
 
-    ofstream Out("PKI/PKI_" + filename, ios::out | ios::trunc);
+    ofstream Out(path, ios::out | ios::trunc);
     if (!Out.is_open())
     {
         return false;
     }
 
-    for (const auto& pair : Index)
-    {
-        Out << pair.first << "," << pair.second << "\n";
-    }
+    Out << Dump();
 
     Out.close();
+    return true;
+}
+
+bool PrimaryKeyIndex::BuildFromBlocks(const string& blockDirectory)
+{
     Index.clear();
+    BlockDirectory = blockDirectory;
+
+    filesystem::path dir(blockDirectory);
+    if (!filesystem::exists(dir) || !filesystem::is_directory(dir))
+    {
+        return false;
+    }
+
+    vector<filesystem::path> blockFiles;
+    for (const auto& entry : filesystem::directory_iterator(dir))
+    {
+        if (entry.is_regular_file() && IsBlockFile(entry.path()))
+        {
+            blockFiles.push_back(entry.path());
+        }
+    }
+
+    sort(blockFiles.begin(), blockFiles.end(), [](const filesystem::path& left, const filesystem::path& right)
+    {
+        return ExtractRbnFromFileName(left) < ExtractRbnFromFileName(right);
+    });
+
+    for (const auto& path : blockFiles)
+    {
+        ifstream in(path);
+        if (!in.is_open())
+        {
+            continue;
+        }
+
+        string headerLine;
+        if (!getline(in, headerLine))
+        {
+            continue;
+        }
+
+        stringstream hs(headerLine);
+        string token;
+        vector<int> values;
+        while (getline(hs, token, ','))
+        {
+            try
+            {
+                values.push_back(stoi(token));
+            }
+            catch (...)
+            {
+                values.clear();
+                break;
+            }
+        }
+
+        if (values.size() < 2)
+        {
+            continue;
+        }
+
+        int recordCount = values[0];
+        int rbn = values[1];
+        if (recordCount <= 0)
+        {
+            continue;
+        }
+
+        string recordLine;
+        string highestZip;
+        while (getline(in, recordLine))
+        {
+            if (recordLine.empty())
+            {
+                continue;
+            }
+
+            string zip;
+            if (ParsePackedZip(recordLine, zip) && !zip.empty())
+            {
+                highestZip = zip;
+            }
+        }
+
+        if (!highestZip.empty())
+        {
+            Index[highestZip] = rbn;
+        }
+    }
+
     return true;
 }
 
@@ -47,10 +205,7 @@ bool PrimaryKeyIndex::ReadFromFile(const string& path)
 {
     Index.clear();
 
-    filesystem::path p(path);
-    string filename = p.filename().string();
-
-    ifstream InFile("PKI/PKI_" + filename);
+    ifstream InFile(path);
     if (!InFile.is_open())
     {
         return false;
@@ -59,23 +214,22 @@ bool PrimaryKeyIndex::ReadFromFile(const string& path)
     string line;
     while (getline(InFile, line))
     {
-        string zip;
-        string byteStr;
-        int byteCount = 0;
-
         stringstream ss(line);
+        string zip;
+        string rbnStr;
         if (!getline(ss, zip, ','))
             continue;
-        if (!getline(ss, byteStr, ','))
+        if (!getline(ss, rbnStr, ','))
             continue;
 
         try
         {
-            byteCount = stoi(byteStr);
+            Index[zip] = stoi(rbnStr);
         }
-        catch (...) {}
-
-        Index.insert({zip, byteCount});
+        catch (...)
+        {
+            continue;
+        }
     }
 
     InFile.close();
@@ -84,34 +238,10 @@ bool PrimaryKeyIndex::ReadFromFile(const string& path)
 
 PrimaryKeyIndex::PrimaryKeyIndex(const string& FilePath)
 {
-    File = FilePath;
-    ifstream InFile;
-    InFile.open(FilePath);
-
-    int ByteCount, b;
-    string Zip, line, column;
-    getline(InFile, line);
-    header = line;
-    stringstream ss(line);
-    ss >> ByteCount;
-
-    while(getline(InFile, line))
+    if (filesystem::exists(FilePath) && filesystem::is_directory(FilePath))
     {
-        stringstream ss(line);
-        getline(ss, column, ',');
-        stringstream byte(column);
-        getline(ss, column, ',');
-        byte >> b;
-        Zip = column;
-        Index.insert({Zip, ByteCount});
-        ByteCount += b;
+        BuildFromBlocks(FilePath);
     }
-
-    WriteToFile(File);
-
-    Index.clear();
-
-    InFile.close();
 }
 
 ZipCodeRecord PrimaryKeyIndex::find(vector<string> Zips)
@@ -140,73 +270,104 @@ ZipCodeRecord PrimaryKeyIndex::find(vector<string> Zips)
         }
     }
 
-    if (!ReadFromFile(File))
+    if (Index.empty())
     {
-        cout << "Primary key index not found for file: " << File << "\n";
-        return found;
-    }
-
-    ifstream InFile(File, ios::binary);
-    if (!InFile.is_open())
-    {
-        cout << "Could not open data file: " << File << "\n";
-        return found;
+        if (filesystem::exists(BlockDirectory) && filesystem::is_directory(BlockDirectory))
+        {
+            if (!BuildFromBlocks(BlockDirectory))
+            {
+                cout << "Primary key index could not be built from blocks in: " << BlockDirectory << "\n";
+                return found;
+            }
+        }
+        else if (!ReadFromFile(BlockDirectory))
+        {
+            cout << "Primary key index not found for file: " << BlockDirectory << "\n";
+            return found;
+        }
     }
 
     for (const string& Zip : zipCodes)
     {
-        auto it = Index.find(Zip);
+        auto it = Index.lower_bound(Zip);
         if (it == Index.end())
         {
             cout << "Zip Code " << Zip << " not found.\n";
             continue;
         }
 
-        int offset = it->second;
-        InFile.clear();
-        InFile.seekg(offset, ios::beg);
-        if (!InFile.good())
+        int rbn = it->second;
+        string blockPath = GetBlockFilePath(rbn);
+        ifstream InFile(blockPath);
+        if (!InFile.is_open())
         {
-            cout << "Failed to seek to offset " << offset << " for zip " << Zip << "\n";
+            cout << "Could not open block file: " << blockPath << "\n";
             continue;
         }
 
-        string line;
-        if (!getline(InFile, line))
+        string headerLine;
+        if (!getline(InFile, headerLine))
         {
-            cout << "Failed to read record at offset " << offset << " for zip " << Zip << "\n";
+            cout << "Failed to read block header for zip " << Zip << "\n";
             continue;
         }
 
-        string lengthStr, zipStr, city, state, county, latStr, longStr;
-        stringstream ss(line);
-        getline(ss, lengthStr, ',');
-        getline(ss, zipStr, ',');
-        getline(ss, city, ',');
-        getline(ss, state, ',');
-        getline(ss, county, ',');
-        getline(ss, latStr, ',');
-        getline(ss, longStr, ',');
-
-        double latitude = 0.0;
-        double longitude = 0.0;
-        try { latitude = stod(latStr); } catch (...) {}
-        try { longitude = stod(longStr); } catch (...) {}
-
-        ZipCodeRecord record(zipStr, state, latitude, longitude);
-
-        cout << record.getZip() << ", " << record.getState() << ", "
-             << record.getLatitude() << ", " << record.getLongitude() << "\n";
-
-        if (!foundAny)
+        bool foundInBlock = false;
+        string recordLine;
+        while (getline(InFile, recordLine))
         {
-            found = record;
-            foundAny = true;
+            string zipStr = ExtractZipKey(recordLine);
+            if (zipStr != Zip)
+            {
+                continue;
+            }
+
+            stringstream ss(recordLine);
+            string lengthStr, city, state, county, latStr, longStr;
+            getline(ss, lengthStr, ',');
+            getline(ss, zipStr, ',');
+            getline(ss, state, ',');
+            getline(ss, latStr, ',');
+            getline(ss, longStr, ',');
+
+            double latitude = 0.0;
+            double longitude = 0.0;
+            try { latitude = stod(latStr); } catch (...) {}
+            try { longitude = stod(longStr); } catch (...) {}
+
+            string zipCopy = zipStr;
+            string stateCopy = state;
+            ZipCodeRecord record(zipCopy, stateCopy, latitude, longitude);
+
+            cout << record.getZip() << ", " << record.getState() << ", "
+                 << record.getLatitude() << ", " << record.getLongitude() << "\n";
+
+            if (!foundAny)
+            {
+                found = record;
+                foundAny = true;
+            }
+            foundInBlock = true;
+            break;
+        }
+
+        if (!foundInBlock)
+        {
+            cout << "Zip Code " << Zip << " not found.\n";
         }
     }
 
-    InFile.close();
     return found;
+}
+
+string PrimaryKeyIndex::Dump() const
+{
+    ostringstream out;
+    for (const auto& pair : Index)
+    {
+        out << pair.first << "," << pair.second << "\n";
+    }
+    return out.str();
 }
 
 #endif
