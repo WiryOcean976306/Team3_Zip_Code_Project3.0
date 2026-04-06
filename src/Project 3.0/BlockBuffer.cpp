@@ -13,6 +13,7 @@
 
  #include "Project 3.0/BlockBuffer.h"
  #include <string.h>
+ #include <sstream>
 
 
 
@@ -148,6 +149,67 @@ int BlockBuffer:: Init (int maxBytes)
     return 1;
     
 
+}
+
+bool BlockBuffer::UnpackRecordFromBlock(Block& block, int recordIndex, std::string& recordBufferOut) const
+{
+    std::vector<std::string>& records = block.GetRecords();
+    if (recordIndex < 0 || static_cast<size_t>(recordIndex) >= records.size())
+    {
+        return false;
+    }
+
+    recordBufferOut = records[recordIndex];
+    return true;
+}
+
+bool BlockBuffer::UnpackFieldsToRecord(const std::string& recordBuffer, ZipCodeRecord& recordOut) const
+{
+    std::stringstream ss(recordBuffer);
+    std::string lengthText;
+    std::string zip;
+    std::string state;
+    std::string latText;
+    std::string longText;
+
+    if (!std::getline(ss, lengthText, ',')) return false;
+    if (!std::getline(ss, zip, ',')) return false;
+    if (!std::getline(ss, state, ',')) return false;
+    if (!std::getline(ss, latText, ',')) return false;
+    if (!std::getline(ss, longText, ',')) return false;
+
+    try
+    {
+        const int declaredSize = std::stoi(lengthText);
+        const std::string payload = zip + "," + state + "," + latText + "," + longText;
+        if (declaredSize != static_cast<int>(payload.size()))
+        {
+            return false;
+        }
+
+        double latitude = std::stod(latText);
+        double longitude = std::stod(longText);
+
+        std::string zipCopy = zip;
+        std::string stateCopy = state;
+        recordOut = ZipCodeRecord(zipCopy, stateCopy, latitude, longitude);
+        return true;
+    }
+    catch (...)
+    {
+        return false;
+    }
+}
+
+bool BlockBuffer::UnpackRecordFromBlock(Block& block, int recordIndex, ZipCodeRecord& recordOut) const
+{
+    std::string recordBuffer;
+    if (!UnpackRecordFromBlock(block, recordIndex, recordBuffer))
+    {
+        return false;
+    }
+
+    return UnpackFieldsToRecord(recordBuffer, recordOut);
 }
 
 

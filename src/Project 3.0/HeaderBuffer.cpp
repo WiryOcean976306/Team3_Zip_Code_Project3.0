@@ -8,7 +8,7 @@
 #ifndef  HEADBUFFER_CPP
 #define  HEADBUFFER_CPP
 
-#include "../include/HeaderBuffer.h"
+#include "Project 3.0/HeaderBuffer.h"
 #include <sstream>
 #include <vector>
 
@@ -91,6 +91,13 @@ bool HeaderBuffer::unpackHeader(const std::string& payload, HeaderRecord& header
 		}
 
 		headerOut.PrimaryKey = std::stoi(fields[index++]);
+
+		if (index < fields.size()) headerOut.BlockSize = std::stoi(fields[index++]);
+		if (index < fields.size()) headerOut.MinBlockCapacity = std::stoi(fields[index++]);
+		if (index < fields.size()) headerOut.BlockCount = std::stoi(fields[index++]);
+		if (index < fields.size()) headerOut.availListHeadRBN = std::stoi(fields[index++]);
+		if (index < fields.size()) headerOut.ActiveListHeadRBN = std::stoi(fields[index++]);
+		if (index < fields.size()) headerOut.StaleFlag = (fields[index++] == "TRUE");
 
 		headerOut.RebuildHeader();
 		return true;

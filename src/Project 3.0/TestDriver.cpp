@@ -8,6 +8,8 @@
 
 #include "Length_Indicated_ZipCodeBuffer.h"
 #include "Project 3.0/BlockBuffer.h"
+#include "Project 3.0/HeaderBuffer.h"
+#include "HeaderRecord.h"
 #include "PrimaryKeyIndex.h"
 #include "BlockedSequence.h"
 
@@ -183,19 +185,22 @@ bool WriteGeneratorHeader(const Options& opts, int recordCount, BlockedSequence&
         return false;
     }
 
-    out << "file_type=BLOCKED_SEQUENCE_SET\n";
-    out << "version=1.0\n";
-    out << "input_file=" << opts.inputFile << "\n";
-    out << "block_data_dir=data/blocks\n";
-    out << "block_size=" << opts.blockSize << "\n";
-    out << "min_block_capacity=" << fixed << setprecision(2) << opts.minCapacity << "\n";
-    out << "record_count=" << recordCount << "\n";
-    out << "block_count=" << sequence.GetCount() << "\n";
-    out << "active_list_head_rbn=" << sequence.GetHeadRBN() << "\n";
-    out << "active_list_tail_rbn=" << sequence.GetTailRBN() << "\n";
-    out << "next_rbn=" << sequence.GetNextRBN() << "\n";
-    out << "avail_list_head_rbn=0\n";
-    out << "stale_flag=false\n";
+    HeaderRecord header;
+    header.ConfigureBlockedSequenceHeader(
+        opts.indexFile,
+        recordCount,
+        sequence.GetCount(),
+        opts.blockSize,
+        static_cast<int>(opts.minCapacity * 100.0),
+        0,
+        sequence.GetHeadRBN(),
+        false);
+
+    HeaderBuffer headerBuffer;
+    if (!headerBuffer.writeHeader(out, header))
+    {
+        return false;
+    }
 
     return out.good();
 }

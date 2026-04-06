@@ -108,6 +108,27 @@ class HeaderRecord
     bool WriteHeader(std::fstream& out, const HeaderRecord& header);
 
     bool ReadHeader(std::fstream& in, HeaderRecord& header);
+
+        /**
+         * @brief Configures this header record for a blocked sequence set file.
+         * @param indexFileName Name/path of the simple index file.
+         * @param recordCount Number of records in active blocks.
+         * @param blockCount Number of active blocks.
+         * @param blockSize Block size in bytes.
+         * @param minBlockCapacity Minimum block capacity percentage (0-100).
+         * @param availHeadRBN RBN of avail-list head block.
+         * @param activeHeadRBN RBN of active-list head block.
+         * @param staleFlag True when the index/header is stale.
+         */
+        void ConfigureBlockedSequenceHeader(
+            const string& indexFileName,
+            int recordCount,
+            int blockCount,
+            int blockSize,
+            int minBlockCapacity,
+            int availHeadRBN,
+            int activeHeadRBN,
+            bool staleFlag);
     
 };
 

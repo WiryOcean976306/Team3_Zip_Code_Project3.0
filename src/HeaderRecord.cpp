@@ -50,7 +50,13 @@ void HeaderRecord::RebuildHeader()
          << PrimaryKeyIndex << ','
          << RecordCount << ','
          << FieldCount << ','
-         << Header << PrimaryKey;
+            << Header << PrimaryKey << ','
+            << BlockSize << ','
+            << MinBlockCapacity << ','
+            << BlockCount << ','
+            << availListHeadRBN << ','
+            << ActiveListHeadRBN << ','
+            << (StaleFlag ? "TRUE" : "FALSE");
 
     Header = body.str();
 
@@ -91,6 +97,39 @@ HeaderRecord::HeaderRecord(const string& InFile)
 string HeaderRecord::GetHeader() const
 {
     return Header;
+}
+
+void HeaderRecord::ConfigureBlockedSequenceHeader(
+    const string& indexFileName,
+    int recordCount,
+    int blockCount,
+    int blockSize,
+    int minBlockCapacity,
+    int availHeadRBN,
+    int activeHeadRBN,
+    bool staleFlag)
+{
+    FileStructureType = "BLOCKED_SEQUENCE_SET";
+    Version = "3.0";
+    SizeFormatType = 0;
+    SizeInclusion = true;
+    PrimaryKeyIndex = indexFileName;
+    RecordCount = recordCount;
+
+    // Project 3.0 record schema used by generated block payloads.
+    FieldCount = 4;
+    Fields = {"ZipCode", "State", "Lat", "Long"};
+    FieldTypes = {"STRING", "STRING", "FLOAT", "FLOAT"};
+    PrimaryKey = 1;
+
+    BlockSize = blockSize;
+    MinBlockCapacity = minBlockCapacity;
+    BlockCount = blockCount;
+    availListHeadRBN = availHeadRBN;
+    ActiveListHeadRBN = activeHeadRBN;
+    StaleFlag = staleFlag;
+
+    RebuildHeader();
 }
 
  #endif

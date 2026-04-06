@@ -19,6 +19,7 @@
  #include <memory>
 #include <cstring>
  #include "Block.h"
+ #include "ZipCodeRecord.h"
  
 
 
@@ -53,6 +54,32 @@
             // extract the value of the next field of the buffer
         void Print (ostream&) const;
         int Init (int maxBytes = 512);
+
+        /**
+         * @brief Extracts one packed record string from a block.
+         * @param block Source block containing packed records.
+         * @param recordIndex Zero-based index of the record in the block.
+         * @param recordBufferOut Output packed record string.
+         * @return true if extraction succeeds; otherwise false.
+         */
+        bool UnpackRecordFromBlock(Block& block, int recordIndex, std::string& recordBufferOut) const;
+
+        /**
+         * @brief Parses one packed record buffer into a ZipCodeRecord object.
+         * @param recordBuffer Packed record in format <len>,<zip>,<state>,<lat>,<long>.
+         * @param recordOut Output record object.
+         * @return true if parse succeeds; otherwise false.
+         */
+        bool UnpackFieldsToRecord(const std::string& recordBuffer, ZipCodeRecord& recordOut) const;
+
+        /**
+         * @brief Convenience method: unpack a block record directly into an object.
+         * @param block Source block.
+         * @param recordIndex Zero-based index into block records.
+         * @param recordOut Output record object.
+         * @return true if both unpack stages succeed; otherwise false.
+         */
+        bool UnpackRecordFromBlock(Block& block, int recordIndex, ZipCodeRecord& recordOut) const;
 
     private:
 
