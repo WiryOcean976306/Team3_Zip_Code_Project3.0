@@ -110,6 +110,16 @@ void Block::SetNextRBN(int nextRbn)
 }
 
 /**
+ * @brief Updates the previous block link and refreshes header metadata.
+ * @param prevRbn New previous block RBN value.
+ */
+void Block::SetPrevRBN(int prevRbn)
+{
+    PrevRBN = prevRbn;
+    UpdateHeader();
+}
+
+/**
  * @brief Recomputes the serialized header string.
  * @details Header is stored as comma-separated metadata fields in the form:
  *          HeaderSize,RecordCount,RBN,PrevRBN,NextRBN.

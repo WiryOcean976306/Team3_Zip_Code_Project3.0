@@ -130,6 +130,12 @@ class Block
          */
         void SetNextRBN(int nextRbn);
 
+        /**
+         * @brief Updates the previous-block link and refreshes serialized header data.
+         * @param prevRbn RBN value to assign as the previous block link.
+         */
+        void SetPrevRBN(int prevRbn);
+
 };
 
 #endif

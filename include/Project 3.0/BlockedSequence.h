@@ -12,6 +12,7 @@
 #define BLOCKEDSEQUENCE_H
 
 #include <map>
+#include <queue>
 #include <string>
 
 #include "Block.h"
