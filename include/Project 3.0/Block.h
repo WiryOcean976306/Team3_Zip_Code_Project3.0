@@ -65,6 +65,13 @@ class Block
         bool AddRecord(const string& Record);
 
         /**
+         * @brief Removes a record by index and refreshes block accounting metadata.
+         * @param recordIndex Zero-based record index to remove.
+         * @return True if the record exists and is removed; otherwise false.
+         */
+        bool RemoveRecordAt(size_t recordIndex);
+
+        /**
          * @brief Reads this block's serialized representation from storage.
          * @return True on successful read and parse; otherwise false.
          */

@@ -440,8 +440,13 @@ bool BlockedSequence::Delete(const string& zipKey, string& logOutput)
         return false;
     }
 
-    vector<string>& records = targetBlock->GetRecords();
-    records.erase(records.begin() + recordIndex);
+    if (!targetBlock->RemoveRecordAt(recordIndex))
+    {
+        log << "[ERROR] Failed to remove record accounting from block "
+            << foundInBlock << ".\n";
+        logOutput = log.str();
+        return false;
+    }
 
     log << "[DELETE_SUCCESS] Record with ZIP " << zipKey << " deleted from block " 
         << foundInBlock << ".\n";

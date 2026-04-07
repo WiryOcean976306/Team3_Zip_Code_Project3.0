@@ -183,6 +183,53 @@ bool Block::AddRecord(const string& Record)
 }
 
 /**
+ * @brief Removes one record from this block by index.
+ * @param recordIndex Zero-based record index.
+ * @return True if removal succeeds; otherwise false.
+ * @details Parses the packed record's size prefix to keep byte accounting
+ *          consistent with AddRecord.
+ */
+bool Block::RemoveRecordAt(size_t recordIndex)
+{
+    if (recordIndex >= Records.size())
+    {
+        return false;
+    }
+
+    const string& record = Records[recordIndex];
+    size_t pos = record.find(',');
+    if (pos == string::npos)
+    {
+        return false;
+    }
+
+    int recordSize = 0;
+    try
+    {
+        recordSize = stoi(record.substr(0, pos));
+    }
+    catch (...)
+    {
+        return false;
+    }
+
+    Records.erase(Records.begin() + static_cast<long long>(recordIndex));
+
+    if (RecordCount > 0)
+    {
+        --RecordCount;
+    }
+    ByteSize -= recordSize;
+    if (ByteSize < 0)
+    {
+        ByteSize = 0;
+    }
+
+    UpdateHeader();
+    return true;
+}
+
+/**
  * @brief Reads this block's serialized representation from disk.
  * @return True on successful read and parse; otherwise false.
  * @details first line is block metadata, then one record per line.
