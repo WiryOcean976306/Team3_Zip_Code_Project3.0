@@ -15,6 +15,7 @@
 #include <string>
 #include <sstream>
 #include <vector>
+#include <filesystem>
 
 #include "BlockedSequence.h"
 #include "Block.h"
@@ -451,15 +452,11 @@ bool BlockedSequence::Delete(const string& zipKey, string& logOutput)
     log << "[DELETE_SUCCESS] Record with ZIP " << zipKey << " deleted from block " 
         << foundInBlock << ".\n";
 
-    // Check if block is now underfull (optional merge logic)
-    if (targetBlock->GetByteSize() < targetBlock->GetByteMinSize() && GetCount() > 1 && foundInBlock != HeadRBN)
+    // Only remove a block from the active chain when it is actually empty.
+    // This prevents data loss while merge/redistribution policies evolve.
+    if (targetBlock->GetRecordCount() == 0 && GetCount() > 1)
     {
-        
-        //MERGE/REDISTRIBUTION LOGIC TO BE IMPLEMENTED
-        
-        //After the merge/redistribution, the empty block is added to the avail list.
-
-        int emptyRBN = foundInBlock; //Change foundInBlock to the empty block if foundInBlock is not supposed to be the empty block.
+        int emptyRBN = foundInBlock;
         int prevRBN = targetBlock->GetPrevRBN();
         int nextRBN = targetBlock->GetNextRBN();
 
@@ -492,8 +489,16 @@ bool BlockedSequence::Delete(const string& zipKey, string& logOutput)
         blocks.erase(emptyRBN);
         availList.push(emptyRBN);
 
-        log << "[MERGE_CANDIDATE] Block " << foundInBlock << " is now empty. "
-            << "Merge/redistribution could be performed.\n";
+        // Remove stale on-disk block so future index builds do not pick up orphan data.
+        std::filesystem::remove("data/blocks/block_" + to_string(emptyRBN) + ".blk");
+
+        log << "[MERGE] Empty block " << emptyRBN
+            << " removed from active chain and added to avail list.\n";
+    }
+    else if (targetBlock->GetByteSize() < targetBlock->GetByteMinSize() && GetCount() > 1)
+    {
+        log << "[UNDERFULL] Block " << foundInBlock
+            << " is under minimum capacity; redistribution/merge not performed in this pass.\n";
     }
 
     logOutput = log.str();

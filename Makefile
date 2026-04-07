@@ -4,31 +4,14 @@ CXXFLAGS = -std=c++17 -g -O0 -I./include -I"./include/Project 3.0"
 SRCDIR = src
 BINDIR = bin
 TARGET = $(BINDIR)/main
+MAIN_SOURCE = $(SRCDIR)/main.cpp
+MAIN_LINK_SOURCES = "./src/main.cpp" "./src/ZipCodeRecord.cpp" "./src/Project 3.0/BlockBuffer.cpp" "./src/Length_Indicated_ZipCodeBuffer.cpp" "./src/Project 3.0/BlockedSequence.cpp" "./src/Project 3.0/Block.cpp" "./src/PrimaryKeyIndex.cpp" "./src/HeaderRecord.cpp" "./src/Project 3.0/HeaderBuffer.cpp"
 TEST_TARGET = $(BINDIR)/TestDriver
 SEARCH_TARGET = $(BINDIR)/SearchIndex
 TEST_SOURCE = $(SRCDIR)/Project\ 3.0/TestDriver.cpp
-TEST_LINK_SOURCES = "./src/Project 3.0/TestDriver.cpp" "./src/ZipCodeRecord.cpp" "./src/Project 3.0/BlockBuffer.cpp" "./src/Length_Indicated_ZipCodeBuffer.cpp" "./src/Project 3.0/BlockedSequence.cpp" "./src/Project 3.0/Block.cpp" "./src/PrimaryKeyIndex.cpp" "./src/HeaderRecord.cpp" "./src/Project 3.0/HeaderBuffer.cpp"
+TEST_LINK_SOURCES = "./src/Project 3.0/TestDriver.cpp"
 SEARCH_SOURCE = $(SRCDIR)/SearchIndex.cpp
 SEARCH_LINK_SOURCES = "./src/SearchIndex.cpp" "./src/PrimaryKeyIndex.cpp" "./src/ZipCodeRecord.cpp" "./src/Project 3.0/BlockBuffer.cpp" "./src/Project 3.0/Block.cpp"
-
-EXCLUDE := $(SRCDIR)/printer.cpp 
-EXCLUDE += $(SRCDIR)/main.cpp
-EXCLUDE += $(SRCDIR)/HeaderBuffer.cpp
-#EXCLUDE += $(SRCDIR)/driver_csv_to_length_indicated.cpp
-EXCLUDE += $(SRCDIR)/SearchIndex.cpp
-
-SOURCES := $(filter-out $(EXCLUDE), $(wildcard $(SRCDIR)/*.cpp))
-
-OBJECTS = $(SOURCES:$(SRCDIR)/%.cpp=$(BINDIR)/%.o)
-
-TEST_DEPS = $(SRCDIR)/ZipCodeRecord.cpp
-TEST_DEPS += $(SRCDIR)/Project\ 3.0/BlockBuffer.cpp
-TEST_DEPS += $(SRCDIR)/Length_Indicated_ZipCodeBuffer.cpp
-TEST_DEPS += $(SRCDIR)/Project\ 3.0/BlockedSequence.cpp
-TEST_DEPS += $(SRCDIR)/Project\ 3.0/Block.cpp
-TEST_DEPS += $(SRCDIR)/PrimaryKeyIndex.cpp
-TEST_DEPS += $(SRCDIR)/HeaderRecord.cpp
-TEST_DEPS += $(SRCDIR)/Project\ 3.0/HeaderBuffer.cpp
 
 ifeq ($(OS),Windows_NT)
 RM_BIN = if exist $(BINDIR) rmdir /s /q $(BINDIR)
@@ -38,11 +21,8 @@ endif
 
 all: $(TARGET)
 
-$(TARGET): $(OBJECTS) | $(BINDIR)
-	$(CXX) $(CXXFLAGS) -o $@ $^
-
-$(BINDIR)/%.o: $(SRCDIR)/%.cpp | $(BINDIR)
-	$(CXX) $(CXXFLAGS) -c $< -o $@
+$(TARGET): $(MAIN_SOURCE) | $(BINDIR)
+	$(CXX) $(CXXFLAGS) -o $@ $(MAIN_LINK_SOURCES)
 
 $(BINDIR):
 	mkdir -p $(BINDIR)
@@ -50,13 +30,13 @@ $(BINDIR):
 run: $(TARGET)
 	./$(TARGET)
 
-$(TEST_TARGET): $(TEST_SOURCE) $(TEST_DEPS) | $(BINDIR)
+$(TEST_TARGET): $(TEST_SOURCE) | $(BINDIR)
 	$(CXX) $(CXXFLAGS) -o $@ $(TEST_LINK_SOURCES)
 
 $(SEARCH_TARGET): $(SEARCH_SOURCE) | $(BINDIR)
 	$(CXX) $(CXXFLAGS) -o $@ $(SEARCH_LINK_SOURCES)
 
-run-test: $(TEST_TARGET)
+run-test: $(TARGET) $(TEST_TARGET)
 	./$(TEST_TARGET)
 
 run-search: $(SEARCH_TARGET)

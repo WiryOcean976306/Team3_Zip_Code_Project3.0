@@ -1,78 +1,446 @@
 /**
-*@file main.cpp
-*@author Ken, Zach, Gabriel, Robert
-*@date 2026-02-10
-*@brief main function for the Zip Code Analyzer project, which initializes the application and processes user input.
+ * @file main.cpp
+ * @brief Production CLI entry point for Project 3.0 blocked-sequence generation.
  */
 
-#include <iostream>
+#include <filesystem>
 #include <fstream>
-#include "../include/analyzer.h"
-#include "../include/ZipCodeBuffer.h"
-#include "../include/Printer.h"
-#include "../include/PrinterCSV.h"
+#include <iostream>
+#include <sstream>
+#include <stdexcept>
+#include <string>
 
+#include "Length_Indicated_ZipCodeBuffer.h"
+#include "Project 3.0/BlockedSequence.h"
+#include "Project 3.0/HeaderBuffer.h"
+#include "HeaderRecord.h"
+#include "PrimaryKeyIndex.h"
 
+using namespace std;
 
-int main() {
+namespace {
 
-    Analyzer analyzer;
-    ZipCodeBuffer buffer("data/us_postal_codes.csv");
-    Printer printer;
-    PrinterCSV printerCSV;
-    ZipCodeRecord r;
+struct Options {
+    string inputFile = "data/Length_Indicated_us_postal_codes.csv";
+    string blockedSetFile = "data/blocked_sequence_set.txt";
+    int blockSize = 512;
+    double minCapacity = 0.50;
+    int startRBN = 1;
+    string dumpFile;
+    string physicalDumpFile = "data/physical_block_dump.txt";
+    string logicalDumpFile = "data/logical_block_dump.txt";
+    string indexFile = "data/simple_index.txt";
+    string indexDumpFile = "data/simple_index_dump.txt";
+    bool printRecords = false;
+    int maxPrint = 50;
+    string addFile;
+    string deleteFile;
+    string addLogFile = "data/addition_log.txt";
+    string deleteLogFile = "data/deletion_log.txt";
+    bool showHelp = false;
+};
 
-    std::ofstream outFile1("Output1.csv");
-    std::ofstream outFile2("Output2.csv");
+void PrintUsage(const char* program)
+{
+    cout << "Usage:\n"
+         << "  " << program
+         << " -in <input_length_indicated_csv>"
+         << " -out <blocked_sequence_set_file>"
+         << " [-blockSize <bytes>]"
+         << " [-minCapacity <0.0-1.0>]"
+         << " [-startRBN <int>]"
+         << " [-dump <output_dump_file>]"
+         << " [-physicalDump <physical_dump_file>]"
+         << " [-logicalDump <logical_dump_file>]"
+         << " [-index <index_file>]"
+         << " [-indexDump <index_dump_file>]"
+         << " [-printRecords <0|1>]"
+         << " [-maxPrint <count>]"
+         << " [-a <records_to_add_file>]"
+         << " [-d <keys_to_delete_file>]"
+         << " [-addLog <addition_log_file>]"
+         << " [-deleteLog <deletion_log_file>]\n\n"
+         << "Example:\n"
+         << "  " << program
+         << " -in data/Length_Indicated_us_postal_codes.csv"
+         << " -out data/blocked_sequence_set.txt"
+         << " -blockSize 512 -minCapacity 0.50 -startRBN 1"
+         << " -dump data/dumped_records.txt"
+         << " -physicalDump data/physical_block_dump.txt"
+         << " -logicalDump data/logical_block_dump.txt"
+         << " -index data/simple_index.txt"
+         << " -indexDump data/simple_index_dump.txt"
+         << " -printRecords 0\n";
+}
 
-    
-    while(buffer.readNext(r))
+bool ParseArgs(int argc, char* argv[], Options& opts)
+{
+    if (argc == 1)
     {
-        analyzer.consume(r);
+        return true;
     }
 
-    Analyzer analyzer2;
-    ZipCodeBuffer buffer2("data/us_postal_codes_ROWS_RANDOMIZED.csv");
-    Printer printer2;
-    PrinterCSV printerCSV2;
-    ZipCodeRecord r2;
-
-    
-    while(buffer2.readNext(r2))
+    for (int i = 1; i < argc; ++i)
     {
-        analyzer2.consume(r2);
+        string arg = argv[i];
+
+        if (arg == "-h" || arg == "--help")
+        {
+            opts.showHelp = true;
+            return true;
+        }
+
+        if (i + 1 >= argc)
+        {
+            cerr << "Missing value for option: " << arg << "\n";
+            return false;
+        }
+
+        string value = argv[++i];
+        try
+        {
+            if (arg == "-in") opts.inputFile = value;
+            else if (arg == "-out") opts.blockedSetFile = value;
+            else if (arg == "-blockSize") opts.blockSize = stoi(value);
+            else if (arg == "-minCapacity") opts.minCapacity = stod(value);
+            else if (arg == "-startRBN") opts.startRBN = stoi(value);
+            else if (arg == "-dump") opts.dumpFile = value;
+            else if (arg == "-physicalDump") opts.physicalDumpFile = value;
+            else if (arg == "-logicalDump") opts.logicalDumpFile = value;
+            else if (arg == "-index") opts.indexFile = value;
+            else if (arg == "-indexDump") opts.indexDumpFile = value;
+            else if (arg == "-printRecords") opts.printRecords = (stoi(value) != 0);
+            else if (arg == "-maxPrint") opts.maxPrint = stoi(value);
+            else if (arg == "-a") opts.addFile = value;
+            else if (arg == "-d") opts.deleteFile = value;
+            else if (arg == "-addLog") opts.addLogFile = value;
+            else if (arg == "-deleteLog") opts.deleteLogFile = value;
+            else
+            {
+                cerr << "Unknown option: " << arg << "\n";
+                return false;
+            }
+        }
+        catch (const exception&)
+        {
+            cerr << "Invalid value for " << arg << ": " << value << "\n";
+            return false;
+        }
     }
-        
-   printerCSV.printCSV(outFile1, analyzer.getResults());
-   printerCSV2.printCSV(outFile2, analyzer2.getResults());
 
-    outFile1.close();
-    outFile2.close();
+    if (opts.blockSize <= 0)
+    {
+        cerr << "-blockSize must be > 0\n";
+        return false;
+    }
+    if (opts.minCapacity <= 0.0 || opts.minCapacity > 1.0)
+    {
+        cerr << "-minCapacity must be in range (0.0, 1.0]\n";
+        return false;
+    }
+    if (opts.startRBN <= 0)
+    {
+        cerr << "-startRBN must be > 0\n";
+        return false;
+    }
+    if (opts.maxPrint <= 0)
+    {
+        cerr << "-maxPrint must be > 0\n";
+        return false;
+    }
 
+    return true;
+}
 
+bool WriteDumpFile(const string& dumpFile, const string& content)
+{
+    if (dumpFile.empty())
+    {
+        return true;
+    }
 
-// Instructions:
-//      Your blocked sequence set generation program's command line options should include:
-//          - The name of the blocked sequence set data file
-//          - All other information necessary for the header file
+    filesystem::path outPath(dumpFile);
+    if (outPath.has_parent_path())
+    {
+        filesystem::create_directories(outPath.parent_path());
+    }
 
+    ofstream out(dumpFile, ios::trunc);
+    if (!out.is_open())
+    {
+        return false;
+    }
+    out << content;
+    return out.good();
+}
 
-//      Process sequentially a blocked sequence set file using buffer classes. {functionality from Group Projects 1 & 2}
+int CountActiveRecords(BlockedSequence& sequence)
+{
+    int total = 0;
+    int currentRBN = sequence.GetHeadRBN();
+    while (currentRBN != 0)
+    {
+        Block* blk = sequence.GetBlock(currentRBN);
+        if (!blk)
+        {
+            break;
+        }
 
-    
-    //unpacks a record from a block into a record buffer
-    // BlockBuffer B_Buffer(//"block sequence file")
-    
-    // //unpacks fields from record buffer into record object
-    // Length_Indicated_ZipCodeBuffer Z_Buffer(//record buffer//)
+        total += blk->GetRecordCount();
+        currentRBN = blk->GetNextRBN();
+    }
 
-    // while(B_buffer.readNext(/*placeholder*/)
+    return total;
+}
 
+bool WriteHeader(const Options& opts, int recordCount, BlockedSequence& sequence)
+{
+    filesystem::path outPath(opts.blockedSetFile);
+    if (outPath.has_parent_path())
+    {
+        filesystem::create_directories(outPath.parent_path());
+    }
 
+    ofstream out(opts.blockedSetFile, ios::trunc);
+    if (!out.is_open())
+    {
+        return false;
+    }
 
+    HeaderRecord header;
+    header.ConfigureBlockedSequenceHeader(
+        opts.indexFile,
+        recordCount,
+        sequence.GetCount(),
+        opts.blockSize,
+        static_cast<int>(opts.minCapacity * 100.0),
+        0,
+        sequence.GetHeadRBN(),
+        false);
 
+    HeaderBuffer headerBuffer;
+    return headerBuffer.writeHeader(out, header) && out.good();
+}
 
-    // return 0;
+bool WriteIndexArtifacts(const Options& opts)
+{
+    PrimaryKeyIndex index("data/blocks");
+    if (!index.BuildFromBlocks("data/blocks"))
+    {
+        cerr << "Failed to build primary key index from data/blocks\n";
+        return false;
+    }
+
+    if (!index.WriteToFile(opts.indexFile))
+    {
+        cerr << "Failed writing index file: " << opts.indexFile << "\n";
+        return false;
+    }
+
+    if (!WriteDumpFile(opts.indexDumpFile, index.Dump()))
+    {
+        cerr << "Failed writing index dump file: " << opts.indexDumpFile << "\n";
+        return false;
+    }
+
+    return true;
+}
+
+bool RefreshArtifacts(const Options& opts, BlockedSequence& sequence)
+{
+    const int recordCount = CountActiveRecords(sequence);
+
+    if (!WriteHeader(opts, recordCount, sequence)) return false;
+    if (!WriteDumpFile(opts.dumpFile, sequence.DumpLogicalOrder())) return false;
+    if (!WriteDumpFile(opts.physicalDumpFile, sequence.DumpPhysicalBlockOrder())) return false;
+    if (!WriteDumpFile(opts.logicalDumpFile, sequence.DumpLogicalBlockOrder())) return false;
+    if (!WriteIndexArtifacts(opts)) return false;
+
+    return true;
+}
+
+int GenerateBlockedSet(const Options& opts, BlockedSequence& sequence)
+{
+    Length_Indicated_ZipCodeBuffer input(opts.inputFile);
+    ZipCodeRecord record;
+
+    int recordCount = 0;
+    while (input.readNext(record))
+    {
+        if (!sequence.AppendRecord(input.packRecord(record)))
+        {
+            cerr << "Failed appending record index " << recordCount << "\n";
+            return 1;
+        }
+        ++recordCount;
+    }
+
+    if (!sequence.WriteAll())
+    {
+        cerr << "Failed writing blocks to data/blocks\n";
+        return 1;
+    }
+
+    if (!RefreshArtifacts(opts, sequence))
+    {
+        cerr << "Failed writing blocked-sequence artifacts\n";
+        return 1;
+    }
+
+    cout << "Blocked sequence set generated successfully.\n";
+    cout << "Records processed: " << recordCount << "\n";
+    cout << "Blocks written: " << sequence.GetCount() << "\n";
+
+    if (opts.printRecords)
+    {
+        string allRecords = sequence.DumpLogicalOrder();
+        istringstream in(allRecords);
+        string line;
+        int printed = 0;
+        cout << "\nSample records (logical order):\n";
+        while (printed < opts.maxPrint && getline(in, line))
+        {
+            cout << line << "\n";
+            ++printed;
+        }
+        if (printed == 0)
+        {
+            cout << "(no records)\n";
+        }
+    }
+
+    return 0;
+}
+
+int ProcessAdditions(const string& addFile, BlockedSequence& sequence, const string& logFile)
+{
+    if (addFile.empty()) return 0;
+
+    ifstream inFile(addFile);
+    ofstream log(logFile, ios::app);
+    if (!inFile.is_open() || !log.is_open())
+    {
+        cerr << "Error opening add/log file(s).\n";
+        return 0;
+    }
+
+    log << "\n=== Record Addition Session ===\n";
+    int added = 0;
+    string line;
+    while (getline(inFile, line))
+    {
+        if (line.empty()) continue;
+        string eventLog;
+        if (sequence.Insert(line, eventLog))
+        {
+            ++added;
+            log << eventLog;
+            cout << eventLog;
+        }
+        else
+        {
+            log << "[FAIL] Could not insert record.\n";
+            cout << "[FAIL] Could not insert record.\n";
+        }
+    }
+    log << "[SUMMARY] Added " << added << " records.\n";
+    return added;
+}
+
+int ProcessDeletions(const string& deleteFile, BlockedSequence& sequence, const string& logFile)
+{
+    if (deleteFile.empty()) return 0;
+
+    ifstream inFile(deleteFile);
+    ofstream log(logFile, ios::app);
+    if (!inFile.is_open() || !log.is_open())
+    {
+        cerr << "Error opening delete/log file(s).\n";
+        return 0;
+    }
+
+    log << "\n=== Record Deletion Session ===\n";
+    int deleted = 0;
+    string line;
+    while (getline(inFile, line))
+    {
+        if (line.empty()) continue;
+        string eventLog;
+        if (sequence.Delete(line, eventLog))
+        {
+            ++deleted;
+            log << eventLog;
+            cout << eventLog;
+        }
+        else
+        {
+            log << "[FAIL] Could not delete ZIP: " << line << "\n";
+            cout << "[FAIL] Could not delete ZIP: " << line << "\n";
+        }
+    }
+    log << "[SUMMARY] Deleted " << deleted << " records.\n";
+    return deleted;
+}
+
+} // namespace
+
+int main(int argc, char* argv[])
+{
+    Options options;
+    if (!ParseArgs(argc, argv, options))
+    {
+        PrintUsage(argv[0]);
+        return 1;
+    }
+
+    if (options.showHelp)
+    {
+        PrintUsage(argv[0]);
+        return 0;
+    }
+
+    try
+    {
+        BlockedSequence sequence(options.startRBN);
+        int result = GenerateBlockedSet(options, sequence);
+        if (result != 0)
+        {
+            return result;
+        }
+
+        if (!options.addFile.empty() || !options.deleteFile.empty())
+        {
+            if (!options.addFile.empty())
+            {
+                ProcessAdditions(options.addFile, sequence, options.addLogFile);
+            }
+            if (!options.deleteFile.empty())
+            {
+                ProcessDeletions(options.deleteFile, sequence, options.deleteLogFile);
+            }
+
+            if (!sequence.WriteAll())
+            {
+                cerr << "Error: Failed to write modified blocks back to disk.\n";
+                return 1;
+            }
+
+            if (!RefreshArtifacts(options, sequence))
+            {
+                cerr << "Error: Failed to refresh output artifacts.\n";
+                return 1;
+            }
+
+            cout << "Modified blocks written and artifacts refreshed.\n";
+        }
+
+        return 0;
+    }
+    catch (const exception& ex)
+    {
+        cerr << "Error: " << ex.what() << "\n";
+        return 1;
+    }
 }
 
         

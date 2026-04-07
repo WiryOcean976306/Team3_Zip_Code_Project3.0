@@ -10,3 +10,9 @@
 [INSERT] Record inserted into existing block 2408.
 [INSERT] Record inserted into existing block 2408.
 [SUMMARY] Added 3 records.
+
+=== Record Addition Session ===
+[INSERT] Record inserted into existing block 2408.
+[INSERT] Record inserted into existing block 2408.
+[INSERT] Record inserted into existing block 2408.
+[SUMMARY] Added 3 records.
