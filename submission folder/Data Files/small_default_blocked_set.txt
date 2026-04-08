@@ -1,0 +1,1 @@
+142,BLOCKED_SEQUENCE_SET,3.0,ASCII,TRUE,data/small_default_index.txt,9,4,ZipCode,STRING,State,STRING,Lat,FLOAT,Long,FLOAT,1,512,50,1,0,1,FALSE

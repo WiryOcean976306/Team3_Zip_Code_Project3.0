@@ -143,6 +143,13 @@ class Block
          */
         void SetPrevRBN(int prevRbn);
 
+        /**
+         * @brief Configures this block's byte-capacity limits.
+         * @param byteMaxSize Maximum payload bytes allowed.
+         * @param byteMinSize Minimum payload bytes threshold.
+         */
+        void ConfigureCapacity(int byteMaxSize, int byteMinSize);
+
 };
 
 #endif

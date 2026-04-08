@@ -1,0 +1,75 @@
+CSCI 331 Project 3.0 Final Design Document
+===========================================
+
+Team: Team 3
+Course: CSCI 331 Software Systems
+Date: 2026-04-07
+
+1) Design Goals
+---------------
+- Store ZIP records in a blocked sequence set using fixed-size blocks.
+- Keep block links for logical traversal by RBN (prev/next pointers).
+- Build a simple primary key index containing pairs:
+  <highest key in block, RBN>
+- Support command-line generation, search, addition, and deletion workflows.
+
+
+2) Major Components
+-------------------
+- Block: fixed-capacity record container with metadata and read/write methods.
+- BlockedSequence: active chain of blocks with append, insert, delete, dumps, and avail-list handling.
+- HeaderRecord/HeaderBuffer: metadata serialization/parsing for blocked sequence files.
+- PrimaryKeyIndex: build/read/write simple index and indexed block lookup support.
+- main: canonical CLI program for generation and mutation operations.
+- SearchIndex: dedicated indexed ZIP search executable.
+- TestDriver: minimal scenario runner that delegates to main.
+
+
+3) Data Design
+--------------
+- Record format: length-indicated CSV records.
+- Block metadata: record count, RBN, prev RBN, next RBN, byte usage, byte max.
+- Header metadata includes record count, block count, block size, min capacity,
+  active list head, avail list head, index path, and stale flag.
+
+
+4) Index Design
+---------------
+- Simple sorted map in RAM:
+  key = highest ZIP key in each active block
+  value = RBN
+- On lookup, select candidate block by upper-bound key and scan that block.
+
+
+5) Mutation Design
+------------------
+- Insert path:
+  - Insert into tail block when capacity exists.
+  - On full block, split by creating a new block and linking it.
+  - Avail list blocks are reused when available.
+- Delete path:
+  - Remove target record by key.
+  - If a block becomes empty, unlink it, add RBN to avail list, and remove stale block file.
+  - If underfull, attempt one-record redistribution from a sibling donor.
+
+
+6) Dump and Logging Design
+--------------------------
+- Physical dump: iterate blocks by physical order.
+- Logical dump: traverse by next-RBN links from list head.
+- Addition and deletion logs capture split, redistribution, merge/clear, and failures.
+
+
+7) Configurability
+------------------
+- Runtime variables are supplied by command-line options with defaults.
+- Metadata paths and counts are emitted to output files for reproducible processing.
+
+
+8) Tradeoffs and Known Limits
+-----------------------------
+- Redistribution strategy is intentionally simple (single-record transfer) for predictability.
+- Full advanced balancing policy can be extended if stricter behavior is required.
+
+
+End of Final Design Document

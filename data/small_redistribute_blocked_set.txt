@@ -1,0 +1,1 @@
+147,BLOCKED_SEQUENCE_SET,3.0,ASCII,TRUE,data/small_redistribute_index.txt,9,4,ZipCode,STRING,State,STRING,Lat,FLOAT,Long,FLOAT,1,180,50,2,0,1,FALSE

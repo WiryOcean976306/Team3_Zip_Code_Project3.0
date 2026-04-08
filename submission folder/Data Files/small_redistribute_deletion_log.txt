@@ -1,0 +1,18 @@
+
+=== Record Deletion Session ===
+[FAIL] Could not delete ZIP: 10008
+[SUMMARY] Deleted 0 records.
+
+=== Record Deletion Session ===
+[DELETE_SUCCESS] Record with ZIP 10008 deleted from block 1.
+[SUMMARY] Deleted 1 records.
+
+=== Record Deletion Session ===
+[DELETE_SUCCESS] Record with ZIP 10008 deleted from block 2.
+[REDISTRIBUTE] Moved one record from block 1 to underfull block 2.
+[SUMMARY] Deleted 1 records.
+
+=== Record Deletion Session ===
+[DELETE_SUCCESS] Record with ZIP 10008 deleted from block 2.
+[REDISTRIBUTE] Moved one record from block 1 to underfull block 2.
+[SUMMARY] Deleted 1 records.

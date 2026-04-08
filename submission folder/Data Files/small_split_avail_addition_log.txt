@@ -1,0 +1,21 @@
+
+=== Record Addition Session ===
+[INSERT] Sequence empty. Creating first block.
+[SUCCESS] Record inserted into block 1.
+[SUMMARY] Added 1 records.
+
+=== Record Addition Session ===
+[INSERT] Record inserted into existing block 1.
+[SUMMARY] Added 1 records.
+
+=== Record Addition Session ===
+[SPLIT] Block 1 is full. Creating new block.
+[AVAIL_REUSE] Reusing available block 2 for split output.
+[SPLIT_COMPLETE] New block 2 created and linked.
+[SUMMARY] Added 1 records.
+
+=== Record Addition Session ===
+[SPLIT] Block 1 is full. Creating new block.
+[AVAIL_REUSE] Reusing available block 2 for split output.
+[SPLIT_COMPLETE] New block 2 created and linked.
+[SUMMARY] Added 1 records.

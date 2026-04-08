@@ -302,6 +302,30 @@ bool RefreshArtifacts(const Options& opts, BlockedSequence& sequence)
     return true;
 }
 
+void ClearBlockDirectory(const string& blockDir)
+{
+    namespace fs = std::filesystem;
+    const fs::path dir(blockDir);
+    if (!fs::exists(dir) || !fs::is_directory(dir))
+    {
+        return;
+    }
+
+    for (const auto& entry : fs::directory_iterator(dir))
+    {
+        if (!entry.is_regular_file())
+        {
+            continue;
+        }
+
+        const string name = entry.path().filename().string();
+        if (name.rfind("block_", 0) == 0 && entry.path().extension() == ".blk")
+        {
+            fs::remove(entry.path());
+        }
+    }
+}
+
 /**
  * @brief Builds a blocked sequence set from the configured length-indicated input.
  * @param opts Runtime options.
@@ -310,6 +334,8 @@ bool RefreshArtifacts(const Options& opts, BlockedSequence& sequence)
  */
 int GenerateBlockedSet(const Options& opts, BlockedSequence& sequence)
 {
+    ClearBlockDirectory("data/blocks");
+
     Length_Indicated_ZipCodeBuffer input(opts.inputFile);
     ZipCodeRecord record;
 
@@ -471,6 +497,7 @@ int main(int argc, char* argv[])
     try
     {
         BlockedSequence sequence(options.startRBN);
+        sequence.SetBlockCapacity(options.blockSize, options.minCapacity);
         int result = GenerateBlockedSet(options, sequence);
         if (result != 0)
         {
@@ -479,13 +506,13 @@ int main(int argc, char* argv[])
 
         if (!options.addFile.empty() || !options.deleteFile.empty())
         {
-            if (!options.addFile.empty())
-            {
-                ProcessAdditions(options.addFile, sequence, options.addLogFile);
-            }
             if (!options.deleteFile.empty())
             {
                 ProcessDeletions(options.deleteFile, sequence, options.deleteLogFile);
+            }
+            if (!options.addFile.empty())
+            {
+                ProcessAdditions(options.addFile, sequence, options.addLogFile);
             }
 
             if (!sequence.WriteAll())

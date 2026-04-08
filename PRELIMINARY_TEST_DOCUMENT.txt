@@ -1,0 +1,131 @@
+CSCI 331 Project 3.0 Preliminary Test Document
+===============================================
+
+Team: Team 3
+Course: CSCI 331 Software Systems
+Date: 2026-04-07
+
+1) Test Scope
+-------------
+This document defines the test approach for Project 3.0 blocked sequence set functionality:
+- blocked sequence generation from length-indicated input
+- physical and logical block dumps
+- simple primary-key index generation and loading
+- indexed search for valid and invalid ZIPs
+- record addition/deletion test run with logging
+
+
+2) Test Environment
+-------------------
+- OS: Windows
+- Compiler: g++ (C++17)
+- Build system: Makefile
+- Primary data input: data/Length_Indicated_us_postal_codes.csv
+- Block output directory: data/blocks
+
+
+3) Build Verification Tests
+---------------------------
+T1: Build main executable
+Command:
+make bin/main
+Expected:
+- Build succeeds with exit code 0
+- bin/main executable is produced
+
+T2: Build search executable
+Command:
+make bin/SearchIndex
+Expected:
+- Build succeeds with exit code 0
+- bin/SearchIndex executable is produced
+
+T3: Build scenario runner
+Command:
+make bin/TestDriver
+Expected:
+- Build succeeds with exit code 0
+- bin/TestDriver executable is produced
+
+
+4) Functional Tests
+-------------------
+T4: Generate blocked sequence artifacts
+Command:
+.\bin\main -in data/Length_Indicated_us_postal_codes.csv -out data/blocked_sequence_set.txt -blockSize 512 -minCapacity 0.50 -startRBN 1 -dump data/dumped_records.txt -physicalDump data/physical_block_dump.txt -logicalDump data/logical_block_dump.txt -index data/simple_index.txt -indexDump data/simple_index_dump.txt -printRecords 0
+Expected:
+- Success message is printed
+- Record and block counts are printed
+- Files are produced: blocked_sequence_set, dumps, index, index dump
+
+T5: Search valid and invalid ZIP keys
+Command:
+.\bin\SearchIndex -data data/blocked_sequence_set.txt -index data/simple_index.txt -blocks data/blocks -Z56301 -Z00501 -Z99999
+Expected:
+- Valid ZIPs print record data in CSV-like format
+- Invalid ZIP prints not-found message
+- Program completes without crash
+
+T6: Mutation run (add + delete)
+Command:
+.\bin\main -in data/Length_Indicated_us_postal_codes.csv -out data/blocked_sequence_set.txt -blockSize 512 -minCapacity 0.50 -startRBN 1 -dump data/dumped_records.txt -physicalDump data/physical_block_dump.txt -logicalDump data/logical_block_dump.txt -index data/simple_index.txt -indexDump data/simple_index_dump.txt -a data/recordsToAdd.txt -d data/keysToDelete.txt -addLog data/addition_log.txt -deleteLog data/deletion_log.txt -printRecords 0
+Expected:
+- Insert events logged in addition_log
+- Delete success/failure events logged in deletion_log
+- Modified blocks written confirmation
+- Artifacts refreshed after mutation run
+
+
+5) Artifact Presence Verification
+---------------------------------
+After T4 and T6, verify existence of:
+- data/blocked_sequence_set.txt
+- data/blocks/block_*.blk
+- data/physical_block_dump.txt
+- data/logical_block_dump.txt
+- data/dumped_records.txt
+- data/simple_index.txt
+- data/simple_index_dump.txt
+- data/addition_log.txt
+- data/deletion_log.txt
+
+Pass criteria:
+- All listed artifacts exist and are non-empty (except optional log sections if no mutation run was executed)
+
+
+6) Data/Behavior Validation Checks
+----------------------------------
+C1: Header metadata consistency
+- blocked_sequence_set header contains expected schema and count fields
+- block_count and record_count update after mutation run
+
+C2: Dump consistency
+- Physical and logical dump formats include list head and block lines
+- ZIP grouping appears by block and shows link metadata
+
+C3: Search correctness
+- Existing ZIP returns a record line
+- Missing ZIP returns explicit not-found message
+
+C4: Mutation logging
+- Addition and deletion summary lines are present in logs
+- No fatal runtime errors during mutation run
+
+
+7) Known Limitations / Deferred Cases
+-------------------------------------
+- Full merge/redistribution policy for underfull blocks may be partial depending on grading scope.
+- Stress/performance tests (very large batch mutation or randomized fuzz input) are deferred.
+- Clean-clone reproducibility should be validated once before final submission packaging.
+
+
+8) Exit Criteria
+----------------
+Project 3.0 test readiness is considered complete when:
+- T1-T6 all pass
+- artifacts in section 5 are present
+- validation checks C1-C4 pass
+- documentation deliverables are prepared for submission
+
+
+End of Preliminary Test Document

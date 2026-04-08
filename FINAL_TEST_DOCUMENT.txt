@@ -1,0 +1,102 @@
+CSCI 331 Project 3.0 Final Test Document
+========================================
+
+Team: Team 3
+Course: CSCI 331 Software Systems
+Date: 2026-04-07
+
+1) Test Purpose
+---------------
+This document demonstrates operation of all required programs/classes and maps results
+to the required Project 3.0 scenarios.
+
+
+2) Executables Under Test
+-------------------------
+- bin/main
+- bin/SearchIndex
+- bin/TestDriver (scenario helper)
+
+
+3) Demonstration Script
+-----------------------
+Script file used to run demonstrations:
+- RUN_DEMO.ps1
+
+Primary command:
+- powershell -ExecutionPolicy Bypass -File .\RUN_DEMO.ps1
+
+
+4) Scenario Matrix (Required Cases)
+-----------------------------------
+S1) Add requiring no block split
+- Input: data/Length_Indicated_small_default.txt
+- Options: blockSize 512, add file data/small_records_add_no_split.txt
+- Expected: add log shows insert into existing block (no split)
+- Evidence file: data/small_default_addition_log.txt
+
+S2) Add requiring block split and avail-list use/update
+- Input: data/Length_Indicated_small_merge_case.txt
+- Options: blockSize 180, delete 10007, add 10012 in same run
+- Design intent: deletion clears rightmost block to avail list, subsequent split reuses avail block
+- Evidence files:
+  - data/small_split_avail_deletion_log.txt
+  - data/small_split_avail_addition_log.txt
+
+S3) Delete requiring no block deletion or redistribution
+- Input: data/Length_Indicated_small_default.txt
+- Options: blockSize 512, delete file data/small_keys_delete_no_redistribution.txt
+- Expected: delete success only, no redistribution/merge event
+- Evidence file: data/small_delete_simple_deletion_log.txt
+
+S4) Delete requiring redistribution with no merge
+- Input: data/Length_Indicated_small_six_capacity.txt
+- Options: blockSize 180, delete file data/small_keys_delete_redistribution.txt
+- Expected: redistribution event logged
+- Evidence file: data/small_redistribute_deletion_log.txt
+
+S5) Delete requiring merge with logically rightmost block cleared and added to avail list
+- Input: data/Length_Indicated_small_merge_case.txt
+- Options: blockSize 180, delete file data/small_keys_delete_merge_rightmost.txt
+- Expected: merge/clear event logged and block removed from active chain
+- Evidence file: data/small_merge_deletion_log.txt
+
+
+5) Indexed Search Validation
+----------------------------
+- Command:
+  .\bin\SearchIndex -data data/small_merge_blocked_set.txt -index data/small_merge_index.txt -blocks data/blocks -Z10001 -Z10007 -Z99999
+- Expected:
+  - valid key returns record data
+  - deleted/non-existent key returns not-found message
+
+
+6) Artifact Verification
+------------------------
+For each scenario, verify creation of:
+- blocked sequence set file
+- physical dump
+- logical dump
+- simple index and index dump
+- operation logs (add/delete scenarios)
+
+
+7) Build Verification
+---------------------
+- make clean
+- make bin/main
+- make bin/SearchIndex
+- make bin/TestDriver
+
+Expected:
+- all commands succeed with exit code 0
+
+
+8) Result Summary
+-----------------
+- Core generation, dump, indexing, and search workflows: PASS
+- Add/delete logging workflows using scenario inputs: PASS
+- Small-data scenario runs for required edge cases are included through RUN_DEMO.ps1 and corresponding log files.
+
+
+End of Final Test Document

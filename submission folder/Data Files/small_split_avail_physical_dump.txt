@@ -1,0 +1,4 @@
+List Head: 1
+Avail Head: 0
+1 [prev=0, next=2] 10001 10002 10003 10004 10005 10006
+2 [prev=1, next=0] 10012

@@ -1,0 +1,17 @@
+
+=== Record Addition Session ===
+[INSERT] Sequence empty. Creating first block.
+[SUCCESS] Record inserted into block 1.
+[SUMMARY] Added 1 records.
+
+=== Record Addition Session ===
+[INSERT] Record inserted into existing block 1.
+[SUMMARY] Added 1 records.
+
+=== Record Addition Session ===
+[INSERT] Record inserted into existing block 1.
+[SUMMARY] Added 1 records.
+
+=== Record Addition Session ===
+[INSERT] Record inserted into existing block 1.
+[SUMMARY] Added 1 records.

@@ -32,6 +32,10 @@ class BlockedSequence
         int NextRBN = 1;
         /** Queue of RBNs for blocks that have been deleted and are available for reuse. */
         queue<int> availList;
+        /** Configured maximum payload bytes per block. */
+        int BlockByteMaxSize = 512;
+        /** Configured minimum payload bytes per block. */
+        int BlockByteMinSize = 256;
 
     public:
         
@@ -72,6 +76,13 @@ class BlockedSequence
          * @return Count of blocks in the internal map.
          */
         int GetCount();
+
+        /**
+         * @brief Configures target block capacities for subsequently created blocks.
+         * @param blockSize Maximum payload bytes per block.
+         * @param minCapacity Minimum block fill ratio in range (0.0, 1.0].
+         */
+        void SetBlockCapacity(int blockSize, double minCapacity);
 
         /**
          * @brief Appends one packed record to the logical tail of the sequence.

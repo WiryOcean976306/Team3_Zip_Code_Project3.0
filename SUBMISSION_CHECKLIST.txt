@@ -47,7 +47,7 @@ D) Documentation Deliverables
 [x] Doxygen PDF generated and included
 [x] (If required by instructor) Doxygen HTML output included
 [ ] Preliminary design document included
-[ ] Preliminary test document included
+[x] Preliminary test document included
 
 
 E) Requirements Coverage Spot-Check
@@ -66,7 +66,7 @@ F) Final Packaging
 [x] Include source files, headers, Makefile, and docs
 [x] Include representative output artifacts from successful final run
 [x] Include this checklist with boxes completed (optional but recommended)
-[ ] Verify project builds and runs on a clean pull/clone
+[x] Verify project builds and runs on a clean pull/clone
 
 
 Notes

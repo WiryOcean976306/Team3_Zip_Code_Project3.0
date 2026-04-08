@@ -120,6 +120,18 @@ void Block::SetPrevRBN(int prevRbn)
 }
 
 /**
+ * @brief Configures this block's byte-capacity limits.
+ * @param byteMaxSize Maximum payload bytes allowed.
+ * @param byteMinSize Minimum payload bytes threshold.
+ */
+void Block::ConfigureCapacity(int byteMaxSize, int byteMinSize)
+{
+    ByteMaxSize = byteMaxSize;
+    ByteMinSize = byteMinSize;
+    UpdateHeader();
+}
+
+/**
  * @brief Recomputes the serialized header string.
  * @details Header is stored as comma-separated metadata fields in the form:
  *          HeaderSize,RecordCount,RBN,PrevRBN,NextRBN.

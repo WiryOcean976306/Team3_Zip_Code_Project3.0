@@ -85,6 +85,8 @@ BlockedSequence::BlockedSequence(int startRBN)
     HeadRBN = 0;
     TailRBN = 0;
     NextRBN = startRBN;
+    BlockByteMaxSize = 512;
+    BlockByteMinSize = 256;
 }
 
 /**
@@ -132,6 +134,26 @@ int BlockedSequence::GetCount()
     return static_cast<int>(blocks.size());
 }
 
+void BlockedSequence::SetBlockCapacity(int blockSize, double minCapacity)
+{
+    if (blockSize <= 0)
+    {
+        return;
+    }
+
+    if (minCapacity <= 0.0 || minCapacity > 1.0)
+    {
+        return;
+    }
+
+    BlockByteMaxSize = blockSize;
+    BlockByteMinSize = static_cast<int>(blockSize * minCapacity);
+    if (BlockByteMinSize < 1)
+    {
+        BlockByteMinSize = 1;
+    }
+}
+
 /**
  * @brief Finds a block by its relative block number.
  * @param rbn Block identifier to look up.
@@ -167,6 +189,7 @@ bool BlockedSequence::AppendRecord(const string& recordCsv)
             newRBN = NextRBN++;
         }
         Block newBlock(0, newRBN);
+        newBlock.ConfigureCapacity(BlockByteMaxSize, BlockByteMinSize);
         if (!newBlock.AddRecord(recordCsv))
             return false;
 
@@ -195,6 +218,7 @@ bool BlockedSequence::AppendRecord(const string& recordCsv)
         newRBN = NextRBN++;
     }
     Block newBlock(TailRBN, newRBN);
+    newBlock.ConfigureCapacity(BlockByteMaxSize, BlockByteMinSize);
     if (!newBlock.AddRecord(recordCsv))
         return false;
 
@@ -325,8 +349,20 @@ bool BlockedSequence::Insert(const string& recordCsv, string& logOutput)
     if (IsEmpty())
     {
         log << "[INSERT] Sequence empty. Creating first block.\n";
-        int newRBN = NextRBN++;
+        int newRBN = 0;
+        if (!availList.empty())
+        {
+            newRBN = availList.front();
+            availList.pop();
+            log << "[AVAIL_REUSE] Reusing available block " << newRBN << ".\n";
+        }
+        else
+        {
+            newRBN = NextRBN++;
+        }
+
         Block newBlock(0, newRBN);
+        newBlock.ConfigureCapacity(BlockByteMaxSize, BlockByteMinSize);
         if (!newBlock.AddRecord(recordCsv))
         {
             log << "[ERROR] Failed to add record to new block.\n";
@@ -358,8 +394,20 @@ bool BlockedSequence::Insert(const string& recordCsv, string& logOutput)
 
     // Tail block is full; need to split or create new block
     log << "[SPLIT] Block " << TailRBN << " is full. Creating new block.\n";
-    int newRBN = NextRBN++;
+    int newRBN = 0;
+    if (!availList.empty())
+    {
+        newRBN = availList.front();
+        availList.pop();
+        log << "[AVAIL_REUSE] Reusing available block " << newRBN << " for split output.\n";
+    }
+    else
+    {
+        newRBN = NextRBN++;
+    }
+
     Block newBlock(TailRBN, newRBN);
+    newBlock.ConfigureCapacity(BlockByteMaxSize, BlockByteMinSize);
     
     if (!newBlock.AddRecord(recordCsv))
     {
@@ -497,8 +545,50 @@ bool BlockedSequence::Delete(const string& zipKey, string& logOutput)
     }
     else if (targetBlock->GetByteSize() < targetBlock->GetByteMinSize() && GetCount() > 1)
     {
-        log << "[UNDERFULL] Block " << foundInBlock
-            << " is under minimum capacity; redistribution/merge not performed in this pass.\n";
+        bool redistributed = false;
+
+        const int leftRBN = targetBlock->GetPrevRBN();
+        const int rightRBN = targetBlock->GetNextRBN();
+
+        // Prefer taking from the right sibling so key flow stays left-to-right.
+        if (rightRBN != 0)
+        {
+            Block* rightBlock = GetBlock(rightRBN);
+            if (rightBlock && rightBlock->GetRecordCount() > 1)
+            {
+                vector<string>& rightRecords = rightBlock->GetRecords();
+                const string movedRecord = rightRecords.front();
+                if (targetBlock->AddRecord(movedRecord) && rightBlock->RemoveRecordAt(0))
+                {
+                    redistributed = true;
+                    log << "[REDISTRIBUTE] Moved one record from block " << rightRBN
+                        << " to underfull block " << foundInBlock << ".\n";
+                }
+            }
+        }
+
+        // Fallback: borrow from left sibling if right side cannot donate.
+        if (!redistributed && leftRBN != 0)
+        {
+            Block* leftBlock = GetBlock(leftRBN);
+            if (leftBlock && leftBlock->GetRecordCount() > 1)
+            {
+                vector<string>& leftRecords = leftBlock->GetRecords();
+                const string movedRecord = leftRecords.back();
+                if (targetBlock->AddRecord(movedRecord) && leftBlock->RemoveRecordAt(leftRecords.size() - 1))
+                {
+                    redistributed = true;
+                    log << "[REDISTRIBUTE] Moved one record from block " << leftRBN
+                        << " to underfull block " << foundInBlock << ".\n";
+                }
+            }
+        }
+
+        if (!redistributed)
+        {
+            log << "[UNDERFULL] Block " << foundInBlock
+                << " is under minimum capacity; no donor block available for redistribution.\n";
+        }
     }
 
     logOutput = log.str();
