@@ -1,0 +1,92 @@
+\doxysection{Header\+Buffer Class Reference}
+\hypertarget{class_header_buffer}{}\label{class_header_buffer}\index{HeaderBuffer@{HeaderBuffer}}
+
+
+{\ttfamily \#include $<$Header\+Buffer.\+h$>$}
+
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+bool \mbox{\hyperlink{class_header_buffer_a4b3221513d04634443e1ca2edc672daa}{write\+Header}} (std\+::ostream \&out, const \mbox{\hyperlink{class_header_record}{Header\+Record}} \&header) const
+\begin{DoxyCompactList}\small\item\em Writes the header record to the output stream. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_header_buffer_a67766d602b8927e6bbca9ca02b6ab9ac}{read\+Header}} (std\+::istream \&in, \mbox{\hyperlink{class_header_record}{Header\+Record}} \&header\+Out) const
+\begin{DoxyCompactList}\small\item\em Reads and parses the header record from the input stream. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\label{doc-func-members}
+\Hypertarget{class_header_buffer_doc-func-members}
+\doxysubsection{Member Function Documentation}
+\Hypertarget{class_header_buffer_a67766d602b8927e6bbca9ca02b6ab9ac}\index{HeaderBuffer@{HeaderBuffer}!readHeader@{readHeader}}
+\index{readHeader@{readHeader}!HeaderBuffer@{HeaderBuffer}}
+\doxysubsubsection{\texorpdfstring{readHeader()}{readHeader()}}
+{\footnotesize\ttfamily \label{class_header_buffer_a67766d602b8927e6bbca9ca02b6ab9ac} 
+bool Header\+Buffer\+::read\+Header (\begin{DoxyParamCaption}\item[{std\+::istream \&}]{in}{, }\item[{\mbox{\hyperlink{class_header_record}{Header\+Record}} \&}]{header\+Out}{}\end{DoxyParamCaption}) const}
+
+
+
+Reads and parses the header record from the input stream. 
+
+Reads and parses the header from an input stream.
+
+
+\begin{DoxyParams}{Parameters}
+{\em in} & Input stream for the source length-\/indicated data file. \\
+\hline
+{\em header\+Out} & Output parameter populated with parsed header metadata. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true if the header was read and parsed successfully; otherwise false.
+\end{DoxyReturn}
+This method should be called before reading data records so record parsing logic can rely on header metadata.
+
+
+\begin{DoxyParams}{Parameters}
+{\em in} & Input stream for the source file. \\
+\hline
+{\em header\+Out} & Output metadata object populated from parsed header text. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true if the header was read and parsed; otherwise false. 
+\end{DoxyReturn}
+\Hypertarget{class_header_buffer_a4b3221513d04634443e1ca2edc672daa}\index{HeaderBuffer@{HeaderBuffer}!writeHeader@{writeHeader}}
+\index{writeHeader@{writeHeader}!HeaderBuffer@{HeaderBuffer}}
+\doxysubsubsection{\texorpdfstring{writeHeader()}{writeHeader()}}
+{\footnotesize\ttfamily \label{class_header_buffer_a4b3221513d04634443e1ca2edc672daa} 
+bool Header\+Buffer\+::write\+Header (\begin{DoxyParamCaption}\item[{std\+::ostream \&}]{out}{, }\item[{const \mbox{\hyperlink{class_header_record}{Header\+Record}} \&}]{header}{}\end{DoxyParamCaption}) const}
+
+
+
+Writes the header record to the output stream. 
+
+Writes the serialized header to an output stream.
+
+
+\begin{DoxyParams}{Parameters}
+{\em out} & Output stream for the target length-\/indicated data file. \\
+\hline
+{\em header} & Header metadata model to serialize and write. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true if the header was serialized and written successfully; otherwise false.
+\end{DoxyReturn}
+This method is expected to write the header as the first record in the data file using the project\textquotesingle{}s canonical wire format.
+
+
+\begin{DoxyParams}{Parameters}
+{\em out} & Output stream for the destination file. \\
+\hline
+{\em header} & Header metadata object to serialize and write. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true if the write operation succeeded; otherwise false. 
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+include/\+Project 3.\+0/\mbox{\hyperlink{_header_buffer_8h}{Header\+Buffer.\+h}}\item 
+src/\+Project 3.\+0/\mbox{\hyperlink{_header_buffer_8cpp}{Header\+Buffer.\+cpp}}\end{DoxyCompactItemize}

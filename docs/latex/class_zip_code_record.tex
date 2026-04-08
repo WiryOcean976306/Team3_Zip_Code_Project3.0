@@ -1,0 +1,138 @@
+\doxysection{Zip\+Code\+Record Class Reference}
+\hypertarget{class_zip_code_record}{}\label{class_zip_code_record}\index{ZipCodeRecord@{ZipCodeRecord}}
+
+
+{\ttfamily \#include $<$Zip\+Code\+Record.\+h$>$}
+
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_zip_code_record_a945cbd69ab4bd148868e31aa2b807cc4}{Zip\+Code\+Record}} ()
+\begin{DoxyCompactList}\small\item\em Default constructor for \doxylink{class_zip_code_record}{Zip\+Code\+Record}. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_zip_code_record_a01c3e8870e18cdaafecaa9b4ed5d8887}{Zip\+Code\+Record}} (std\+::string \&zip, std\+::string \&state, double \&latitude, double \&longitude)
+\begin{DoxyCompactList}\small\item\em Constructor for \doxylink{class_zip_code_record}{Zip\+Code\+Record} with parameters. \end{DoxyCompactList}\item 
+const std\+::string \& \mbox{\hyperlink{class_zip_code_record_afcb33fc81985d7bfa87a5089b9f23cd1}{get\+State}} () const
+\begin{DoxyCompactList}\small\item\em Getter for the state ID of the zip code record. \end{DoxyCompactList}\item 
+const std\+::string \& \mbox{\hyperlink{class_zip_code_record_a37c48e96d2945ae65806726a23457c4c}{get\+Zip}} () const
+\begin{DoxyCompactList}\small\item\em Getter for the zip code of the zip code record. \end{DoxyCompactList}\item 
+const double \& \mbox{\hyperlink{class_zip_code_record_a430333d0c1aa954cff453b776734b98c}{get\+Latitude}} () const
+\begin{DoxyCompactList}\small\item\em Getter for the latitude of the zip code record. \end{DoxyCompactList}\item 
+const double \& \mbox{\hyperlink{class_zip_code_record_a379f4e132d63fc993c4fc41d8e815bc8}{get\+Longitude}} () const
+\begin{DoxyCompactList}\small\item\em Getter for the longitude of the zip code record. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\label{doc-constructors}
+\Hypertarget{class_zip_code_record_doc-constructors}
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{class_zip_code_record_a945cbd69ab4bd148868e31aa2b807cc4}\index{ZipCodeRecord@{ZipCodeRecord}!ZipCodeRecord@{ZipCodeRecord}}
+\index{ZipCodeRecord@{ZipCodeRecord}!ZipCodeRecord@{ZipCodeRecord}}
+\doxysubsubsection{\texorpdfstring{ZipCodeRecord()}{ZipCodeRecord()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily \label{class_zip_code_record_a945cbd69ab4bd148868e31aa2b807cc4} 
+Zip\+Code\+Record\+::\+Zip\+Code\+Record (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+
+
+Default constructor for \doxylink{class_zip_code_record}{Zip\+Code\+Record}. 
+
+Default constructor for \doxylink{class_zip_code_record}{Zip\+Code\+Record} that initializes all member variables to default values. The zip code and state are initialized to empty strings, while latitude and longitude are initialized to 0.\+0. This constructor allows for the creation of a \doxylink{class_zip_code_record}{Zip\+Code\+Record} object without providing any initial data, which can be useful in situations where the record will be populated later or when creating placeholder records. \Hypertarget{class_zip_code_record_a01c3e8870e18cdaafecaa9b4ed5d8887}\index{ZipCodeRecord@{ZipCodeRecord}!ZipCodeRecord@{ZipCodeRecord}}
+\index{ZipCodeRecord@{ZipCodeRecord}!ZipCodeRecord@{ZipCodeRecord}}
+\doxysubsubsection{\texorpdfstring{ZipCodeRecord()}{ZipCodeRecord()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily \label{class_zip_code_record_a01c3e8870e18cdaafecaa9b4ed5d8887} 
+Zip\+Code\+Record\+::\+Zip\+Code\+Record (\begin{DoxyParamCaption}\item[{std\+::string \&}]{zip}{, }\item[{std\+::string \&}]{state}{, }\item[{double \&}]{latitude}{, }\item[{double \&}]{longitude}{}\end{DoxyParamCaption})}
+
+
+
+Constructor for \doxylink{class_zip_code_record}{Zip\+Code\+Record} with parameters. 
+
+Constructor for \doxylink{class_zip_code_record}{Zip\+Code\+Record} that initializes the member variables with the provided parameters.
+
+
+\begin{DoxyParams}{Parameters}
+{\em zip} & The zip code \\
+\hline
+{\em state} & The state ID \\
+\hline
+{\em latitude} & The latitude of the city \\
+\hline
+{\em longitude} & The longitude of the city\\
+\hline
+{\em zip} & The zip code to be stored in the record. \\
+\hline
+{\em state} & The state ID to be stored in the record. \\
+\hline
+{\em latitude} & The latitude of the city to be stored in the record. \\
+\hline
+{\em longitude} & The longitude of the city to be stored in the record. This constructor allows for the creation of a \doxylink{class_zip_code_record}{Zip\+Code\+Record} object with specific data, which can be useful when the record needs to be initialized with known values. \\
+\hline
+\end{DoxyParams}
+
+
+\label{doc-func-members}
+\Hypertarget{class_zip_code_record_doc-func-members}
+\doxysubsection{Member Function Documentation}
+\Hypertarget{class_zip_code_record_a430333d0c1aa954cff453b776734b98c}\index{ZipCodeRecord@{ZipCodeRecord}!getLatitude@{getLatitude}}
+\index{getLatitude@{getLatitude}!ZipCodeRecord@{ZipCodeRecord}}
+\doxysubsubsection{\texorpdfstring{getLatitude()}{getLatitude()}}
+{\footnotesize\ttfamily \label{class_zip_code_record_a430333d0c1aa954cff453b776734b98c} 
+const double \& Zip\+Code\+Record\+::get\+Latitude (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const}
+
+
+
+Getter for the latitude of the zip code record. 
+
+\begin{DoxyReturn}{Returns}
+A const reference to the latitude value
+
+A const reference to the latitude value stored in the record. This method provides read-\/only access to the latitude of the record, allowing other parts of the program to retrieve this information without modifying it. 
+\end{DoxyReturn}
+\Hypertarget{class_zip_code_record_a379f4e132d63fc993c4fc41d8e815bc8}\index{ZipCodeRecord@{ZipCodeRecord}!getLongitude@{getLongitude}}
+\index{getLongitude@{getLongitude}!ZipCodeRecord@{ZipCodeRecord}}
+\doxysubsubsection{\texorpdfstring{getLongitude()}{getLongitude()}}
+{\footnotesize\ttfamily \label{class_zip_code_record_a379f4e132d63fc993c4fc41d8e815bc8} 
+const double \& Zip\+Code\+Record\+::get\+Longitude (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const}
+
+
+
+Getter for the longitude of the zip code record. 
+
+\begin{DoxyReturn}{Returns}
+A const reference to the longitude value
+
+A const reference to the longitude value stored in the record. This method provides read-\/only access to the longitude of the record, allowing other parts of the program to retrieve this information without modifying it. 
+\end{DoxyReturn}
+\Hypertarget{class_zip_code_record_afcb33fc81985d7bfa87a5089b9f23cd1}\index{ZipCodeRecord@{ZipCodeRecord}!getState@{getState}}
+\index{getState@{getState}!ZipCodeRecord@{ZipCodeRecord}}
+\doxysubsubsection{\texorpdfstring{getState()}{getState()}}
+{\footnotesize\ttfamily \label{class_zip_code_record_afcb33fc81985d7bfa87a5089b9f23cd1} 
+const std\+::string \& Zip\+Code\+Record\+::get\+State (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const}
+
+
+
+Getter for the state ID of the zip code record. 
+
+\begin{DoxyReturn}{Returns}
+A const reference to the state ID string
+
+A const reference to the state ID string stored in the record. This method provides read-\/only access to the state ID of the zip code record, allowing other parts of the program to retrieve this information without modifying it. 
+\end{DoxyReturn}
+\Hypertarget{class_zip_code_record_a37c48e96d2945ae65806726a23457c4c}\index{ZipCodeRecord@{ZipCodeRecord}!getZip@{getZip}}
+\index{getZip@{getZip}!ZipCodeRecord@{ZipCodeRecord}}
+\doxysubsubsection{\texorpdfstring{getZip()}{getZip()}}
+{\footnotesize\ttfamily \label{class_zip_code_record_a37c48e96d2945ae65806726a23457c4c} 
+const std\+::string \& Zip\+Code\+Record\+::get\+Zip (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const}
+
+
+
+Getter for the zip code of the zip code record. 
+
+\begin{DoxyReturn}{Returns}
+A const reference to the zip code string
+
+A const reference to the zip code string stored in the record. This method provides read-\/only access to the zip code of the record, allowing other parts of the program to retrieve this information without modifying it. 
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+include/\mbox{\hyperlink{_zip_code_record_8h}{Zip\+Code\+Record.\+h}}\item 
+src/\mbox{\hyperlink{_zip_code_record_8cpp}{Zip\+Code\+Record.\+cpp}}\end{DoxyCompactItemize}

@@ -1,0 +1,27 @@
+\doxysection{include/\+Project 3.0/\+Block.h File Reference}
+\hypertarget{_block_8h}{}\label{_block_8h}\index{include/Project 3.0/Block.h@{include/Project 3.0/Block.h}}
+
+
+Declares the \doxylink{class_block}{Block} container used to store packed records within a fixed byte-\/capacity unit.  
+
+
+{\ttfamily \#include $<$iostream$>$}\newline
+{\ttfamily \#include $<$string$>$}\newline
+{\ttfamily \#include $<$vector$>$}\newline
+\doxysubsubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \mbox{\hyperlink{class_block}{Block}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Declares the \doxylink{class_block}{Block} container used to store packed records within a fixed byte-\/capacity unit. 
+
+\begin{DoxyAuthor}{Author}
+Zach Houck 
+\end{DoxyAuthor}
+\begin{DoxyDate}{Date}
+2026-\/03-\/26 
+\end{DoxyDate}
+Each block tracks metadata (record count, RBN links, byte usage) and stores length-\/indicated record payloads. 

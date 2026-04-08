@@ -27,7 +27,7 @@ Use the CSV conversion driver to produce a length-indicated data file format. Th
 
 ### 3) Length-Indicated -> Blocked Sequence Set
 
-`TestDriver` reads the length-indicated file, writes blocks under `data/blocks/`, and writes a blocked-sequence header record file plus dumps and index artifacts.
+`main` reads the length-indicated file, writes blocks under `data/blocks/`, and writes a blocked-sequence header record file plus dumps and index artifacts.
 
 ## Blocked Sequence Set Architecture
 
@@ -61,21 +61,28 @@ Unused/deleted block RBNs are tracked in an in-memory avail list for reuse. Dump
 
 ## Build and Run
 
-### Build the test driver
+### Build the main program
+
+```bash
+make bin/main
+```
+
+### Run the main program
+
+```bash
+make run
+```
+
+### Build and run the scenario runner (optional)
 
 ```bash
 make bin/TestDriver
-```
-
-### Run the test driver
-
-```bash
 make run-test
 ```
 
-## Command-Line Options (Blocked Sequence Generation/Test Driver)
+## Command-Line Options (Blocked Sequence Generation/Main Program)
 
-`bin/TestDriver` supports:
+`bin/main` supports:
 
 1. `-in <input_length_indicated_csv>`
 2. `-out <blocked_sequence_set_file>`
@@ -97,7 +104,7 @@ make run-test
 ### Example
 
 ```bash
-./bin/TestDriver \
+./bin/main \
 	-in data/Length_Indicated_us_postal_codes.csv \
 	-out data/blocked_sequence_set.txt \
 	-blockSize 512 -minCapacity 0.50 -startRBN 1 \
@@ -154,7 +161,7 @@ CLI search arguments support `-Z<zip>` style keys (multiple allowed).
 
 ## Addition and Deletion Test Runs
 
-Use `TestDriver` with add/delete inputs:
+Use `main` with add/delete inputs:
 
 1. Additions: `-a data/recordsToAdd.txt -addLog data/addition_log.txt`
 2. Deletions: `-d data/keysToDelete.txt -deleteLog data/deletion_log.txt`
@@ -164,7 +171,7 @@ Expected logging behavior:
 1. Block split events during insertions are logged.
 2. Index-affecting operations should be logged.
 3. Deletions log failures and successful removals.
-4. Merge/redistribution events are part of the required behavior and should be logged when implemented.
+4. Underfull/merge-related events are logged. Full redistribution/merge policy can be extended.
 
 ## Typical Output Files
 
@@ -200,7 +207,7 @@ To complete deliverables:
 2. Include command-line usage examples for generation/search/add/delete.
 3. Include expected output formats (dumps, index, logs).
 
-The repository already contains generated documentation folders under `docs/html` and `docs/latex`.
+Generate documentation output before submission (for example, Doxygen HTML/PDF outputs).
 
 ## Notes on Configurability
 

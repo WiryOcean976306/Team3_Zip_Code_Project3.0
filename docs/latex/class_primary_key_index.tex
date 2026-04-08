@@ -1,0 +1,217 @@
+\doxysection{Primary\+Key\+Index Class Reference}
+\hypertarget{class_primary_key_index}{}\label{class_primary_key_index}\index{PrimaryKeyIndex@{PrimaryKeyIndex}}
+
+
+{\ttfamily \#include $<$Primary\+Key\+Index.\+h$>$}
+
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_primary_key_index_a463f72d7f1adbfb94d7c6c6515b16a16}{Primary\+Key\+Index}} (const string \&File\+Path)
+\begin{DoxyCompactList}\small\item\em Creates a \doxylink{class_primary_key_index}{Primary\+Key\+Index} object rooted at a block directory or index path. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_primary_key_index_a121872aa7d582db2664ac2c18df0e001}{Set\+Block\+Directory}} (const string \&block\+Directory)
+\begin{DoxyCompactList}\small\item\em Sets the block directory used to resolve RBN -\/\texorpdfstring{$>$}{>} block file path. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_primary_key_index_a724d43fe1af994349171961c9f8dac8f}{Build\+From\+Blocks}} (const string \&block\+Directory)
+\begin{DoxyCompactList}\small\item\em Builds the in-\/memory index from the current block directory. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_zip_code_record}{Zip\+Code\+Record}} \mbox{\hyperlink{class_primary_key_index_acc387d2e94425b793db6589ff942b8c5}{find}} (vector$<$ string $>$ Zips)
+\begin{DoxyCompactList}\small\item\em Finds ZIP records for command-\/line style query arguments. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_primary_key_index_a153876ff69a68571ff3bed49d13b9452}{Write\+To\+File}} (const string \&path)
+\begin{DoxyCompactList}\small\item\em Writes the in-\/memory simple index to a file. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_primary_key_index_a15942eb0c19e2ca8f8467c1c35b3c5cc}{Read\+From\+File}} (const string \&path)
+\begin{DoxyCompactList}\small\item\em Reads a serialized simple index file into memory. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_primary_key_index_afd91b603436631d0e97412a68da3f0c2}{Load\+From\+Index\+File}} (const string \&index\+Path)
+\begin{DoxyCompactList}\small\item\em Loads a simple index file into RAM and remembers its file path. \end{DoxyCompactList}\item 
+string \mbox{\hyperlink{class_primary_key_index_a87f268620e7df071ee8d49fcb23611c5}{Dump}} () const
+\begin{DoxyCompactList}\small\item\em Returns a readable dump of the current index contents. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\label{doc-constructors}
+\Hypertarget{class_primary_key_index_doc-constructors}
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{class_primary_key_index_a463f72d7f1adbfb94d7c6c6515b16a16}\index{PrimaryKeyIndex@{PrimaryKeyIndex}!PrimaryKeyIndex@{PrimaryKeyIndex}}
+\index{PrimaryKeyIndex@{PrimaryKeyIndex}!PrimaryKeyIndex@{PrimaryKeyIndex}}
+\doxysubsubsection{\texorpdfstring{PrimaryKeyIndex()}{PrimaryKeyIndex()}}
+{\footnotesize\ttfamily \label{class_primary_key_index_a463f72d7f1adbfb94d7c6c6515b16a16} 
+Primary\+Key\+Index\+::\+Primary\+Key\+Index (\begin{DoxyParamCaption}\item[{const string \&}]{File\+Path}{}\end{DoxyParamCaption})}
+
+
+
+Creates a \doxylink{class_primary_key_index}{Primary\+Key\+Index} object rooted at a block directory or index path. 
+
+Constructs an index object rooted at a block directory.
+
+
+\begin{DoxyParams}{Parameters}
+{\em File\+Path} & Path to a block directory (preferred) or index file.\\
+\hline
+{\em File\+Path} & \doxylink{class_block}{Block} directory path.\\
+\hline
+\end{DoxyParams}
+If the directory exists, attempts immediate in-\/memory build. 
+
+\label{doc-func-members}
+\Hypertarget{class_primary_key_index_doc-func-members}
+\doxysubsection{Member Function Documentation}
+\Hypertarget{class_primary_key_index_a724d43fe1af994349171961c9f8dac8f}\index{PrimaryKeyIndex@{PrimaryKeyIndex}!BuildFromBlocks@{BuildFromBlocks}}
+\index{BuildFromBlocks@{BuildFromBlocks}!PrimaryKeyIndex@{PrimaryKeyIndex}}
+\doxysubsubsection{\texorpdfstring{BuildFromBlocks()}{BuildFromBlocks()}}
+{\footnotesize\ttfamily \label{class_primary_key_index_a724d43fe1af994349171961c9f8dac8f} 
+bool Primary\+Key\+Index\+::\+Build\+From\+Blocks (\begin{DoxyParamCaption}\item[{const string \&}]{block\+Directory}{}\end{DoxyParamCaption})}
+
+
+
+Builds the in-\/memory index from the current block directory. 
+
+Builds an in-\/memory simple index from physical block files.
+
+\begin{DoxyReturn}{Returns}
+true if the index was built successfully; otherwise false.
+\end{DoxyReturn}
+
+\begin{DoxyParams}{Parameters}
+{\em block\+Directory} & Directory containing block\+\_\+$<$rbn$>$.\+blk files. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true when directory scan and index build complete; otherwise false.
+\end{DoxyReturn}
+Stores pairs \texorpdfstring{$<$}{<}highest ZIP key in block, RBN\texorpdfstring{$>$}{>} for active blocks. \Hypertarget{class_primary_key_index_a87f268620e7df071ee8d49fcb23611c5}\index{PrimaryKeyIndex@{PrimaryKeyIndex}!Dump@{Dump}}
+\index{Dump@{Dump}!PrimaryKeyIndex@{PrimaryKeyIndex}}
+\doxysubsubsection{\texorpdfstring{Dump()}{Dump()}}
+{\footnotesize\ttfamily \label{class_primary_key_index_a87f268620e7df071ee8d49fcb23611c5} 
+string Primary\+Key\+Index\+::\+Dump (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const}
+
+
+
+Returns a readable dump of the current index contents. 
+
+Produces a readable dump of simple index entries.
+
+\begin{DoxyReturn}{Returns}
+Text listing highest-\/key / RBN pairs.
+
+Newline-\/separated CSV lines in format \texorpdfstring{$<$}{<}highest\+Zip\+Key,RBN\texorpdfstring{$>$}{>}. 
+\end{DoxyReturn}
+\Hypertarget{class_primary_key_index_acc387d2e94425b793db6589ff942b8c5}\index{PrimaryKeyIndex@{PrimaryKeyIndex}!find@{find}}
+\index{find@{find}!PrimaryKeyIndex@{PrimaryKeyIndex}}
+\doxysubsubsection{\texorpdfstring{find()}{find()}}
+{\footnotesize\ttfamily \label{class_primary_key_index_acc387d2e94425b793db6589ff942b8c5} 
+\mbox{\hyperlink{class_zip_code_record}{Zip\+Code\+Record}} Primary\+Key\+Index\+::find (\begin{DoxyParamCaption}\item[{vector$<$ string $>$}]{Zips}{}\end{DoxyParamCaption})}
+
+
+
+Finds ZIP records for command-\/line style query arguments. 
+
+Searches requested ZIP keys using the simple block index.
+
+
+\begin{DoxyParams}{Parameters}
+{\em Zips} & ZIP query tokens (supports -\/Z$<$zip$>$ form). \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The first matching \doxylink{class_zip_code_record}{Zip\+Code\+Record}, or an empty/default record when none are found.
+\end{DoxyReturn}
+
+\begin{DoxyParams}{Parameters}
+{\em Zips} & CLI-\/style ZIP arguments (supports -\/Z$<$zip$>$ or raw zip values). \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+First found \doxylink{class_zip_code_record}{Zip\+Code\+Record}; default/empty record when none found.
+\end{DoxyReturn}
+Uses index to select candidate block, then scans that block only. \Hypertarget{class_primary_key_index_afd91b603436631d0e97412a68da3f0c2}\index{PrimaryKeyIndex@{PrimaryKeyIndex}!LoadFromIndexFile@{LoadFromIndexFile}}
+\index{LoadFromIndexFile@{LoadFromIndexFile}!PrimaryKeyIndex@{PrimaryKeyIndex}}
+\doxysubsubsection{\texorpdfstring{LoadFromIndexFile()}{LoadFromIndexFile()}}
+{\footnotesize\ttfamily \label{class_primary_key_index_afd91b603436631d0e97412a68da3f0c2} 
+bool Primary\+Key\+Index\+::\+Load\+From\+Index\+File (\begin{DoxyParamCaption}\item[{const string \&}]{index\+Path}{}\end{DoxyParamCaption})}
+
+
+
+Loads a simple index file into RAM and remembers its file path. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em index\+Path} & Path to simple index file. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true when index file was loaded successfully; otherwise false. 
+\end{DoxyReturn}
+\Hypertarget{class_primary_key_index_a15942eb0c19e2ca8f8467c1c35b3c5cc}\index{PrimaryKeyIndex@{PrimaryKeyIndex}!ReadFromFile@{ReadFromFile}}
+\index{ReadFromFile@{ReadFromFile}!PrimaryKeyIndex@{PrimaryKeyIndex}}
+\doxysubsubsection{\texorpdfstring{ReadFromFile()}{ReadFromFile()}}
+{\footnotesize\ttfamily \label{class_primary_key_index_a15942eb0c19e2ca8f8467c1c35b3c5cc} 
+bool Primary\+Key\+Index\+::\+Read\+From\+File (\begin{DoxyParamCaption}\item[{const string \&}]{path}{}\end{DoxyParamCaption})}
+
+
+
+Reads a serialized simple index file into memory. 
+
+Reads a previously written simple index file into memory.
+
+
+\begin{DoxyParams}{Parameters}
+{\em path} & Input path. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true if the index was successfully read; otherwise false.
+\end{DoxyReturn}
+
+\begin{DoxyParams}{Parameters}
+{\em path} & Index file path. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true when parse succeeds; otherwise false. 
+\end{DoxyReturn}
+\Hypertarget{class_primary_key_index_a121872aa7d582db2664ac2c18df0e001}\index{PrimaryKeyIndex@{PrimaryKeyIndex}!SetBlockDirectory@{SetBlockDirectory}}
+\index{SetBlockDirectory@{SetBlockDirectory}!PrimaryKeyIndex@{PrimaryKeyIndex}}
+\doxysubsubsection{\texorpdfstring{SetBlockDirectory()}{SetBlockDirectory()}}
+{\footnotesize\ttfamily \label{class_primary_key_index_a121872aa7d582db2664ac2c18df0e001} 
+void Primary\+Key\+Index\+::\+Set\+Block\+Directory (\begin{DoxyParamCaption}\item[{const string \&}]{block\+Directory}{}\end{DoxyParamCaption})}
+
+
+
+Sets the block directory used to resolve RBN -\/\texorpdfstring{$>$}{>} block file path. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em block\+Directory} & Directory containing block\+\_\+\texorpdfstring{$\ast$}{*}.blk files. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{class_primary_key_index_a153876ff69a68571ff3bed49d13b9452}\index{PrimaryKeyIndex@{PrimaryKeyIndex}!WriteToFile@{WriteToFile}}
+\index{WriteToFile@{WriteToFile}!PrimaryKeyIndex@{PrimaryKeyIndex}}
+\doxysubsubsection{\texorpdfstring{WriteToFile()}{WriteToFile()}}
+{\footnotesize\ttfamily \label{class_primary_key_index_a153876ff69a68571ff3bed49d13b9452} 
+bool Primary\+Key\+Index\+::\+Write\+To\+File (\begin{DoxyParamCaption}\item[{const string \&}]{path}{}\end{DoxyParamCaption})}
+
+
+
+Writes the in-\/memory simple index to a file. 
+
+Writes the current simple index map to disk.
+
+
+\begin{DoxyParams}{Parameters}
+{\em path} & Output path. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true if the index was successfully written; otherwise false.
+\end{DoxyReturn}
+
+\begin{DoxyParams}{Parameters}
+{\em path} & Output index file path. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true when write succeeds; otherwise false. 
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+include/\mbox{\hyperlink{_primary_key_index_8h}{Primary\+Key\+Index.\+h}}\item 
+src/\mbox{\hyperlink{_primary_key_index_8cpp}{Primary\+Key\+Index.\+cpp}}\end{DoxyCompactItemize}

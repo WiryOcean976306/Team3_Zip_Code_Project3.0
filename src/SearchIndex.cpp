@@ -14,6 +14,10 @@ using namespace std;
 
 namespace {
 
+/**
+ * @brief Prints command-line usage for the search executable.
+ * @param program Executable name from argv[0].
+ */
 void PrintUsage(const char* program)
 {
     cout << "Usage:\n"
@@ -32,7 +36,12 @@ void PrintUsage(const char* program)
 
 } // namespace
 
-
+/**
+ * @brief Main entry point for indexed ZIP lookup.
+ * @param argc Argument count.
+ * @param argv Argument vector.
+ * @return Process exit code.
+ */
 int main(int argc, char* argv[]) {
 
     if (argc <= 1)

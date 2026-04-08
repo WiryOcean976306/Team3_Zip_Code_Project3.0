@@ -1,0 +1,105 @@
+\doxysection{Zip\+Code\+Buffer Class Reference}
+\hypertarget{class_zip_code_buffer}{}\label{class_zip_code_buffer}\index{ZipCodeBuffer@{ZipCodeBuffer}}
+
+
+Provides seqential access to zip code records from a data source.  
+
+
+
+
+{\ttfamily \#include $<$Zip\+Code\+Buffer.\+h$>$}
+
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_zip_code_buffer_ae40ecff10ba22d91df9e6a722fec3758}{Zip\+Code\+Buffer}} (const std\+::string \&file\+Path)
+\begin{DoxyCompactList}\small\item\em Constructor that initializes the \doxylink{class_zip_code_buffer}{Zip\+Code\+Buffer} with the specified file path. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_zip_code_buffer_a4a50d901deeea419c3aaff7232d37958}{read\+Next}} (\mbox{\hyperlink{class_zip_code_record}{Zip\+Code\+Record}} \&record\+Out)
+\begin{DoxyCompactList}\small\item\em Reads the next CSV row. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_zip_code_buffer_af070305f8b71a6bee4cf455eb7ae065a}{\texorpdfstring{$\sim$}{\string~}\+Zip\+Code\+Buffer}} ()
+\begin{DoxyCompactList}\small\item\em Destructor that closes the file stream. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Provides seqential access to zip code records from a data source. 
+
+Opens a CSV file Skips the header line Reads each line, parses it into a \doxylink{class_zip_code_record}{Zip\+Code\+Record}, and stores it in a buffer for later retrieval. Returns one record at a time, allowing for efficient memory usage when processing large datasets. 
+
+\label{doc-constructors}
+\Hypertarget{class_zip_code_buffer_doc-constructors}
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{class_zip_code_buffer_ae40ecff10ba22d91df9e6a722fec3758}\index{ZipCodeBuffer@{ZipCodeBuffer}!ZipCodeBuffer@{ZipCodeBuffer}}
+\index{ZipCodeBuffer@{ZipCodeBuffer}!ZipCodeBuffer@{ZipCodeBuffer}}
+\doxysubsubsection{\texorpdfstring{ZipCodeBuffer()}{ZipCodeBuffer()}}
+{\footnotesize\ttfamily \label{class_zip_code_buffer_ae40ecff10ba22d91df9e6a722fec3758} 
+Zip\+Code\+Buffer\+::\+Zip\+Code\+Buffer (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{file\+Path}{}\end{DoxyParamCaption})}
+
+
+
+Constructor that initializes the \doxylink{class_zip_code_buffer}{Zip\+Code\+Buffer} with the specified file path. 
+
+Constructor for \doxylink{class_zip_code_buffer}{Zip\+Code\+Buffer} that opens the specified CSV file and reads the header to determine column indices.
+
+The index of the longitude column in the CSV file 
+\begin{DoxyParams}{Parameters}
+{\em file\+Path} & The path to the CSV file containing zip code data.\\
+\hline
+{\em file\+Path} & The path to the CSV file containing zip code data. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em std\+::runtime\+\_\+error} & if the file cannot be opened. \\
+\hline
+\end{DoxyExceptions}
+\Hypertarget{class_zip_code_buffer_af070305f8b71a6bee4cf455eb7ae065a}\index{ZipCodeBuffer@{ZipCodeBuffer}!````~ZipCodeBuffer@{\texorpdfstring{$\sim$}{\string~}ZipCodeBuffer}}
+\index{````~ZipCodeBuffer@{\texorpdfstring{$\sim$}{\string~}ZipCodeBuffer}!ZipCodeBuffer@{ZipCodeBuffer}}
+\doxysubsubsection{\texorpdfstring{\texorpdfstring{$\sim$}{\string~}ZipCodeBuffer()}{\string~ZipCodeBuffer()}}
+{\footnotesize\ttfamily \label{class_zip_code_buffer_af070305f8b71a6bee4cf455eb7ae065a} 
+Zip\+Code\+Buffer\+::\texorpdfstring{$\sim$}{\string~}\+Zip\+Code\+Buffer (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+
+
+Destructor that closes the file stream. 
+
+Destructor for \doxylink{class_zip_code_buffer}{Zip\+Code\+Buffer} that closes the file stream if it is open.
+
+The destructor checks if the file stream is open and closes it to release any resources associated with the file. This ensures that the file is properly closed when the \doxylink{class_zip_code_buffer}{Zip\+Code\+Buffer} object goes out of scope or is destroyed. 
+
+\label{doc-func-members}
+\Hypertarget{class_zip_code_buffer_doc-func-members}
+\doxysubsection{Member Function Documentation}
+\Hypertarget{class_zip_code_buffer_a4a50d901deeea419c3aaff7232d37958}\index{ZipCodeBuffer@{ZipCodeBuffer}!readNext@{readNext}}
+\index{readNext@{readNext}!ZipCodeBuffer@{ZipCodeBuffer}}
+\doxysubsubsection{\texorpdfstring{readNext()}{readNext()}}
+{\footnotesize\ttfamily \label{class_zip_code_buffer_a4a50d901deeea419c3aaff7232d37958} 
+bool Zip\+Code\+Buffer\+::read\+Next (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_zip_code_record}{Zip\+Code\+Record}} \&}]{record\+Out}{}\end{DoxyParamCaption})}
+
+
+
+Reads the next CSV row. 
+
+Reads the next line from the CSV file and parses it into a \doxylink{class_zip_code_record}{Zip\+Code\+Record} object.
+
+
+\begin{DoxyParams}{Parameters}
+{\em record} & Output parameter that will hold the next \doxylink{class_zip_code_record}{Zip\+Code\+Record} read from the file. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true if a record was successfully read, false if end of file is reached.
+\end{DoxyReturn}
+
+\begin{DoxyParams}{Parameters}
+{\em record\+Out} & Output parameter that will hold the next \doxylink{class_zip_code_record}{Zip\+Code\+Record} read from the file. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true if a record was successfully read, false if end of file is reached.
+\end{DoxyReturn}
+The method reads the next line from the CSV file, splits it into columns based on the previously determined indices, and constructs a \doxylink{class_zip_code_record}{Zip\+Code\+Record} object with the parsed data. If the end of the file is reached, it returns false to indicate that there are no more records to read. 
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+include/\mbox{\hyperlink{_zip_code_buffer_8h}{Zip\+Code\+Buffer.\+h}}\item 
+src/\mbox{\hyperlink{_zip_code_buffer_8cpp}{Zip\+Code\+Buffer.\+cpp}}\end{DoxyCompactItemize}

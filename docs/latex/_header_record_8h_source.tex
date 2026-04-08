@@ -1,0 +1,89 @@
+\doxysection{Header\+Record.\+h}
+\hypertarget{_header_record_8h_source}{}\label{_header_record_8h_source}\index{include/HeaderRecord.h@{include/HeaderRecord.h}}
+\mbox{\hyperlink{_header_record_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ }
+\DoxyCodeLine{00007\ }
+\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#ifndef\ HEADERRECORD\_H}}
+\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#define\ HEADERRECORD\_H}}
+\DoxyCodeLine{00010\ }
+\DoxyCodeLine{00011\ \textcolor{preprocessor}{\#include\ <iostream>}}
+\DoxyCodeLine{00012\ \textcolor{preprocessor}{\#include\ <fstream>}}
+\DoxyCodeLine{00013\ \textcolor{preprocessor}{\#include\ <filesystem>}}
+\DoxyCodeLine{00014\ \textcolor{preprocessor}{\#include\ <string>}}
+\DoxyCodeLine{00015\ \textcolor{preprocessor}{\#include\ <vector>}}
+\DoxyCodeLine{00016\ }
+\DoxyCodeLine{00017\ \textcolor{keyword}{using\ namespace\ }std;}
+\DoxyCodeLine{00018\ }
+\DoxyCodeLine{00022\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_header_record_ad279bda7c03ed2fbbf8b0197f6139aee}{HeaderRecord}}}
+\DoxyCodeLine{00023\ \{}
+\DoxyCodeLine{00024\ \ \ \ \ \textcolor{keyword}{friend}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_header_record_a420cf0b7806a961186ab25d0b0ba1df1}{HeaderBuffer}};}
+\DoxyCodeLine{00025\ }
+\DoxyCodeLine{00026\ \ \ \ \ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00027\ }
+\DoxyCodeLine{00028\ }
+\DoxyCodeLine{00029\ }
+\DoxyCodeLine{00030\ }
+\DoxyCodeLine{00031\ }
+\DoxyCodeLine{00032\ }
+\DoxyCodeLine{00033\ }
+\DoxyCodeLine{00034\ }
+\DoxyCodeLine{00035\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ HeaderSizeBytes\ =\ 0;\ }
+\DoxyCodeLine{00036\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{string}\ FileStructureType\ =\ \textcolor{stringliteral}{"{}CSV"{}};\ }
+\DoxyCodeLine{00037\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{string}\ Version\ =\ \textcolor{stringliteral}{"{}1.0"{}};\ }
+\DoxyCodeLine{00038\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ SizeFormatType\ =\ 0;\ }
+\DoxyCodeLine{00039\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ SizeInclusion\ =\ \textcolor{keyword}{true};\ }
+\DoxyCodeLine{00040\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{string}\ PrimaryKeyIndex\ =\ \textcolor{stringliteral}{"{}Key\_index.txt"{}};\ }
+\DoxyCodeLine{00041\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ RecordCount\ =\ 0;\ }
+\DoxyCodeLine{00042\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ FieldCount\ =\ 6;\ }
+\DoxyCodeLine{00043\ \ \ \ \ \ \ \ \ vector<string>\ Fields\ =\ \{\textcolor{stringliteral}{"{}ZipCode"{}},\ \textcolor{stringliteral}{"{}City"{}},\ \textcolor{stringliteral}{"{}State"{}},\ \textcolor{stringliteral}{"{}County"{}},\ \textcolor{stringliteral}{"{}Lat"{}},\ \textcolor{stringliteral}{"{}Long"{}}\};\ }
+\DoxyCodeLine{00044\ \ \ \ \ \ \ \ \ vector<string>\ FieldTypes\ =\ \{\textcolor{stringliteral}{"{}INT"{}},\ \textcolor{stringliteral}{"{}STRING"{}},\ \textcolor{stringliteral}{"{}STRING"{}},\ \textcolor{stringliteral}{"{}STRING"{}},\ \textcolor{stringliteral}{"{}FLOAT"{}},\ \textcolor{stringliteral}{"{}FLOAT"{}}\};\ }
+\DoxyCodeLine{00045\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ PrimaryKey\ =\ 1;\ }
+\DoxyCodeLine{00046\ }
+\DoxyCodeLine{00047\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{string}\ Header\ =\ \textcolor{stringliteral}{"{}"{}};\ }
+\DoxyCodeLine{00048\ }
+\DoxyCodeLine{00050\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ RebuildHeader();}
+\DoxyCodeLine{00051\ }
+\DoxyCodeLine{00052\ }
+\DoxyCodeLine{00053\ }
+\DoxyCodeLine{00054\ }
+\DoxyCodeLine{00055\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ BlockSize\ =\ 512;\ }
+\DoxyCodeLine{00056\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ MinBlockCapacity\ =\ 50;\ }
+\DoxyCodeLine{00057\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ BlockCount\ =\ 0;\ }
+\DoxyCodeLine{00058\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ availListHeadRBN\ =\ 0;\ }
+\DoxyCodeLine{00059\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ ActiveListHeadRBN\ =\ 0;\ }
+\DoxyCodeLine{00060\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ StaleFlag\ =\ \textcolor{keyword}{false};\ }
+\DoxyCodeLine{00061\ }
+\DoxyCodeLine{00062\ }
+\DoxyCodeLine{00063\ }
+\DoxyCodeLine{00064\ \ \ \ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00068\ \ \ \ \ \mbox{\hyperlink{class_header_record_ad279bda7c03ed2fbbf8b0197f6139aee}{HeaderRecord}}()\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{00069\ }
+\DoxyCodeLine{00074\ \ \ \ \ \mbox{\hyperlink{class_header_record_ad279bda7c03ed2fbbf8b0197f6139aee}{HeaderRecord}}(\textcolor{keyword}{const}\ \textcolor{keywordtype}{string}\&\ InFile);}
+\DoxyCodeLine{00075\ }
+\DoxyCodeLine{00080\ \ \ \ \ \textcolor{keywordtype}{string}\ \mbox{\hyperlink{class_header_record_a224c53b3811e57fef033056c9f6ca332}{GetHeader}}()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00081\ }
+\DoxyCodeLine{00082\ }
+\DoxyCodeLine{00083\ }
+\DoxyCodeLine{00084\ \ \ \ \ \textcolor{comment}{//\ Project\ 3\ //}}
+\DoxyCodeLine{00085\ \ \ \ \ \textcolor{comment}{//}}
+\DoxyCodeLine{00086\ }
+\DoxyCodeLine{00094\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_header_record_a506b60b7f53b79aec6045f98bafa9e1d}{WriteHeader}}(std::fstream\&\ out,\ \textcolor{keyword}{const}\ \mbox{\hyperlink{class_header_record_ad279bda7c03ed2fbbf8b0197f6139aee}{HeaderRecord}}\&\ header);}
+\DoxyCodeLine{00095\ }
+\DoxyCodeLine{00103\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_header_record_af810bde818f137a5c318de179d4dbbe2}{ReadHeader}}(std::fstream\&\ in,\ \mbox{\hyperlink{class_header_record_ad279bda7c03ed2fbbf8b0197f6139aee}{HeaderRecord}}\&\ header);}
+\DoxyCodeLine{00104\ }
+\DoxyCodeLine{00116\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_header_record_ab9e727687a2f093bc11d2373f08c0315}{ConfigureBlockedSequenceHeader}}(}
+\DoxyCodeLine{00117\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{string}\&\ indexFileName,}
+\DoxyCodeLine{00118\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ recordCount,}
+\DoxyCodeLine{00119\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ blockCount,}
+\DoxyCodeLine{00120\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ blockSize,}
+\DoxyCodeLine{00121\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ minBlockCapacity,}
+\DoxyCodeLine{00122\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ availHeadRBN,}
+\DoxyCodeLine{00123\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ activeHeadRBN,}
+\DoxyCodeLine{00124\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ staleFlag);}
+\DoxyCodeLine{00125\ \ \ \ \ }
+\DoxyCodeLine{00126\ \};}
+\DoxyCodeLine{00127\ }
+\DoxyCodeLine{00128\ \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

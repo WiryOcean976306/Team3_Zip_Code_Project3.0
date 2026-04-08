@@ -1,0 +1,88 @@
+\doxysection{State\+Extremes.\+h}
+\hypertarget{_state_extremes_8h_source}{}\label{_state_extremes_8h_source}\index{include/StateExtremes.h@{include/StateExtremes.h}}
+\mbox{\hyperlink{_state_extremes_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ }
+\DoxyCodeLine{00007\ }
+\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#ifndef\ STATEEXTREMES\_H}}
+\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#define\ STATEEXTREMES\_H}}
+\DoxyCodeLine{00010\ }
+\DoxyCodeLine{00011\ }
+\DoxyCodeLine{00012\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{_zip_code_record_8h}{ZipCodeRecord.h}}"{}}}
+\DoxyCodeLine{00013\ \ }
+\DoxyCodeLine{00018\ }
+\DoxyCodeLine{00019\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{struct_state_extremes}{StateExtremes}}}
+\DoxyCodeLine{00020\ \{}
+\DoxyCodeLine{00022\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{struct_state_extremes_a43219e4eceade90275f936813f118649}{initialized}}\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00023\ }
+\DoxyCodeLine{00025\ \ \ \ \ \mbox{\hyperlink{class_zip_code_record}{ZipCodeRecord}}\ \mbox{\hyperlink{struct_state_extremes_a94e277bbe90214cf06b74b56e0d43cca}{easternmost}};}
+\DoxyCodeLine{00026\ }
+\DoxyCodeLine{00028\ \ \ \ \ \mbox{\hyperlink{class_zip_code_record}{ZipCodeRecord}}\ \mbox{\hyperlink{struct_state_extremes_a40d14d256221af6879551067018b695e}{westernmost}};}
+\DoxyCodeLine{00029\ }
+\DoxyCodeLine{00031\ \ \ \ \ \mbox{\hyperlink{class_zip_code_record}{ZipCodeRecord}}\ \mbox{\hyperlink{struct_state_extremes_ac646323ebead03374c1164b5b74eec05}{northernmost}};}
+\DoxyCodeLine{00032\ }
+\DoxyCodeLine{00034\ \ \ \ \ \mbox{\hyperlink{class_zip_code_record}{ZipCodeRecord}}\ \mbox{\hyperlink{struct_state_extremes_ace940feb89cd9562a42a9bcbb1c67044}{southernmost}};}
+\DoxyCodeLine{00035\ \};}
+\DoxyCodeLine{00036\ }
+\DoxyCodeLine{00037\ }
+\DoxyCodeLine{00038\ }
+\DoxyCodeLine{00043\ \textcolor{comment}{//\ class\ StateExtremes}}
+\DoxyCodeLine{00044\ }
+\DoxyCodeLine{00045\ \textcolor{comment}{//\ \ \ \ \{}}
+\DoxyCodeLine{00046\ \textcolor{comment}{//\ \ \ \ \ \ \ private:\ }}
+\DoxyCodeLine{00047\ }
+\DoxyCodeLine{00048\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ /**}}
+\DoxyCodeLine{00049\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ *\ @brief\ initialized\ is\ false\ until\ the\ first\ record\ is\ consumed,\ then\ it\ is\ set\ to\ true\ and\ the\ min\ and\ max\ values\ are\ updated\ accordingly}}
+\DoxyCodeLine{00050\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{00051\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ bool\ initialized\ =\ false;}}
+\DoxyCodeLine{00052\ }
+\DoxyCodeLine{00053\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ /**}}
+\DoxyCodeLine{00054\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ *\ @brief\ Stores\ a\ ZipCodeRecord\ for\ all\ of\ the\ directions\ extremes}}
+\DoxyCodeLine{00055\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{00056\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ ZipCodeRecord\ easternmost;}}
+\DoxyCodeLine{00057\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ ZipCodeRecord\ westernmost;}}
+\DoxyCodeLine{00058\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ ZipCodeRecord\ northernmost;}}
+\DoxyCodeLine{00059\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ ZipCodeRecord\ southernmost;}}
+\DoxyCodeLine{00060\ \ \ \ \ \ \ }
+\DoxyCodeLine{00061\ \textcolor{comment}{//\ \ \ \ \ \ \ public:}}
+\DoxyCodeLine{00062\ }
+\DoxyCodeLine{00063\ \textcolor{comment}{//\ \ \ \ \ \ \ /**\ }}
+\DoxyCodeLine{00064\ \textcolor{comment}{//\ \ \ \ \ \ \ *\ @brief\ Default\ Constructor}}
+\DoxyCodeLine{00065\ \textcolor{comment}{//\ \ \ \ \ \ \ *\ @post\ creates\ an\ uninitialized\ StateExtremes\ object}}
+\DoxyCodeLine{00066\ \textcolor{comment}{//\ \ \ \ \ \ \ */}}
+\DoxyCodeLine{00067\ \textcolor{comment}{//\ \ \ \ \ \ \ StateExtremes();}}
+\DoxyCodeLine{00068\ }
+\DoxyCodeLine{00069\ \textcolor{comment}{//\ \ \ \ \ \ \ /**\ }}
+\DoxyCodeLine{00070\ \textcolor{comment}{//\ \ \ \ \ \ \ *\ @brief\ Constructor}}
+\DoxyCodeLine{00071\ \textcolor{comment}{//\ \ \ \ \ \ \ *\ @param\ FirstZip\ the\ ZipCodeRecord\ used\ to\ create\ a\ StateExtremes\ object}}
+\DoxyCodeLine{00072\ \textcolor{comment}{//\ \ \ \ \ \ \ *\ @post\ creates\ an\ initialized\ StateExtremes\ object}}
+\DoxyCodeLine{00073\ \textcolor{comment}{//\ \ \ \ \ \ \ */}}
+\DoxyCodeLine{00074\ \textcolor{comment}{//\ \ \ \ \ \ \ StateExtremes(ZipCodeRecord\ FirstZip);}}
+\DoxyCodeLine{00075\ }
+\DoxyCodeLine{00076\ \textcolor{comment}{//\ \ \ \ \ \ \ /**\ }}
+\DoxyCodeLine{00077\ \textcolor{comment}{//\ \ \ \ \ \ \ *\ @brief\ Get\ functions}}
+\DoxyCodeLine{00078\ \textcolor{comment}{//\ \ \ \ \ \ \ */}}
+\DoxyCodeLine{00079\ \textcolor{comment}{//\ \ \ \ \ \ \ bool\ isInitialized();}}
+\DoxyCodeLine{00080\ \textcolor{comment}{//\ \ \ \ \ \ \ ZipCodeRecord\ getEastern();}}
+\DoxyCodeLine{00081\ \textcolor{comment}{//\ \ \ \ \ \ \ ZipCodeRecord\ getWestern();}}
+\DoxyCodeLine{00082\ \textcolor{comment}{//\ \ \ \ \ \ \ ZipCodeRecord\ getNorthern();}}
+\DoxyCodeLine{00083\ \textcolor{comment}{//\ \ \ \ \ \ \ ZipCodeRecord\ getSouthern();}}
+\DoxyCodeLine{00084\ }
+\DoxyCodeLine{00085\ \textcolor{comment}{//\ \ \ \ \ \ \ /**\ }}
+\DoxyCodeLine{00086\ \textcolor{comment}{//\ \ \ \ \ \ \ *\ @brief\ Set\ functions}}
+\DoxyCodeLine{00087\ \textcolor{comment}{//\ \ \ \ \ \ \ */}}
+\DoxyCodeLine{00088\ \textcolor{comment}{//\ \ \ \ \ \ \ void\ setInitialized(bool\ init);}}
+\DoxyCodeLine{00089\ \textcolor{comment}{//\ \ \ \ \ \ \ void\ setEastern(ZipCodeRecord\ zip);}}
+\DoxyCodeLine{00090\ \textcolor{comment}{//\ \ \ \ \ \ \ void\ setWestern(ZipCodeRecord\ zip);}}
+\DoxyCodeLine{00091\ \textcolor{comment}{//\ \ \ \ \ \ \ void\ setNorthern(ZipCodeRecord\ zip);}}
+\DoxyCodeLine{00092\ \textcolor{comment}{//\ \ \ \ \ \ \ void\ setSouthern(ZipCodeRecord\ zip);}}
+\DoxyCodeLine{00093\ \textcolor{comment}{//\ \ \ \ \};}}
+\DoxyCodeLine{00094\ }
+\DoxyCodeLine{00095\ }
+\DoxyCodeLine{00096\ }
+\DoxyCodeLine{00097\ }
+\DoxyCodeLine{00098\ }
+\DoxyCodeLine{00099\ }
+\DoxyCodeLine{00100\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ STATE\_EXTREMES\_H}}
+
+\end{DoxyCode}

@@ -1,0 +1,378 @@
+\doxysection{Blocked\+Sequence Class Reference}
+\hypertarget{class_blocked_sequence}{}\label{class_blocked_sequence}\index{BlockedSequence@{BlockedSequence}}
+
+
+{\ttfamily \#include $<$Blocked\+Sequence.\+h$>$}
+
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_blocked_sequence_a5f8723ea2a3a4708403036f44d9a7b22}{Blocked\+Sequence}} (int start\+RBN=1)
+\begin{DoxyCompactList}\small\item\em Constructs an empty blocked sequence. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_blocked_sequence_a461e56eb76c6282c4d6ca1a3b2ca0e19}{Is\+Empty}} ()
+\begin{DoxyCompactList}\small\item\em Indicates whether the sequence has any blocks. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{class_blocked_sequence_a70198d7e592a7576c7454e8cbf76bccb}{Get\+Head\+RBN}} ()
+\begin{DoxyCompactList}\small\item\em Returns the RBN of the head block. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{class_blocked_sequence_aabc107cc4251620a19a57cb3bb4767e1}{Get\+Tail\+RBN}} ()
+\begin{DoxyCompactList}\small\item\em Returns the RBN of the tail block. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{class_blocked_sequence_a61283fd1f6a683a8c31ff4236750900e}{Get\+Next\+RBN}} ()
+\begin{DoxyCompactList}\small\item\em Returns the next RBN that will be assigned to a new block. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{class_blocked_sequence_a2b855a3abe6b5cf03cf94f928dacb5c7}{Get\+Count}} ()
+\begin{DoxyCompactList}\small\item\em Returns the number of blocks currently tracked in memory. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_blocked_sequence_aa9599d8b9b2fb18df97dcd112b218f75}{Append\+Record}} (const string \&record\+Csv)
+\begin{DoxyCompactList}\small\item\em Appends one packed record to the logical tail of the sequence. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_blocked_sequence_ac5831eabf93aca4aa6714b3b76ea4a13}{Write\+All}} ()
+\begin{DoxyCompactList}\small\item\em Writes every linked block from head to tail. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_blocked_sequence_aa645a4dffa167f93bee0f42d02aa4c4c}{Load\+All\+From\+Head}} ()
+\begin{DoxyCompactList}\small\item\em Reads every linked block from head to tail. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_block}{Block}} \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{class_blocked_sequence_a1cd2f3e661284e48f8cddaac76e7f83d}{Get\+Block}} (int rbn)
+\begin{DoxyCompactList}\small\item\em Looks up a block by relative block number. \end{DoxyCompactList}\item 
+string \mbox{\hyperlink{class_blocked_sequence_aae6f900f7bff19ff5a49cca1a748b68e}{Dump\+Logical\+Order}} ()
+\begin{DoxyCompactList}\small\item\em Dumps the logical sequence of records from head to tail as a string. \end{DoxyCompactList}\item 
+string \mbox{\hyperlink{class_blocked_sequence_a72114745120a990837a9606a1e77bfb0}{Dump\+Physical\+Block\+Order}} ()
+\begin{DoxyCompactList}\small\item\em Dumps active blocks in physical order (ascending RBN map order). \end{DoxyCompactList}\item 
+string \mbox{\hyperlink{class_blocked_sequence_a143091307944af03d6b69c8ac75f5dcb}{Dump\+Logical\+Block\+Order}} ()
+\begin{DoxyCompactList}\small\item\em Dumps active blocks in logical order (following next-\/\+RBN chain). \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_blocked_sequence_a9a78017c68ad38ac20885a64cb45be78}{Insert}} (const string \&record\+Csv, string \&log\+Output)
+\begin{DoxyCompactList}\small\item\em Inserts a record into the appropriate block, handling block splits if needed. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_blocked_sequence_a64d1b69ebfd73c36a35ab52b1cf3ca90}{Delete}} (const string \&zip\+Key, string \&log\+Output)
+\begin{DoxyCompactList}\small\item\em Deletes a record by ZIP key, handling block merges/redistributions if needed. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{class_blocked_sequence_a13ab684ef159dc6178c355a2687b9669}{Get\+Avail\+List\+Size}} ()
+\begin{DoxyCompactList}\small\item\em Returns the number of blocks currently in the available list. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\label{doc-constructors}
+\Hypertarget{class_blocked_sequence_doc-constructors}
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{class_blocked_sequence_a5f8723ea2a3a4708403036f44d9a7b22}\index{BlockedSequence@{BlockedSequence}!BlockedSequence@{BlockedSequence}}
+\index{BlockedSequence@{BlockedSequence}!BlockedSequence@{BlockedSequence}}
+\doxysubsubsection{\texorpdfstring{BlockedSequence()}{BlockedSequence()}}
+{\footnotesize\ttfamily \label{class_blocked_sequence_a5f8723ea2a3a4708403036f44d9a7b22} 
+Blocked\+Sequence\+::\+Blocked\+Sequence (\begin{DoxyParamCaption}\item[{int}]{start\+RBN}{ = {\ttfamily 1}}\end{DoxyParamCaption})}
+
+
+
+Constructs an empty blocked sequence. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em start\+RBN} & Initial RBN value to assign to the first created block.\\
+\hline
+\end{DoxyParams}
+Initializes head and tail as empty (0) and stores the next RBN counter used for newly allocated blocks.
+
+
+\begin{DoxyParams}{Parameters}
+{\em start\+RBN} & Initial RBN value assigned to the first new block. \\
+\hline
+\end{DoxyParams}
+
+
+\label{doc-func-members}
+\Hypertarget{class_blocked_sequence_doc-func-members}
+\doxysubsection{Member Function Documentation}
+\Hypertarget{class_blocked_sequence_aa9599d8b9b2fb18df97dcd112b218f75}\index{BlockedSequence@{BlockedSequence}!AppendRecord@{AppendRecord}}
+\index{AppendRecord@{AppendRecord}!BlockedSequence@{BlockedSequence}}
+\doxysubsubsection{\texorpdfstring{AppendRecord()}{AppendRecord()}}
+{\footnotesize\ttfamily \label{class_blocked_sequence_aa9599d8b9b2fb18df97dcd112b218f75} 
+bool Blocked\+Sequence\+::\+Append\+Record (\begin{DoxyParamCaption}\item[{const string \&}]{record\+Csv}{}\end{DoxyParamCaption})}
+
+
+
+Appends one packed record to the logical tail of the sequence. 
+
+Appends one packed record to the tail of the blocked sequence.
+
+
+\begin{DoxyParams}{Parameters}
+{\em record\+Csv} & Length-\/indicated record payload to append. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+True if the record is inserted into an existing or new block; otherwise false.
+\end{DoxyReturn}
+If the current tail block has space, the record is inserted there. If not, a new block is created, linked after the tail, and the record is inserted into the new block.
+
+
+\begin{DoxyParams}{Parameters}
+{\em record\+Csv} & Length-\/indicated record payload to append. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+True if appended successfully; otherwise false.
+\end{DoxyReturn}
+Creates the first block on demand. If the tail block is full, allocates and links a new tail block before insertion. \Hypertarget{class_blocked_sequence_a64d1b69ebfd73c36a35ab52b1cf3ca90}\index{BlockedSequence@{BlockedSequence}!Delete@{Delete}}
+\index{Delete@{Delete}!BlockedSequence@{BlockedSequence}}
+\doxysubsubsection{\texorpdfstring{Delete()}{Delete()}}
+{\footnotesize\ttfamily \label{class_blocked_sequence_a64d1b69ebfd73c36a35ab52b1cf3ca90} 
+bool Blocked\+Sequence\+::\+Delete (\begin{DoxyParamCaption}\item[{const string \&}]{zip\+Key}{, }\item[{string \&}]{log\+Output}{}\end{DoxyParamCaption})}
+
+
+
+Deletes a record by ZIP key, handling block merges/redistributions if needed. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em zip\+Key} & ZIP code to delete. \\
+\hline
+{\em log\+Output} & Reference to string where delete/merge/redistribution events are logged. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+True if deletion succeeds; otherwise false.
+\end{DoxyReturn}
+Searches blocks for the key, removes it, and handles merge if block becomes underfull.
+
+
+\begin{DoxyParams}{Parameters}
+{\em zip\+Key} & ZIP code to delete. \\
+\hline
+{\em log\+Output} & Reference to string where delete/merge events are logged. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+True if deletion succeeds; otherwise false. 
+\end{DoxyReturn}
+\Hypertarget{class_blocked_sequence_a143091307944af03d6b69c8ac75f5dcb}\index{BlockedSequence@{BlockedSequence}!DumpLogicalBlockOrder@{DumpLogicalBlockOrder}}
+\index{DumpLogicalBlockOrder@{DumpLogicalBlockOrder}!BlockedSequence@{BlockedSequence}}
+\doxysubsubsection{\texorpdfstring{DumpLogicalBlockOrder()}{DumpLogicalBlockOrder()}}
+{\footnotesize\ttfamily \label{class_blocked_sequence_a143091307944af03d6b69c8ac75f5dcb} 
+string Blocked\+Sequence\+::\+Dump\+Logical\+Block\+Order (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+
+
+Dumps active blocks in logical order (following next-\/\+RBN chain). 
+
+\begin{DoxyReturn}{Returns}
+Formatted dump with list heads, links, and record keys per block. 
+\end{DoxyReturn}
+\Hypertarget{class_blocked_sequence_aae6f900f7bff19ff5a49cca1a748b68e}\index{BlockedSequence@{BlockedSequence}!DumpLogicalOrder@{DumpLogicalOrder}}
+\index{DumpLogicalOrder@{DumpLogicalOrder}!BlockedSequence@{BlockedSequence}}
+\doxysubsubsection{\texorpdfstring{DumpLogicalOrder()}{DumpLogicalOrder()}}
+{\footnotesize\ttfamily \label{class_blocked_sequence_aae6f900f7bff19ff5a49cca1a748b68e} 
+string Blocked\+Sequence\+::\+Dump\+Logical\+Order (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+
+
+Dumps the logical sequence of records from head to tail as a string. 
+
+\begin{DoxyReturn}{Returns}
+A string representation of all records in logical order.
+\end{DoxyReturn}
+Traverses the active chain and concatenates the records from each block into a single string for display or debugging purposes. \Hypertarget{class_blocked_sequence_a72114745120a990837a9606a1e77bfb0}\index{BlockedSequence@{BlockedSequence}!DumpPhysicalBlockOrder@{DumpPhysicalBlockOrder}}
+\index{DumpPhysicalBlockOrder@{DumpPhysicalBlockOrder}!BlockedSequence@{BlockedSequence}}
+\doxysubsubsection{\texorpdfstring{DumpPhysicalBlockOrder()}{DumpPhysicalBlockOrder()}}
+{\footnotesize\ttfamily \label{class_blocked_sequence_a72114745120a990837a9606a1e77bfb0} 
+string Blocked\+Sequence\+::\+Dump\+Physical\+Block\+Order (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+
+
+Dumps active blocks in physical order (ascending RBN map order). 
+
+\begin{DoxyReturn}{Returns}
+Formatted dump with list heads, links, and record keys per block. 
+\end{DoxyReturn}
+\Hypertarget{class_blocked_sequence_a13ab684ef159dc6178c355a2687b9669}\index{BlockedSequence@{BlockedSequence}!GetAvailListSize@{GetAvailListSize}}
+\index{GetAvailListSize@{GetAvailListSize}!BlockedSequence@{BlockedSequence}}
+\doxysubsubsection{\texorpdfstring{GetAvailListSize()}{GetAvailListSize()}}
+{\footnotesize\ttfamily \label{class_blocked_sequence_a13ab684ef159dc6178c355a2687b9669} 
+int Blocked\+Sequence\+::\+Get\+Avail\+List\+Size (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+
+
+Returns the number of blocks currently in the available list. 
+
+\begin{DoxyReturn}{Returns}
+Count of blocks in the available list. 
+\end{DoxyReturn}
+\Hypertarget{class_blocked_sequence_a1cd2f3e661284e48f8cddaac76e7f83d}\index{BlockedSequence@{BlockedSequence}!GetBlock@{GetBlock}}
+\index{GetBlock@{GetBlock}!BlockedSequence@{BlockedSequence}}
+\doxysubsubsection{\texorpdfstring{GetBlock()}{GetBlock()}}
+{\footnotesize\ttfamily \label{class_blocked_sequence_a1cd2f3e661284e48f8cddaac76e7f83d} 
+\mbox{\hyperlink{class_block}{Block}} \texorpdfstring{$\ast$}{*} Blocked\+Sequence\+::\+Get\+Block (\begin{DoxyParamCaption}\item[{int}]{rbn}{}\end{DoxyParamCaption})}
+
+
+
+Looks up a block by relative block number. 
+
+Finds a block by its relative block number.
+
+
+\begin{DoxyParams}{Parameters}
+{\em rbn} & RBN key of the block to locate. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Pointer to the matching block, or nullptr if not found.
+\end{DoxyReturn}
+
+\begin{DoxyParams}{Parameters}
+{\em rbn} & \doxylink{class_block}{Block} identifier to look up. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Pointer to the located block, or nullptr if the RBN is not present. 
+\end{DoxyReturn}
+\Hypertarget{class_blocked_sequence_a2b855a3abe6b5cf03cf94f928dacb5c7}\index{BlockedSequence@{BlockedSequence}!GetCount@{GetCount}}
+\index{GetCount@{GetCount}!BlockedSequence@{BlockedSequence}}
+\doxysubsubsection{\texorpdfstring{GetCount()}{GetCount()}}
+{\footnotesize\ttfamily \label{class_blocked_sequence_a2b855a3abe6b5cf03cf94f928dacb5c7} 
+int Blocked\+Sequence\+::\+Get\+Count (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+
+
+Returns the number of blocks currently tracked in memory. 
+
+Returns the number of blocks tracked by this sequence.
+
+\begin{DoxyReturn}{Returns}
+Count of blocks in the internal map.
+
+Count of entries in the internal block map. 
+\end{DoxyReturn}
+\Hypertarget{class_blocked_sequence_a70198d7e592a7576c7454e8cbf76bccb}\index{BlockedSequence@{BlockedSequence}!GetHeadRBN@{GetHeadRBN}}
+\index{GetHeadRBN@{GetHeadRBN}!BlockedSequence@{BlockedSequence}}
+\doxysubsubsection{\texorpdfstring{GetHeadRBN()}{GetHeadRBN()}}
+{\footnotesize\ttfamily \label{class_blocked_sequence_a70198d7e592a7576c7454e8cbf76bccb} 
+int Blocked\+Sequence\+::\+Get\+Head\+RBN (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+
+
+Returns the RBN of the head block. 
+
+Returns the head block RBN.
+
+\begin{DoxyReturn}{Returns}
+Head block RBN, or 0 when the sequence is empty.
+
+RBN of the first block, or 0 if empty. 
+\end{DoxyReturn}
+\Hypertarget{class_blocked_sequence_a61283fd1f6a683a8c31ff4236750900e}\index{BlockedSequence@{BlockedSequence}!GetNextRBN@{GetNextRBN}}
+\index{GetNextRBN@{GetNextRBN}!BlockedSequence@{BlockedSequence}}
+\doxysubsubsection{\texorpdfstring{GetNextRBN()}{GetNextRBN()}}
+{\footnotesize\ttfamily \label{class_blocked_sequence_a61283fd1f6a683a8c31ff4236750900e} 
+int Blocked\+Sequence\+::\+Get\+Next\+RBN (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+
+
+Returns the next RBN that will be assigned to a new block. 
+
+Returns the next available RBN for block creation.
+
+\begin{DoxyReturn}{Returns}
+Next available RBN value.
+
+Next RBN counter value. 
+\end{DoxyReturn}
+\Hypertarget{class_blocked_sequence_aabc107cc4251620a19a57cb3bb4767e1}\index{BlockedSequence@{BlockedSequence}!GetTailRBN@{GetTailRBN}}
+\index{GetTailRBN@{GetTailRBN}!BlockedSequence@{BlockedSequence}}
+\doxysubsubsection{\texorpdfstring{GetTailRBN()}{GetTailRBN()}}
+{\footnotesize\ttfamily \label{class_blocked_sequence_aabc107cc4251620a19a57cb3bb4767e1} 
+int Blocked\+Sequence\+::\+Get\+Tail\+RBN (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+
+
+Returns the RBN of the tail block. 
+
+Returns the tail block RBN.
+
+\begin{DoxyReturn}{Returns}
+Tail block RBN, or 0 when the sequence is empty.
+
+RBN of the last block, or 0 if empty. 
+\end{DoxyReturn}
+\Hypertarget{class_blocked_sequence_a9a78017c68ad38ac20885a64cb45be78}\index{BlockedSequence@{BlockedSequence}!Insert@{Insert}}
+\index{Insert@{Insert}!BlockedSequence@{BlockedSequence}}
+\doxysubsubsection{\texorpdfstring{Insert()}{Insert()}}
+{\footnotesize\ttfamily \label{class_blocked_sequence_a9a78017c68ad38ac20885a64cb45be78} 
+bool Blocked\+Sequence\+::\+Insert (\begin{DoxyParamCaption}\item[{const string \&}]{record\+Csv}{, }\item[{string \&}]{log\+Output}{}\end{DoxyParamCaption})}
+
+
+
+Inserts a record into the appropriate block, handling block splits if needed. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em record\+Csv} & Packed record to insert. \\
+\hline
+{\em log\+Output} & Reference to string where split/insert events are logged. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+True if insert succeeds; otherwise false.
+\end{DoxyReturn}
+Searches existing blocks for the correct position, or creates a new block. If a block reaches capacity during insert, it is split and event is logged.
+
+
+\begin{DoxyParams}{Parameters}
+{\em record\+Csv} & Packed record to insert. \\
+\hline
+{\em log\+Output} & Reference to string where split/insert events are logged. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+True if insert succeeds; otherwise false. 
+\end{DoxyReturn}
+\Hypertarget{class_blocked_sequence_a461e56eb76c6282c4d6ca1a3b2ca0e19}\index{BlockedSequence@{BlockedSequence}!IsEmpty@{IsEmpty}}
+\index{IsEmpty@{IsEmpty}!BlockedSequence@{BlockedSequence}}
+\doxysubsubsection{\texorpdfstring{IsEmpty()}{IsEmpty()}}
+{\footnotesize\ttfamily \label{class_blocked_sequence_a461e56eb76c6282c4d6ca1a3b2ca0e19} 
+bool Blocked\+Sequence\+::\+Is\+Empty (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+
+
+Indicates whether the sequence has any blocks. 
+
+Checks whether the sequence currently has no blocks.
+
+\begin{DoxyReturn}{Returns}
+True when no blocks are currently linked; otherwise false.
+
+True when head RBN is 0; otherwise false. 
+\end{DoxyReturn}
+\Hypertarget{class_blocked_sequence_aa645a4dffa167f93bee0f42d02aa4c4c}\index{BlockedSequence@{BlockedSequence}!LoadAllFromHead@{LoadAllFromHead}}
+\index{LoadAllFromHead@{LoadAllFromHead}!BlockedSequence@{BlockedSequence}}
+\doxysubsubsection{\texorpdfstring{LoadAllFromHead()}{LoadAllFromHead()}}
+{\footnotesize\ttfamily \label{class_blocked_sequence_aa645a4dffa167f93bee0f42d02aa4c4c} 
+bool Blocked\+Sequence\+::\+Load\+All\+From\+Head (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+
+
+Reads every linked block from head to tail. 
+
+Reads all blocks from head to tail using next-\/\+RBN links.
+
+\begin{DoxyReturn}{Returns}
+True if all blocks are read successfully; otherwise false.
+\end{DoxyReturn}
+Traverses the active chain using each block\textquotesingle{}s next-\/\+RBN pointer and calls \doxylink{class_block_a558f5112306ada6813ba46d5d1a3b2cd}{Block\+::\+Read\+Block} on each visited block.
+
+\begin{DoxyReturn}{Returns}
+True if every block read succeeds; otherwise false. 
+\end{DoxyReturn}
+\Hypertarget{class_blocked_sequence_ac5831eabf93aca4aa6714b3b76ea4a13}\index{BlockedSequence@{BlockedSequence}!WriteAll@{WriteAll}}
+\index{WriteAll@{WriteAll}!BlockedSequence@{BlockedSequence}}
+\doxysubsubsection{\texorpdfstring{WriteAll()}{WriteAll()}}
+{\footnotesize\ttfamily \label{class_blocked_sequence_ac5831eabf93aca4aa6714b3b76ea4a13} 
+bool Blocked\+Sequence\+::\+Write\+All (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+
+
+Writes every linked block from head to tail. 
+
+Writes all blocks from head to tail using next-\/\+RBN links.
+
+\begin{DoxyReturn}{Returns}
+True if all blocks are written successfully; otherwise false.
+\end{DoxyReturn}
+Traverses the active chain using each block\textquotesingle{}s next-\/\+RBN pointer and calls \doxylink{class_block_a9676681bfcc609989fccc4a92f688965}{Block\+::\+Write\+Block} on each visited block.
+
+\begin{DoxyReturn}{Returns}
+True if every block write succeeds; otherwise false. 
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+include/\+Project 3.\+0/\mbox{\hyperlink{_blocked_sequence_8h}{Blocked\+Sequence.\+h}}\item 
+src/\+Project 3.\+0/\mbox{\hyperlink{_blocked_sequence_8cpp}{Blocked\+Sequence.\+cpp}}\end{DoxyCompactItemize}

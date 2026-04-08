@@ -1,0 +1,30 @@
+\doxysection{Record\+Formatter.\+h}
+\hypertarget{_record_formatter_8h_source}{}\label{_record_formatter_8h_source}\index{include/RecordFormatter.h@{include/RecordFormatter.h}}
+\mbox{\hyperlink{_record_formatter_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ }
+\DoxyCodeLine{00007\ }
+\DoxyCodeLine{00008\ \textcolor{preprocessor}{\ \ \ \ \#ifndef\ RECORDFORMATTER\_H}}
+\DoxyCodeLine{00009\ \textcolor{preprocessor}{\ \ \ \ \#define\ RECORDFORMATTER\_H}}
+\DoxyCodeLine{00010\ }
+\DoxyCodeLine{00011\ \textcolor{preprocessor}{\ \ \ \#include\ "{}\mbox{\hyperlink{_zip_code_record_8h}{ZipCodeRecord.h}}"{}}}
+\DoxyCodeLine{00012\ \textcolor{preprocessor}{\ \ \ \#include\ <string>}}
+\DoxyCodeLine{00013\ \textcolor{preprocessor}{\ \ \ \#include\ <sstream>}}
+\DoxyCodeLine{00014\ }
+\DoxyCodeLine{00019\ \ \ \ \ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_record_formatter}{RecordFormatter}}\ \{}
+\DoxyCodeLine{00020\ \ \ \ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00021\ }
+\DoxyCodeLine{00022\ \ \ \ \ \ \ \textcolor{comment}{//\ \ \ Packs\ a\ ZipCodeRecord\ into\ a\ length-\/indicated\ string\ format.}}
+\DoxyCodeLine{00023\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00024\ \ \ \ \ \ \ \ \ \textcolor{keyword}{static}\ std::string\ \mbox{\hyperlink{class_record_formatter_aa36b1aebf1229170d3347696e4f412c3}{pack}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{class_zip_code_record}{ZipCodeRecord}}\&\ record);}
+\DoxyCodeLine{00025\ }
+\DoxyCodeLine{00026\ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Unpacks\ a\ length-\/indicated\ string\ into\ a\ ZipCodeRecord\ object.}}
+\DoxyCodeLine{00027\ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00028\ \ \ \ \ \ \ \ \ \textcolor{keyword}{static}\ \mbox{\hyperlink{class_zip_code_record}{ZipCodeRecord}}\ \mbox{\hyperlink{class_record_formatter_ac0dc47a18d8becfcc8d10b2012ad5a39}{unpack}}(\textcolor{keyword}{const}\ std::string\&\ packedRecord);}
+\DoxyCodeLine{00029\ }
+\DoxyCodeLine{00039\ \ \ \ \ \ \ \ \ \textcolor{keyword}{static}\ std::string\ \mbox{\hyperlink{class_record_formatter_a09a40a939ad0d6a55ebeb4a7edd955a1}{formatLabeled}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{class_zip_code_record}{ZipCodeRecord}}\&\ record);}
+\DoxyCodeLine{00040\ \ \ \ \ \};}
+\DoxyCodeLine{00041\ }
+\DoxyCodeLine{00042\ \textcolor{preprocessor}{\ \ \ \ \#endif\ }\textcolor{comment}{//\ RECORDFORMATTER\_H}}
+
+\end{DoxyCode}

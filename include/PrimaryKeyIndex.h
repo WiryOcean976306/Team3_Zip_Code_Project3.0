@@ -25,13 +25,13 @@ class PrimaryKeyIndex
     private:
 
         /**
-        * @brief A map that stores the PrimaryKeyIndex of a file.
-        * @param string The ZipCode
-        * @param int The byte position of the record
-        */
+         * @brief In-memory simple index mapping highest-key values to block RBNs.
+         */
         map<string, int> Index;
 
+        /** Directory containing block_<rbn>.blk files used for index build/read. */
         string BlockDirectory = "data/blocks";
+        /** Optional path to a serialized simple index file. */
         string IndexFilePath = "";
 
         /** Extracts the ZIP key from a packed record string. */
@@ -43,9 +43,9 @@ class PrimaryKeyIndex
     public:
 
         /**
-        * @brief Creates a Primary Key Index builder rooted at a block directory.
-        * @param FilePath Path to the block directory (default: data/blocks).
-        */
+         * @brief Creates a PrimaryKeyIndex object rooted at a block directory or index path.
+         * @param FilePath Path to a block directory (preferred) or index file.
+         */
         PrimaryKeyIndex(const string& FilePath);
 
         /**
@@ -61,23 +61,23 @@ class PrimaryKeyIndex
         bool BuildFromBlocks(const string& blockDirectory);
 
         /**
-         * @brief Finds the ZipCodeRecord for a provided Zip Codes.
-         * @param Zips A vector of Zip Codes to search for.
-         * @return The ZipCodeRecord for the first matching Zip Code, or an invalid record if none found.
+         * @brief Finds ZIP records for command-line style query arguments.
+         * @param Zips ZIP query tokens (supports -Z<zip> form).
+         * @return The first matching ZipCodeRecord, or an empty/default record when none are found.
          */
         ZipCodeRecord find(vector<string> Zips);
 
         /**
-         * @brief Writes the Primary Key Index to a file in the PKI directory.
-         * @param path The path to the file to write the index to.
-         * @return true if the index was successfully written, false otherwise.
+         * @brief Writes the in-memory simple index to a file.
+         * @param path Output path.
+         * @return true if the index was successfully written; otherwise false.
          */
         bool WriteToFile(const string& path);
 
         /**
-         * @brief Reads the Primary Key Index from a file in the PKI directory.
-         * @param path The path to the file to read the index from.
-         * @return true if the index was successfully read, false otherwise.
+         * @brief Reads a serialized simple index file into memory.
+         * @param path Input path.
+         * @return true if the index was successfully read; otherwise false.
          */
         bool ReadFromFile(const string& path);
 

@@ -1,0 +1,40 @@
+\doxysection{analyzer.\+h}
+\hypertarget{analyzer_8h_source}{}\label{analyzer_8h_source}\index{include/analyzer.h@{include/analyzer.h}}
+\mbox{\hyperlink{analyzer_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ }
+\DoxyCodeLine{00007\ }
+\DoxyCodeLine{00008\ \textcolor{preprocessor}{\ \#ifndef\ ANALYZER\_H}}
+\DoxyCodeLine{00009\ \textcolor{preprocessor}{\ \#define\ ANALYZER\_H}}
+\DoxyCodeLine{00010\ }
+\DoxyCodeLine{00011\ }
+\DoxyCodeLine{00012\ \ }
+\DoxyCodeLine{00013\ \textcolor{preprocessor}{\ \#include\ <map>}}
+\DoxyCodeLine{00014\ \textcolor{preprocessor}{\ \#include\ <string>}}
+\DoxyCodeLine{00015\ \textcolor{preprocessor}{\ \#include\ "{}\mbox{\hyperlink{_zip_code_record_8h}{ZipCodeRecord.h}}"{}}}
+\DoxyCodeLine{00016\ \textcolor{preprocessor}{\ \#include\ "{}\mbox{\hyperlink{_state_extremes_8h}{StateExtremes.h}}"{}}}
+\DoxyCodeLine{00017\ }
+\DoxyCodeLine{00018\ \ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_analyzer}{Analyzer}}\ }
+\DoxyCodeLine{00019\ \ \ \ \ \{}
+\DoxyCodeLine{00020\ }
+\DoxyCodeLine{00021\ \ \ \ \ \ \ \ \ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00025\ \ \ \ \ \ \ \ \ \ \ \ \ std::map<std::string,\ StateExtremes>\ results;}
+\DoxyCodeLine{00026\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00027\ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00028\ }
+\DoxyCodeLine{00029\ }
+\DoxyCodeLine{00030\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00037\ }
+\DoxyCodeLine{00038\ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_analyzer_aebe5100db33036bd669b0e5290fa9c7e}{consume}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{class_zip_code_record}{ZipCodeRecord}}\&\ record);}
+\DoxyCodeLine{00039\ }
+\DoxyCodeLine{00040\ }
+\DoxyCodeLine{00049\ }
+\DoxyCodeLine{00050\ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ std::map<std::string,\ StateExtremes>\&\ \mbox{\hyperlink{class_analyzer_aad69143b4a27b909832b01fcb8b66cb7}{getResults}}()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00051\ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00052\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00053\ }
+\DoxyCodeLine{00054\ \ \ \ \ \};}
+\DoxyCodeLine{00055\ }
+\DoxyCodeLine{00056\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ ANALYZER\_H}}
+
+\end{DoxyCode}

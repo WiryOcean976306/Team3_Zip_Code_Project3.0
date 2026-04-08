@@ -1,0 +1,76 @@
+Project 3.0 Final Submission Checklist
+=====================================
+
+Team: Team 3
+Course: CSCI 331 - Software Systems
+Date: 2026-04-07
+
+Use this checklist to confirm all required deliverables are complete.
+
+A) Build Verification
+---------------------
+[x] make bin/main
+[x] make bin/SearchIndex
+[x] make bin/TestDriver
+
+
+B) Required Demo Runs
+---------------------
+1) Generation run (main)
+[x] .\bin\main -in data/Length_Indicated_us_postal_codes.csv -out data/blocked_sequence_set.txt -blockSize 512 -minCapacity 0.50 -startRBN 1 -dump data/dumped_records.txt -physicalDump data/physical_block_dump.txt -logicalDump data/logical_block_dump.txt -index data/simple_index.txt -indexDump data/simple_index_dump.txt -printRecords 0
+
+2) Search run (valid + invalid keys)
+[x] .\bin\SearchIndex -data data/blocked_sequence_set.txt -index data/simple_index.txt -blocks data/blocks -Z56301 -Z00501 -Z99999
+
+3) Mutation run (add/delete with logs)
+[x] .\bin\main -in data/Length_Indicated_us_postal_codes.csv -out data/blocked_sequence_set.txt -blockSize 512 -minCapacity 0.50 -startRBN 1 -dump data/dumped_records.txt -physicalDump data/physical_block_dump.txt -logicalDump data/logical_block_dump.txt -index data/simple_index.txt -indexDump data/simple_index_dump.txt -a data/recordsToAdd.txt -d data/keysToDelete.txt -addLog data/addition_log.txt -deleteLog data/deletion_log.txt -printRecords 0
+
+
+C) Output Artifact Checklist
+----------------------------
+[x] data/blocked_sequence_set.txt
+[x] data/blocks/block_*.blk
+[x] data/physical_block_dump.txt
+[x] data/logical_block_dump.txt
+[x] data/dumped_records.txt (if dump option used)
+[x] data/simple_index.txt
+[x] data/simple_index_dump.txt
+[x] data/addition_log.txt (for mutation demo)
+[x] data/deletion_log.txt (for mutation demo)
+
+
+D) Documentation Deliverables
+-----------------------------
+[x] README.md updated and accurate
+[x] USER_GUIDE.txt updated and accurate
+[x] AI_USE_STATEMENT.txt included
+[x] Doxygen PDF generated and included
+[x] (If required by instructor) Doxygen HTML output included
+[ ] Preliminary design document included
+[ ] Preliminary test document included
+
+
+E) Requirements Coverage Spot-Check
+-----------------------------------
+[x] Blocked sequence set generation works from length-indicated input
+[x] Header record read/write path is used for blocked sequence metadata
+[x] Physical and logical block dumps are generated
+[x] Simple index file is generated, dumped, and read for search
+[x] Search uses index + block reads and reports not-found correctly
+[x] Add/delete test run executes and logs operations
+[x] Program variables are driven by CLI options/defaults/metadata
+
+
+F) Final Packaging
+------------------
+[x] Include source files, headers, Makefile, and docs
+[x] Include representative output artifacts from successful final run
+[x] Include this checklist with boxes completed (optional but recommended)
+[ ] Verify project builds and runs on a clean pull/clone
+
+
+Notes
+-----
+- Canonical generation/search workflow is via bin/main and bin/SearchIndex.
+- bin/TestDriver is a minimal scenario runner for repeatable demos.
+- If full merge/redistribution policy is required by your grader, confirm with TA/instructor.

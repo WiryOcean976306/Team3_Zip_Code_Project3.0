@@ -2,58 +2,85 @@
  * @file BlockBuffer.h
  * @author Robert Shores
  * @date 2026-03-31
- * @brief declaration file for the BlockBuffer class which unpacks a record from
- * a block into a record buffer. Reads/writes whole fixed-size blocks (default 512 bytes).
- *
- * Knows block metadatea layout: record count, prev RBN, next RBN
+ * @brief Declares BlockBuffer utilities for packing/unpacking block and record data.
  */
 
 
 
- #ifndef BLOCKBUFFER_H
- #define BLOCKBUFFER_H
+#ifndef BLOCKBUFFER_H
+#define BLOCKBUFFER_H
 
- #include <iostream>
- #include <fstream>
- #include <string>
- #include <memory>
+#include <iostream>
+#include <fstream>
+#include <string>
+#include <memory>
 #include <cstring>
- #include "Block.h"
- #include "ZipCodeRecord.h"
- 
+#include "Block.h"
+#include "ZipCodeRecord.h"
 
-
- /**
-  * @brief unpacks a record form a black into a record buffer
-  * @details
-  */
-
-  class BlockBuffer {
+/**
+ * @brief Buffer helper for reading/writing packed fields and unpacking records from blocks.
+ */
+class BlockBuffer {
     private:
-        std::ifstream file; /** Input file stream */
-        std::string csvPath;
-        bool BufferRead;
-        
+        std::ifstream file; /**< Reserved input stream handle for buffer workflows. */
+        std::string csvPath; /**< Optional source path used by callers. */
+        bool BufferRead; /**< Tracks whether the internal buffer currently has content. */
+
     public:
 
         /**
-         * @brief Initilizes the BlockBuffer 
-         * @param Block The block to be unpacked into a record buffer
+         * @brief Constructs a block buffer with a maximum byte capacity.
+         * @param maxBytes Maximum number of bytes that can be stored in the internal buffer.
          */
+        BlockBuffer(int maxBytes = 512);
 
+        /**
+         * @brief Clears packed content and resets cursor positions.
+         */
+        void Clear();
 
-        BlockBuffer (int maxBytes = 512);
+        /**
+         * @brief Reads packed bytes from a stream into the internal buffer.
+         * @param stream Source stream.
+         * @return Non-zero when read succeeds; otherwise zero.
+         */
+        int Read(istream& stream);
 
-        
-        void Clear (); // clear fields from buffer
-        int Read (istream& stream);
-        int Write (ostream& stream) const;
-        int Pack (const char*, short size = -1);
-            // set the value of the next field of the buffer
-        int Unpack (char *);
-            // extract the value of the next field of the buffer
-        void Print (ostream&) const;
-        int Init (int maxBytes = 512);
+        /**
+         * @brief Writes packed bytes from the internal buffer to a stream.
+         * @param stream Destination stream.
+         * @return Non-zero when write succeeds; otherwise zero.
+         */
+        int Write(ostream& stream) const;
+
+        /**
+         * @brief Packs one field string into the internal buffer.
+         * @param str Input C-string field value.
+         * @param size Optional explicit size, or -1 to use string length.
+         * @return Non-zero when pack succeeds; otherwise zero.
+         */
+        int Pack(const char*, short size = -1);
+
+        /**
+         * @brief Unpacks one field string from the internal buffer.
+         * @param str Destination C-string buffer.
+         * @return Non-zero when unpack succeeds; otherwise zero.
+         */
+        int Unpack(char*);
+
+        /**
+         * @brief Prints a short diagnostic summary of the internal buffer.
+         * @param stream Output stream.
+         */
+        void Print(ostream&) const;
+
+        /**
+         * @brief Initializes or reinitializes internal storage.
+         * @param maxBytes Maximum allowed bytes for this buffer.
+         * @return Non-zero when initialization succeeds.
+         */
+        int Init(int maxBytes = 512);
 
         /**
          * @brief Extracts one packed record string from a block.
@@ -83,16 +110,10 @@
 
     private:
 
-        char * Buffer; // character array to hold field values
-        int BufferSize; // size of packed fields
-        int MaxBytes; // maximum number of characters in the buffer
-        int NextByte; // packing/unpacking position in the buffer
-
-
-
-  };
-
-
-
+        char* Buffer; /**< Character array holding packed field bytes. */
+        int BufferSize; /**< Number of valid bytes currently in Buffer. */
+        int MaxBytes; /**< Maximum allowed number of bytes in Buffer. */
+        int NextByte; /**< Cursor used by Pack/Unpack operations. */
+};
 
 #endif

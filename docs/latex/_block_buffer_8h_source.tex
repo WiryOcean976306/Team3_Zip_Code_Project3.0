@@ -1,0 +1,60 @@
+\doxysection{Block\+Buffer.\+h}
+\hypertarget{_block_buffer_8h_source}{}\label{_block_buffer_8h_source}\index{include/Project 3.0/BlockBuffer.h@{include/Project 3.0/BlockBuffer.h}}
+\mbox{\hyperlink{_block_buffer_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ }
+\DoxyCodeLine{00007\ }
+\DoxyCodeLine{00008\ }
+\DoxyCodeLine{00009\ }
+\DoxyCodeLine{00010\ \textcolor{preprocessor}{\#ifndef\ BLOCKBUFFER\_H}}
+\DoxyCodeLine{00011\ \textcolor{preprocessor}{\#define\ BLOCKBUFFER\_H}}
+\DoxyCodeLine{00012\ }
+\DoxyCodeLine{00013\ \textcolor{preprocessor}{\#include\ <iostream>}}
+\DoxyCodeLine{00014\ \textcolor{preprocessor}{\#include\ <fstream>}}
+\DoxyCodeLine{00015\ \textcolor{preprocessor}{\#include\ <string>}}
+\DoxyCodeLine{00016\ \textcolor{preprocessor}{\#include\ <memory>}}
+\DoxyCodeLine{00017\ \textcolor{preprocessor}{\#include\ <cstring>}}
+\DoxyCodeLine{00018\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{_block_8h}{Block.h}}"{}}}
+\DoxyCodeLine{00019\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{_zip_code_record_8h}{ZipCodeRecord.h}}"{}}}
+\DoxyCodeLine{00020\ }
+\DoxyCodeLine{00024\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_block_buffer_ac78ac8541183cdc1ce69d6c99d890ce2}{BlockBuffer}}\ \{}
+\DoxyCodeLine{00025\ \ \ \ \ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00026\ \ \ \ \ \ \ \ \ std::ifstream\ file;\ }
+\DoxyCodeLine{00027\ \ \ \ \ \ \ \ \ std::string\ csvPath;\ }
+\DoxyCodeLine{00028\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ BufferRead;\ }
+\DoxyCodeLine{00029\ }
+\DoxyCodeLine{00030\ \ \ \ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00031\ }
+\DoxyCodeLine{00036\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_block_buffer_ac78ac8541183cdc1ce69d6c99d890ce2}{BlockBuffer}}(\textcolor{keywordtype}{int}\ maxBytes\ =\ 512);}
+\DoxyCodeLine{00037\ }
+\DoxyCodeLine{00041\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_block_buffer_aa4e009f423ac58501766bc7f1bc60b27}{Clear}}();}
+\DoxyCodeLine{00042\ }
+\DoxyCodeLine{00048\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{class_block_buffer_a00a94a738198ac62c9800b54147c3d41}{Read}}(istream\&\ stream);}
+\DoxyCodeLine{00049\ }
+\DoxyCodeLine{00055\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{class_block_buffer_aca02e8d32b092ee8ea118334bd346994}{Write}}(ostream\&\ stream)\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00056\ }
+\DoxyCodeLine{00063\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{class_block_buffer_a28ccf96cd633f994c1380f36031eabca}{Pack}}(\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*,\ \textcolor{keywordtype}{short}\ size\ =\ -\/1);}
+\DoxyCodeLine{00064\ }
+\DoxyCodeLine{00070\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{class_block_buffer_af588eb7dac33c62b666a53bbd3608580}{Unpack}}(\textcolor{keywordtype}{char}*);}
+\DoxyCodeLine{00071\ }
+\DoxyCodeLine{00076\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_block_buffer_aa7ad99e07b008fdf52b1dc8bba477800}{Print}}(ostream\&)\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00077\ }
+\DoxyCodeLine{00083\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{class_block_buffer_a4f2773376a35dc0c993f8039ce11e1ec}{Init}}(\textcolor{keywordtype}{int}\ maxBytes\ =\ 512);}
+\DoxyCodeLine{00084\ }
+\DoxyCodeLine{00092\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_block_buffer_a4e05190e62ca8e4a15a3a8952086a3ad}{UnpackRecordFromBlock}}(\mbox{\hyperlink{class_block}{Block}}\&\ block,\ \textcolor{keywordtype}{int}\ recordIndex,\ std::string\&\ recordBufferOut)\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00093\ }
+\DoxyCodeLine{00100\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_block_buffer_a8c602a5e761e91a9974f29f0172d38f7}{UnpackFieldsToRecord}}(\textcolor{keyword}{const}\ std::string\&\ recordBuffer,\ \mbox{\hyperlink{class_zip_code_record}{ZipCodeRecord}}\&\ recordOut)\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00101\ }
+\DoxyCodeLine{00109\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_block_buffer_a4e05190e62ca8e4a15a3a8952086a3ad}{UnpackRecordFromBlock}}(\mbox{\hyperlink{class_block}{Block}}\&\ block,\ \textcolor{keywordtype}{int}\ recordIndex,\ \mbox{\hyperlink{class_zip_code_record}{ZipCodeRecord}}\&\ recordOut)\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00110\ }
+\DoxyCodeLine{00111\ \ \ \ \ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00112\ }
+\DoxyCodeLine{00113\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{char}*\ Buffer;\ }
+\DoxyCodeLine{00114\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ BufferSize;\ }
+\DoxyCodeLine{00115\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ MaxBytes;\ }
+\DoxyCodeLine{00116\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ NextByte;\ }
+\DoxyCodeLine{00117\ \};}
+\DoxyCodeLine{00118\ }
+\DoxyCodeLine{00119\ \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

@@ -1,0 +1,36 @@
+\doxysection{Header\+Buffer.\+h}
+\hypertarget{_header_buffer_8h_source}{}\label{_header_buffer_8h_source}\index{include/Project 3.0/HeaderBuffer.h@{include/Project 3.0/HeaderBuffer.h}}
+\mbox{\hyperlink{_header_buffer_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ }
+\DoxyCodeLine{00009\ }
+\DoxyCodeLine{00010\ \textcolor{preprocessor}{\#ifndef\ \ HEADBUFFER\_H}}
+\DoxyCodeLine{00011\ \textcolor{preprocessor}{\#define\ \ HEADBUFFER\_H}}
+\DoxyCodeLine{00012\ }
+\DoxyCodeLine{00013\ \textcolor{preprocessor}{\#include\ <istream>}}
+\DoxyCodeLine{00014\ \textcolor{preprocessor}{\#include\ <ostream>}}
+\DoxyCodeLine{00015\ \textcolor{preprocessor}{\#include\ <string>}}
+\DoxyCodeLine{00016\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{_header_record_8h}{HeaderRecord.h}}"{}}}
+\DoxyCodeLine{00017\ }
+\DoxyCodeLine{00018\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_header_buffer}{HeaderBuffer}}\ \{}
+\DoxyCodeLine{00019\ \ \ \ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00020\ }
+\DoxyCodeLine{00029\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_header_buffer_a4b3221513d04634443e1ca2edc672daa}{writeHeader}}(std::ostream\&\ out,\ \textcolor{keyword}{const}\ \mbox{\hyperlink{class_header_record}{HeaderRecord}}\&\ header)\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00030\ }
+\DoxyCodeLine{00031\ }
+\DoxyCodeLine{00032\ }
+\DoxyCodeLine{00041\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_header_buffer_a67766d602b8927e6bbca9ca02b6ab9ac}{readHeader}}(std::istream\&\ in,\ \mbox{\hyperlink{class_header_record}{HeaderRecord}}\&\ headerOut)\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00042\ }
+\DoxyCodeLine{00043\ \ \ \ \ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00044\ }
+\DoxyCodeLine{00050\ \ \ \ \ \ \ \ \ std::string\ packHeader(\textcolor{keyword}{const}\ \mbox{\hyperlink{class_header_record}{HeaderRecord}}\&\ header)\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00051\ }
+\DoxyCodeLine{00058\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ unpackHeader(\textcolor{keyword}{const}\ std::string\&\ payload,\ \mbox{\hyperlink{class_header_record}{HeaderRecord}}\&\ headerOut)\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00059\ }
+\DoxyCodeLine{00060\ }
+\DoxyCodeLine{00061\ }
+\DoxyCodeLine{00062\ \};}
+\DoxyCodeLine{00063\ }
+\DoxyCodeLine{00064\ \textcolor{preprocessor}{\#endif\ }}
+
+\end{DoxyCode}

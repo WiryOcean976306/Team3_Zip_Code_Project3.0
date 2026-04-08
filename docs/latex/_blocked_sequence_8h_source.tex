@@ -1,0 +1,65 @@
+\doxysection{Blocked\+Sequence.\+h}
+\hypertarget{_blocked_sequence_8h_source}{}\label{_blocked_sequence_8h_source}\index{include/Project 3.0/BlockedSequence.h@{include/Project 3.0/BlockedSequence.h}}
+\mbox{\hyperlink{_blocked_sequence_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ }
+\DoxyCodeLine{00010\ }
+\DoxyCodeLine{00011\ \textcolor{preprocessor}{\#ifndef\ BLOCKEDSEQUENCE\_H}}
+\DoxyCodeLine{00012\ \textcolor{preprocessor}{\#define\ BLOCKEDSEQUENCE\_H}}
+\DoxyCodeLine{00013\ }
+\DoxyCodeLine{00014\ \textcolor{preprocessor}{\#include\ <map>}}
+\DoxyCodeLine{00015\ \textcolor{preprocessor}{\#include\ <queue>}}
+\DoxyCodeLine{00016\ \textcolor{preprocessor}{\#include\ <string>}}
+\DoxyCodeLine{00017\ }
+\DoxyCodeLine{00018\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{_block_8h}{Block.h}}"{}}}
+\DoxyCodeLine{00019\ }
+\DoxyCodeLine{00020\ \textcolor{keyword}{using\ namespace\ }std;}
+\DoxyCodeLine{00021\ }
+\DoxyCodeLine{00022\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_blocked_sequence_a5f8723ea2a3a4708403036f44d9a7b22}{BlockedSequence}}}
+\DoxyCodeLine{00023\ \{}
+\DoxyCodeLine{00024\ \ \ \ \ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00026\ \ \ \ \ \ \ \ \ map<int,\ Block>\ blocks;}
+\DoxyCodeLine{00028\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ HeadRBN\ =\ 0;}
+\DoxyCodeLine{00030\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ TailRBN\ =\ 0;}
+\DoxyCodeLine{00032\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ NextRBN\ =\ 1;}
+\DoxyCodeLine{00034\ \ \ \ \ \ \ \ \ queue<int>\ availList;}
+\DoxyCodeLine{00035\ }
+\DoxyCodeLine{00036\ \ \ \ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00037\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00044\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_blocked_sequence_a5f8723ea2a3a4708403036f44d9a7b22}{BlockedSequence}}(\textcolor{keywordtype}{int}\ startRBN\ =\ 1);}
+\DoxyCodeLine{00045\ }
+\DoxyCodeLine{00050\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_blocked_sequence_a461e56eb76c6282c4d6ca1a3b2ca0e19}{IsEmpty}}();}
+\DoxyCodeLine{00051\ }
+\DoxyCodeLine{00056\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{class_blocked_sequence_a70198d7e592a7576c7454e8cbf76bccb}{GetHeadRBN}}();}
+\DoxyCodeLine{00057\ }
+\DoxyCodeLine{00062\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{class_blocked_sequence_aabc107cc4251620a19a57cb3bb4767e1}{GetTailRBN}}();}
+\DoxyCodeLine{00063\ }
+\DoxyCodeLine{00068\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{class_blocked_sequence_a61283fd1f6a683a8c31ff4236750900e}{GetNextRBN}}();}
+\DoxyCodeLine{00069\ }
+\DoxyCodeLine{00074\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{class_blocked_sequence_a2b855a3abe6b5cf03cf94f928dacb5c7}{GetCount}}();}
+\DoxyCodeLine{00075\ }
+\DoxyCodeLine{00085\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_blocked_sequence_aa9599d8b9b2fb18df97dcd112b218f75}{AppendRecord}}(\textcolor{keyword}{const}\ \textcolor{keywordtype}{string}\&\ recordCsv);}
+\DoxyCodeLine{00086\ }
+\DoxyCodeLine{00093\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_blocked_sequence_ac5831eabf93aca4aa6714b3b76ea4a13}{WriteAll}}();}
+\DoxyCodeLine{00094\ }
+\DoxyCodeLine{00101\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_blocked_sequence_aa645a4dffa167f93bee0f42d02aa4c4c}{LoadAllFromHead}}();}
+\DoxyCodeLine{00102\ }
+\DoxyCodeLine{00108\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_block}{Block}}*\ \mbox{\hyperlink{class_blocked_sequence_a1cd2f3e661284e48f8cddaac76e7f83d}{GetBlock}}(\textcolor{keywordtype}{int}\ rbn);}
+\DoxyCodeLine{00109\ }
+\DoxyCodeLine{00110\ }
+\DoxyCodeLine{00117\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{string}\ \mbox{\hyperlink{class_blocked_sequence_aae6f900f7bff19ff5a49cca1a748b68e}{DumpLogicalOrder}}();}
+\DoxyCodeLine{00118\ }
+\DoxyCodeLine{00123\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{string}\ \mbox{\hyperlink{class_blocked_sequence_a72114745120a990837a9606a1e77bfb0}{DumpPhysicalBlockOrder}}();}
+\DoxyCodeLine{00124\ }
+\DoxyCodeLine{00129\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{string}\ \mbox{\hyperlink{class_blocked_sequence_a143091307944af03d6b69c8ac75f5dcb}{DumpLogicalBlockOrder}}();}
+\DoxyCodeLine{00130\ }
+\DoxyCodeLine{00139\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_blocked_sequence_a9a78017c68ad38ac20885a64cb45be78}{Insert}}(\textcolor{keyword}{const}\ \textcolor{keywordtype}{string}\&\ recordCsv,\ \textcolor{keywordtype}{string}\&\ logOutput);}
+\DoxyCodeLine{00140\ }
+\DoxyCodeLine{00148\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_blocked_sequence_a64d1b69ebfd73c36a35ab52b1cf3ca90}{Delete}}(\textcolor{keyword}{const}\ \textcolor{keywordtype}{string}\&\ zipKey,\ \textcolor{keywordtype}{string}\&\ logOutput);}
+\DoxyCodeLine{00149\ }
+\DoxyCodeLine{00154\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{class_blocked_sequence_a13ab684ef159dc6178c355a2687b9669}{GetAvailListSize}}();}
+\DoxyCodeLine{00155\ \};}
+\DoxyCodeLine{00156\ }
+\DoxyCodeLine{00157\ \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

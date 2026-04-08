@@ -1,0 +1,135 @@
+\doxysection{Length\+\_\+\+Indicated\+\_\+\+Zip\+Code\+Buffer Class Reference}
+\hypertarget{class_length___indicated___zip_code_buffer}{}\label{class_length___indicated___zip_code_buffer}\index{Length\_Indicated\_ZipCodeBuffer@{Length\_Indicated\_ZipCodeBuffer}}
+
+
+Provides seqential access to zip code records from a data source.  
+
+
+
+
+{\ttfamily \#include $<$Length\+\_\+\+Indicated\+\_\+\+Zip\+Code\+Buffer.\+h$>$}
+
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_length___indicated___zip_code_buffer_a97f89c2d2e6ff9abd7567b302a329be3}{Length\+\_\+\+Indicated\+\_\+\+Zip\+Code\+Buffer}} (const std\+::string \&file\+Path)
+\begin{DoxyCompactList}\small\item\em Constructor that initializes the \doxylink{class_zip_code_buffer}{Zip\+Code\+Buffer} with the specified file path. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_length___indicated___zip_code_buffer_a7acede98cc8ab57a19e49eed8653e481}{read\+Next}} (\mbox{\hyperlink{class_zip_code_record}{Zip\+Code\+Record}} \&record\+Out)
+\begin{DoxyCompactList}\small\item\em Reads the next CSV row. \end{DoxyCompactList}\item 
+std\+::string \mbox{\hyperlink{class_length___indicated___zip_code_buffer_ae4a638ed232606260c51ab3090661b80}{pack\+Record}} (\mbox{\hyperlink{class_zip_code_record}{Zip\+Code\+Record}} \&record) const
+\begin{DoxyCompactList}\small\item\em Pack Record into length indicated file. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_length___indicated___zip_code_buffer_ae914c6f2881f6348f399f0df75cb9128}{\texorpdfstring{$\sim$}{\string~}\+Length\+\_\+\+Indicated\+\_\+\+Zip\+Code\+Buffer}} ()
+\begin{DoxyCompactList}\small\item\em Destructor that closes the file stream. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Provides seqential access to zip code records from a data source. 
+
+Opens a CSV file Skips the header line Reads each line, parses it into a \doxylink{class_zip_code_record}{Zip\+Code\+Record}, and stores it in a buffer for later retrieval. Returns one record at a time, allowing for efficient memory usage when processing large datasets. 
+
+\label{doc-constructors}
+\Hypertarget{class_length___indicated___zip_code_buffer_doc-constructors}
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{class_length___indicated___zip_code_buffer_a97f89c2d2e6ff9abd7567b302a329be3}\index{Length\_Indicated\_ZipCodeBuffer@{Length\_Indicated\_ZipCodeBuffer}!Length\_Indicated\_ZipCodeBuffer@{Length\_Indicated\_ZipCodeBuffer}}
+\index{Length\_Indicated\_ZipCodeBuffer@{Length\_Indicated\_ZipCodeBuffer}!Length\_Indicated\_ZipCodeBuffer@{Length\_Indicated\_ZipCodeBuffer}}
+\doxysubsubsection{\texorpdfstring{Length\_Indicated\_ZipCodeBuffer()}{Length\_Indicated\_ZipCodeBuffer()}}
+{\footnotesize\ttfamily \label{class_length___indicated___zip_code_buffer_a97f89c2d2e6ff9abd7567b302a329be3} 
+Length\+\_\+\+Indicated\+\_\+\+Zip\+Code\+Buffer\+::\+Length\+\_\+\+Indicated\+\_\+\+Zip\+Code\+Buffer (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{file\+Path}{}\end{DoxyParamCaption})}
+
+
+
+Constructor that initializes the \doxylink{class_zip_code_buffer}{Zip\+Code\+Buffer} with the specified file path. 
+
+Constructor for \doxylink{class_length___indicated___zip_code_buffer}{Length\+\_\+\+Indicated\+\_\+\+Zip\+Code\+Buffer} that opens the specified length-\/indicated file.
+
+Input file stream for reading zip code data 
+\begin{DoxyParams}{Parameters}
+{\em file\+Path} & The path to the CSV file containing zip code data.\\
+\hline
+{\em file\+Path} & The path to the length-\/indicated file containing zip code records. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em std\+::runtime\+\_\+error} & if the file cannot be opened.\\
+\hline
+\end{DoxyExceptions}
+Opens the file for reading length-\/indicated records. Each record is preceded by a size indicator that tells how many bytes the record contains. \Hypertarget{class_length___indicated___zip_code_buffer_ae914c6f2881f6348f399f0df75cb9128}\index{Length\_Indicated\_ZipCodeBuffer@{Length\_Indicated\_ZipCodeBuffer}!````~Length\_Indicated\_ZipCodeBuffer@{\texorpdfstring{$\sim$}{\string~}Length\_Indicated\_ZipCodeBuffer}}
+\index{````~Length\_Indicated\_ZipCodeBuffer@{\texorpdfstring{$\sim$}{\string~}Length\_Indicated\_ZipCodeBuffer}!Length\_Indicated\_ZipCodeBuffer@{Length\_Indicated\_ZipCodeBuffer}}
+\doxysubsubsection{\texorpdfstring{\texorpdfstring{$\sim$}{\string~}Length\_Indicated\_ZipCodeBuffer()}{\string~Length\_Indicated\_ZipCodeBuffer()}}
+{\footnotesize\ttfamily \label{class_length___indicated___zip_code_buffer_ae914c6f2881f6348f399f0df75cb9128} 
+Length\+\_\+\+Indicated\+\_\+\+Zip\+Code\+Buffer\+::\texorpdfstring{$\sim$}{\string~}\+Length\+\_\+\+Indicated\+\_\+\+Zip\+Code\+Buffer (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+
+
+Destructor that closes the file stream. 
+
+Destructor for \doxylink{class_length___indicated___zip_code_buffer}{Length\+\_\+\+Indicated\+\_\+\+Zip\+Code\+Buffer} that closes the file stream if it is open.
+
+Ensures proper cleanup of the file stream resource when the object is destroyed. 
+
+\label{doc-func-members}
+\Hypertarget{class_length___indicated___zip_code_buffer_doc-func-members}
+\doxysubsection{Member Function Documentation}
+\Hypertarget{class_length___indicated___zip_code_buffer_ae4a638ed232606260c51ab3090661b80}\index{Length\_Indicated\_ZipCodeBuffer@{Length\_Indicated\_ZipCodeBuffer}!packRecord@{packRecord}}
+\index{packRecord@{packRecord}!Length\_Indicated\_ZipCodeBuffer@{Length\_Indicated\_ZipCodeBuffer}}
+\doxysubsubsection{\texorpdfstring{packRecord()}{packRecord()}}
+{\footnotesize\ttfamily \label{class_length___indicated___zip_code_buffer_ae4a638ed232606260c51ab3090661b80} 
+std\+::string Length\+\_\+\+Indicated\+\_\+\+Zip\+Code\+Buffer\+::pack\+Record (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_zip_code_record}{Zip\+Code\+Record}} \&}]{record}{}\end{DoxyParamCaption}) const}
+
+
+
+Pack Record into length indicated file. 
+
+Packs a \doxylink{class_zip_code_record}{Zip\+Code\+Record} into a length-\/indicated format string.
+
+
+\begin{DoxyParams}{Parameters}
+{\em record} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+
+\end{DoxyReturn}
+
+\begin{DoxyParams}{Parameters}
+{\em record} & The \doxylink{class_zip_code_record}{Zip\+Code\+Record} to pack. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A string containing the packed record in "{}size,data"{} format where size is the byte count.
+\end{DoxyReturn}
+Converts the record fields into a comma-\/separated string, prefixes it with an ASCII size indicator, and returns the combined data suitable for adding to a block. \Hypertarget{class_length___indicated___zip_code_buffer_a7acede98cc8ab57a19e49eed8653e481}\index{Length\_Indicated\_ZipCodeBuffer@{Length\_Indicated\_ZipCodeBuffer}!readNext@{readNext}}
+\index{readNext@{readNext}!Length\_Indicated\_ZipCodeBuffer@{Length\_Indicated\_ZipCodeBuffer}}
+\doxysubsubsection{\texorpdfstring{readNext()}{readNext()}}
+{\footnotesize\ttfamily \label{class_length___indicated___zip_code_buffer_a7acede98cc8ab57a19e49eed8653e481} 
+bool Length\+\_\+\+Indicated\+\_\+\+Zip\+Code\+Buffer\+::read\+Next (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_zip_code_record}{Zip\+Code\+Record}} \&}]{record\+Out}{}\end{DoxyParamCaption})}
+
+
+
+Reads the next CSV row. 
+
+Reads the next length-\/indicated record from the file and unpacks it into a \doxylink{class_zip_code_record}{Zip\+Code\+Record} object.
+
+
+\begin{DoxyParams}{Parameters}
+{\em record} & Output parameter that will hold the next \doxylink{class_zip_code_record}{Zip\+Code\+Record} read from the file. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true if a record was successfully read, false if end of file is reached.
+\end{DoxyReturn}
+
+\begin{DoxyParams}{Parameters}
+{\em record\+Out} & Output parameter that will hold the unpacked \doxylink{class_zip_code_record}{Zip\+Code\+Record}. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true if a record was successfully read and unpacked, false if end of file is reached.
+\end{DoxyReturn}
+Reads a size indicator (integer) followed by the record data. The record is parsed into zip code, state, latitude, and longitude fields, then constructed into a \doxylink{class_zip_code_record}{Zip\+Code\+Record} object. 
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+include/\mbox{\hyperlink{_length___indicated___zip_code_buffer_8h}{Length\+\_\+\+Indicated\+\_\+\+Zip\+Code\+Buffer.\+h}}\item 
+src/\mbox{\hyperlink{_length___indicated___zip_code_buffer_8cpp}{Length\+\_\+\+Indicated\+\_\+\+Zip\+Code\+Buffer.\+cpp}}\end{DoxyCompactItemize}

@@ -1,7 +1,7 @@
 /**
  * @file TestDriver.cpp
  * @brief Minimal scenario runner for Project 3.0.
- *
+ * @author Robert Shores
  * This executable is intentionally lightweight and delegates core behavior
  * to the canonical production CLI in bin/main.
  */
@@ -16,6 +16,9 @@ using namespace std;
 
 namespace {
 
+/**
+ * @brief Runtime switches for the scenario runner.
+ */
 struct ScenarioOptions {
     bool withMutations = false;
     bool printRecords = false;
@@ -23,6 +26,10 @@ struct ScenarioOptions {
     bool showHelp = false;
 };
 
+/**
+ * @brief Prints scenario-runner usage information.
+ * @param program Executable name from argv[0].
+ */
 void PrintUsage(const char* program)
 {
     cout << "Usage:\n"
@@ -40,6 +47,13 @@ void PrintUsage(const char* program)
          << "  " << program << " --mutations --print\n";
 }
 
+/**
+ * @brief Parses scenario-runner flags.
+ * @param argc Argument count.
+ * @param argv Argument vector.
+ * @param opts Output options structure.
+ * @return True when parsing succeeds; otherwise false.
+ */
 bool ParseArgs(int argc, char* argv[], ScenarioOptions& opts)
 {
     for (int i = 1; i < argc; ++i)
@@ -73,6 +87,10 @@ bool ParseArgs(int argc, char* argv[], ScenarioOptions& opts)
     return true;
 }
 
+/**
+ * @brief Resolves the canonical main binary path for the current platform.
+ * @return Relative path to main executable, or empty string when unavailable.
+ */
 string ResolveMainBinary()
 {
     if (filesystem::exists("bin/main.exe"))
@@ -86,6 +104,12 @@ string ResolveMainBinary()
     return "";
 }
 
+/**
+ * @brief Builds the delegated main-command string for the selected scenario.
+ * @param mainBinary Path to main executable.
+ * @param opts Scenario flags.
+ * @return Full shell command text.
+ */
 string BuildScenarioCommand(const string& mainBinary, const ScenarioOptions& opts)
 {
     ostringstream cmd;
@@ -116,6 +140,12 @@ string BuildScenarioCommand(const string& mainBinary, const ScenarioOptions& opt
 
 } // namespace
 
+/**
+ * @brief Main entry point for the lightweight scenario runner.
+ * @param argc Argument count.
+ * @param argv Argument vector.
+ * @return Process exit code.
+ */
 int main(int argc, char* argv[])
 {
     ScenarioOptions options;

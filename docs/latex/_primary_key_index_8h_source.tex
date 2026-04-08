@@ -1,0 +1,56 @@
+\doxysection{Primary\+Key\+Index.\+h}
+\hypertarget{_primary_key_index_8h_source}{}\label{_primary_key_index_8h_source}\index{include/PrimaryKeyIndex.h@{include/PrimaryKeyIndex.h}}
+\mbox{\hyperlink{_primary_key_index_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ }
+\DoxyCodeLine{00007\ }
+\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#ifndef\ \ PRIMARYKEYINDEX\_H}}
+\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#define\ \ PRIMARYKEYINDEX\_H}}
+\DoxyCodeLine{00010\ }
+\DoxyCodeLine{00011\ \textcolor{preprocessor}{\#include\ <iostream>}}
+\DoxyCodeLine{00012\ \textcolor{preprocessor}{\#include\ <fstream>}}
+\DoxyCodeLine{00013\ \textcolor{preprocessor}{\#include\ <filesystem>}}
+\DoxyCodeLine{00014\ \textcolor{preprocessor}{\#include\ <string>}}
+\DoxyCodeLine{00015\ \textcolor{preprocessor}{\#include\ <vector>}}
+\DoxyCodeLine{00016\ \textcolor{preprocessor}{\#include\ <memory>}}
+\DoxyCodeLine{00017\ \textcolor{preprocessor}{\#include\ <map>}}
+\DoxyCodeLine{00018\ }
+\DoxyCodeLine{00019\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{_zip_code_record_8h}{ZipCodeRecord.h}}"{}}}
+\DoxyCodeLine{00020\ }
+\DoxyCodeLine{00021\ \textcolor{keyword}{using\ namespace\ }std;}
+\DoxyCodeLine{00022\ }
+\DoxyCodeLine{00023\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_primary_key_index_a463f72d7f1adbfb94d7c6c6515b16a16}{PrimaryKeyIndex}}}
+\DoxyCodeLine{00024\ \{}
+\DoxyCodeLine{00025\ \ \ \ \ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00026\ }
+\DoxyCodeLine{00030\ \ \ \ \ \ \ \ \ map<string,\ int>\ Index;}
+\DoxyCodeLine{00031\ }
+\DoxyCodeLine{00033\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{string}\ BlockDirectory\ =\ \textcolor{stringliteral}{"{}data/blocks"{}};}
+\DoxyCodeLine{00035\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{string}\ IndexFilePath\ =\ \textcolor{stringliteral}{"{}"{}};}
+\DoxyCodeLine{00036\ }
+\DoxyCodeLine{00038\ \ \ \ \ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{string}\ ExtractZipKey(\textcolor{keyword}{const}\ \textcolor{keywordtype}{string}\&\ packedRecord);}
+\DoxyCodeLine{00039\ }
+\DoxyCodeLine{00041\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{string}\ GetBlockFilePath(\textcolor{keywordtype}{int}\ rbn)\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00042\ }
+\DoxyCodeLine{00043\ \ \ \ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00044\ }
+\DoxyCodeLine{00049\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_primary_key_index_a463f72d7f1adbfb94d7c6c6515b16a16}{PrimaryKeyIndex}}(\textcolor{keyword}{const}\ \textcolor{keywordtype}{string}\&\ FilePath);}
+\DoxyCodeLine{00050\ }
+\DoxyCodeLine{00055\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_primary_key_index_a121872aa7d582db2664ac2c18df0e001}{SetBlockDirectory}}(\textcolor{keyword}{const}\ \textcolor{keywordtype}{string}\&\ blockDirectory);}
+\DoxyCodeLine{00056\ }
+\DoxyCodeLine{00061\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_primary_key_index_a724d43fe1af994349171961c9f8dac8f}{BuildFromBlocks}}(\textcolor{keyword}{const}\ \textcolor{keywordtype}{string}\&\ blockDirectory);}
+\DoxyCodeLine{00062\ }
+\DoxyCodeLine{00068\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_zip_code_record}{ZipCodeRecord}}\ \mbox{\hyperlink{class_primary_key_index_acc387d2e94425b793db6589ff942b8c5}{find}}(vector<string>\ Zips);}
+\DoxyCodeLine{00069\ }
+\DoxyCodeLine{00075\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_primary_key_index_a153876ff69a68571ff3bed49d13b9452}{WriteToFile}}(\textcolor{keyword}{const}\ \textcolor{keywordtype}{string}\&\ path);}
+\DoxyCodeLine{00076\ }
+\DoxyCodeLine{00082\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_primary_key_index_a15942eb0c19e2ca8f8467c1c35b3c5cc}{ReadFromFile}}(\textcolor{keyword}{const}\ \textcolor{keywordtype}{string}\&\ path);}
+\DoxyCodeLine{00083\ }
+\DoxyCodeLine{00089\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_primary_key_index_afd91b603436631d0e97412a68da3f0c2}{LoadFromIndexFile}}(\textcolor{keyword}{const}\ \textcolor{keywordtype}{string}\&\ indexPath);}
+\DoxyCodeLine{00090\ }
+\DoxyCodeLine{00095\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{string}\ \mbox{\hyperlink{class_primary_key_index_a87f268620e7df071ee8d49fcb23611c5}{Dump}}()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00096\ \};}
+\DoxyCodeLine{00097\ }
+\DoxyCodeLine{00098\ \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

@@ -1,0 +1,66 @@
+\doxysection{Record\+Formatter Class Reference}
+\hypertarget{class_record_formatter}{}\label{class_record_formatter}\index{RecordFormatter@{RecordFormatter}}
+
+
+The \doxylink{class_record_formatter}{Record\+Formatter} class provides methods for packing and unpacking \doxylink{class_zip_code_record}{Zip\+Code\+Record} objects into a length-\/indicated format. It allows for efficient serialization and deserialization of \doxylink{class_zip_code_record}{Zip\+Code\+Record} data, making it easier to store and transmit records in a compact format.  
+
+
+
+
+{\ttfamily \#include $<$Record\+Formatter.\+h$>$}
+
+\doxysubsubsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static std\+::string \mbox{\hyperlink{class_record_formatter_aa36b1aebf1229170d3347696e4f412c3}{pack}} (const \mbox{\hyperlink{class_zip_code_record}{Zip\+Code\+Record}} \&record)
+\item 
+static \mbox{\hyperlink{class_zip_code_record}{Zip\+Code\+Record}} \mbox{\hyperlink{class_record_formatter_ac0dc47a18d8becfcc8d10b2012ad5a39}{unpack}} (const std\+::string \&packed\+Record)
+\item 
+static std\+::string \mbox{\hyperlink{class_record_formatter_a09a40a939ad0d6a55ebeb4a7edd955a1}{format\+Labeled}} (const \mbox{\hyperlink{class_zip_code_record}{Zip\+Code\+Record}} \&record)
+\begin{DoxyCompactList}\small\item\em Formats a \doxylink{class_zip_code_record}{Zip\+Code\+Record} into a labeled string for easy reading. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+The \doxylink{class_record_formatter}{Record\+Formatter} class provides methods for packing and unpacking \doxylink{class_zip_code_record}{Zip\+Code\+Record} objects into a length-\/indicated format. It allows for efficient serialization and deserialization of \doxylink{class_zip_code_record}{Zip\+Code\+Record} data, making it easier to store and transmit records in a compact format. 
+
+\label{doc-func-members}
+\Hypertarget{class_record_formatter_doc-func-members}
+\doxysubsection{Member Function Documentation}
+\Hypertarget{class_record_formatter_a09a40a939ad0d6a55ebeb4a7edd955a1}\index{RecordFormatter@{RecordFormatter}!formatLabeled@{formatLabeled}}
+\index{formatLabeled@{formatLabeled}!RecordFormatter@{RecordFormatter}}
+\doxysubsubsection{\texorpdfstring{formatLabeled()}{formatLabeled()}}
+{\footnotesize\ttfamily \label{class_record_formatter_a09a40a939ad0d6a55ebeb4a7edd955a1} 
+std\+::string Record\+Formatter\+::format\+Labeled (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{class_zip_code_record}{Zip\+Code\+Record}} \&}]{record}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Formats a \doxylink{class_zip_code_record}{Zip\+Code\+Record} into a labeled string for easy reading. 
+
+Example output\+: zipcode\+: 00501 \texorpdfstring{$\vert$}{|} State\+: NY \texorpdfstring{$\vert$}{|} Lat\+: 40.\+8154 \texorpdfstring{$\vert$}{|} long\+: -\/73.\+0451
+
+
+\begin{DoxyParams}{Parameters}
+{\em record} & The record to format. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A single-\/line string with labeled fields. 
+\end{DoxyReturn}
+\Hypertarget{class_record_formatter_aa36b1aebf1229170d3347696e4f412c3}\index{RecordFormatter@{RecordFormatter}!pack@{pack}}
+\index{pack@{pack}!RecordFormatter@{RecordFormatter}}
+\doxysubsubsection{\texorpdfstring{pack()}{pack()}}
+{\footnotesize\ttfamily \label{class_record_formatter_aa36b1aebf1229170d3347696e4f412c3} 
+std\+::string Record\+Formatter\+::pack (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{class_zip_code_record}{Zip\+Code\+Record}} \&}]{record}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+\Hypertarget{class_record_formatter_ac0dc47a18d8becfcc8d10b2012ad5a39}\index{RecordFormatter@{RecordFormatter}!unpack@{unpack}}
+\index{unpack@{unpack}!RecordFormatter@{RecordFormatter}}
+\doxysubsubsection{\texorpdfstring{unpack()}{unpack()}}
+{\footnotesize\ttfamily \label{class_record_formatter_ac0dc47a18d8becfcc8d10b2012ad5a39} 
+\mbox{\hyperlink{class_zip_code_record}{Zip\+Code\+Record}} Record\+Formatter\+::unpack (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{packed\+Record}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+include/\mbox{\hyperlink{_record_formatter_8h}{Record\+Formatter.\+h}}\item 
+src/\mbox{\hyperlink{_record_formatter_8cpp}{Record\+Formatter.\+cpp}}\end{DoxyCompactItemize}

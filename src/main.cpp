@@ -20,6 +20,9 @@ using namespace std;
 
 namespace {
 
+/**
+ * @brief Runtime configuration parsed from command-line flags.
+ */
 struct Options {
     string inputFile = "data/Length_Indicated_us_postal_codes.csv";
     string blockedSetFile = "data/blocked_sequence_set.txt";
@@ -40,6 +43,10 @@ struct Options {
     bool showHelp = false;
 };
 
+/**
+ * @brief Prints command-line help text for the main application.
+ * @param program Executable name from argv[0].
+ */
 void PrintUsage(const char* program)
 {
     cout << "Usage:\n"
@@ -73,6 +80,13 @@ void PrintUsage(const char* program)
          << " -printRecords 0\n";
 }
 
+/**
+ * @brief Parses and validates command-line options.
+ * @param argc Argument count.
+ * @param argv Argument vector.
+ * @param opts Output options structure.
+ * @return True when parsing and validation succeed; otherwise false.
+ */
 bool ParseArgs(int argc, char* argv[], Options& opts)
 {
     if (argc == 1)
@@ -152,6 +166,12 @@ bool ParseArgs(int argc, char* argv[], Options& opts)
     return true;
 }
 
+/**
+ * @brief Writes one text artifact file, creating parent directories as needed.
+ * @param dumpFile Output path.
+ * @param content Text content to write.
+ * @return True when write succeeds; otherwise false.
+ */
 bool WriteDumpFile(const string& dumpFile, const string& content)
 {
     if (dumpFile.empty())
@@ -174,6 +194,11 @@ bool WriteDumpFile(const string& dumpFile, const string& content)
     return out.good();
 }
 
+/**
+ * @brief Counts active records by traversing the logical block chain.
+ * @param sequence Sequence whose active records are counted.
+ * @return Total number of active records.
+ */
 int CountActiveRecords(BlockedSequence& sequence)
 {
     int total = 0;
@@ -193,6 +218,13 @@ int CountActiveRecords(BlockedSequence& sequence)
     return total;
 }
 
+/**
+ * @brief Writes blocked-sequence header metadata to the configured data file.
+ * @param opts Runtime options.
+ * @param recordCount Number of active records.
+ * @param sequence Sequence containing current block state.
+ * @return True when header write succeeds; otherwise false.
+ */
 bool WriteHeader(const Options& opts, int recordCount, BlockedSequence& sequence)
 {
     filesystem::path outPath(opts.blockedSetFile);
@@ -222,6 +254,11 @@ bool WriteHeader(const Options& opts, int recordCount, BlockedSequence& sequence
     return headerBuffer.writeHeader(out, header) && out.good();
 }
 
+/**
+ * @brief Rebuilds and writes simple index artifacts from current block files.
+ * @param opts Runtime options containing index output paths.
+ * @return True when index file and index dump are written successfully.
+ */
 bool WriteIndexArtifacts(const Options& opts)
 {
     PrimaryKeyIndex index("data/blocks");
@@ -246,6 +283,12 @@ bool WriteIndexArtifacts(const Options& opts)
     return true;
 }
 
+/**
+ * @brief Refreshes all generated outputs after sequence changes.
+ * @param opts Runtime options for artifact paths.
+ * @param sequence Updated sequence state.
+ * @return True when header, dumps, and index artifacts are all refreshed.
+ */
 bool RefreshArtifacts(const Options& opts, BlockedSequence& sequence)
 {
     const int recordCount = CountActiveRecords(sequence);
@@ -259,6 +302,12 @@ bool RefreshArtifacts(const Options& opts, BlockedSequence& sequence)
     return true;
 }
 
+/**
+ * @brief Builds a blocked sequence set from the configured length-indicated input.
+ * @param opts Runtime options.
+ * @param sequence Sequence object to populate.
+ * @return Process exit code semantics: 0 on success, non-zero on failure.
+ */
 int GenerateBlockedSet(const Options& opts, BlockedSequence& sequence)
 {
     Length_Indicated_ZipCodeBuffer input(opts.inputFile);
@@ -312,6 +361,13 @@ int GenerateBlockedSet(const Options& opts, BlockedSequence& sequence)
     return 0;
 }
 
+/**
+ * @brief Applies additions from a file and logs each event.
+ * @param addFile Path to packed records to insert.
+ * @param sequence Sequence to mutate.
+ * @param logFile Path for append-mode operation log output.
+ * @return Number of successful insertions.
+ */
 int ProcessAdditions(const string& addFile, BlockedSequence& sequence, const string& logFile)
 {
     if (addFile.empty()) return 0;
@@ -347,6 +403,13 @@ int ProcessAdditions(const string& addFile, BlockedSequence& sequence, const str
     return added;
 }
 
+/**
+ * @brief Applies deletions from a file and logs each event.
+ * @param deleteFile Path to ZIP keys to delete.
+ * @param sequence Sequence to mutate.
+ * @param logFile Path for append-mode operation log output.
+ * @return Number of successful deletions.
+ */
 int ProcessDeletions(const string& deleteFile, BlockedSequence& sequence, const string& logFile)
 {
     if (deleteFile.empty()) return 0;
@@ -384,6 +447,12 @@ int ProcessDeletions(const string& deleteFile, BlockedSequence& sequence, const 
 
 } // namespace
 
+/**
+ * @brief Main entry point for blocked-sequence generation and optional mutations.
+ * @param argc Argument count.
+ * @param argv Argument vector.
+ * @return Process exit code.
+ */
 int main(int argc, char* argv[])
 {
     Options options;

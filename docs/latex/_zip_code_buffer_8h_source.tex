@@ -1,0 +1,36 @@
+\doxysection{Zip\+Code\+Buffer.\+h}
+\hypertarget{_zip_code_buffer_8h_source}{}\label{_zip_code_buffer_8h_source}\index{include/ZipCodeBuffer.h@{include/ZipCodeBuffer.h}}
+\mbox{\hyperlink{_zip_code_buffer_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ }
+\DoxyCodeLine{00007\ }
+\DoxyCodeLine{00008\ \textcolor{preprocessor}{\ \#ifndef\ \ ZIPCODEBUFFER\_H}}
+\DoxyCodeLine{00009\ \textcolor{preprocessor}{\ \#define\ \ ZIPCODEBUFFER\_H}}
+\DoxyCodeLine{00010\ \ }
+\DoxyCodeLine{00011\ \textcolor{preprocessor}{\ \#include\ <iostream>}}
+\DoxyCodeLine{00012\ \textcolor{preprocessor}{\ \#include\ <fstream>}}
+\DoxyCodeLine{00013\ \textcolor{preprocessor}{\ \#include\ <string>}}
+\DoxyCodeLine{00014\ \textcolor{preprocessor}{\ \#include\ <memory>}}
+\DoxyCodeLine{00015\ \textcolor{preprocessor}{\ \#include\ "{}\mbox{\hyperlink{_zip_code_record_8h}{ZipCodeRecord.h}}"{}}}
+\DoxyCodeLine{00016\ }
+\DoxyCodeLine{00025\ }
+\DoxyCodeLine{00026\ \ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_zip_code_buffer_ae40ecff10ba22d91df9e6a722fec3758}{ZipCodeBuffer}}\{}
+\DoxyCodeLine{00027\ \ \ \ \ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00028\ \ \ \ \ \ \ \ \ \ \ std::ifstream\ file;\ }
+\DoxyCodeLine{00029\ \ \ \ \ \ \ \ \ \ \ std::string\ csvPath;\ }
+\DoxyCodeLine{00030\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ headerRead;\ }
+\DoxyCodeLine{00031\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ zipIndex;\ }
+\DoxyCodeLine{00032\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ stateIndex;\ }
+\DoxyCodeLine{00033\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ latIndex;\ }
+\DoxyCodeLine{00034\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ lonIndex;\ }
+\DoxyCodeLine{00035\ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00036\ \ \ \ \ \textcolor{keyword}{public}:\ \ \ \ \ }
+\DoxyCodeLine{00041\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_zip_code_buffer_ae40ecff10ba22d91df9e6a722fec3758}{ZipCodeBuffer}}(\textcolor{keyword}{const}\ std::string\&\ filePath);}
+\DoxyCodeLine{00047\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_zip_code_buffer_a4a50d901deeea419c3aaff7232d37958}{readNext}}(\mbox{\hyperlink{class_zip_code_record}{ZipCodeRecord}}\&\ recordOut);}
+\DoxyCodeLine{00048\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00052\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_zip_code_buffer_af070305f8b71a6bee4cf455eb7ae065a}{\string~ZipCodeBuffer}}();}
+\DoxyCodeLine{00053\ \ \};}
+\DoxyCodeLine{00054\ \textcolor{comment}{//\ \#include\ "{}ZipCodeBuffer.cpp"{}\ //\ This\ is\ not\ needed\ since\ we\ will\ compile\ the\ .cpp\ file\ separately,\ and\ including\ it\ here\ can\ lead\ to\ multiple\ definition\ errors.}}
+\DoxyCodeLine{00055\ \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

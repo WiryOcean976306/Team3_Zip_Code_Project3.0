@@ -1,0 +1,351 @@
+\doxysection{Block\+Buffer Class Reference}
+\hypertarget{class_block_buffer}{}\label{class_block_buffer}\index{BlockBuffer@{BlockBuffer}}
+
+
+Buffer helper for reading/writing packed fields and unpacking records from blocks.  
+
+
+
+
+{\ttfamily \#include $<$Block\+Buffer.\+h$>$}
+
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_block_buffer_ac78ac8541183cdc1ce69d6c99d890ce2}{Block\+Buffer}} (int max\+Bytes=512)
+\begin{DoxyCompactList}\small\item\em Constructs a block buffer with a maximum byte capacity. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_block_buffer_aa4e009f423ac58501766bc7f1bc60b27}{Clear}} ()
+\begin{DoxyCompactList}\small\item\em Clears packed content and resets cursor positions. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{class_block_buffer_a00a94a738198ac62c9800b54147c3d41}{Read}} (istream \&stream)
+\begin{DoxyCompactList}\small\item\em Reads packed bytes from a stream into the internal buffer. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{class_block_buffer_aca02e8d32b092ee8ea118334bd346994}{Write}} (ostream \&stream) const
+\begin{DoxyCompactList}\small\item\em Writes packed bytes from the internal buffer to a stream. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{class_block_buffer_a28ccf96cd633f994c1380f36031eabca}{Pack}} (const char \texorpdfstring{$\ast$}{*}, short size=-\/1)
+\begin{DoxyCompactList}\small\item\em Packs one field string into the internal buffer. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{class_block_buffer_af588eb7dac33c62b666a53bbd3608580}{Unpack}} (char \texorpdfstring{$\ast$}{*})
+\begin{DoxyCompactList}\small\item\em Unpacks one field string from the internal buffer. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_block_buffer_aa7ad99e07b008fdf52b1dc8bba477800}{Print}} (ostream \&) const
+\begin{DoxyCompactList}\small\item\em Prints a short diagnostic summary of the internal buffer. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{class_block_buffer_a4f2773376a35dc0c993f8039ce11e1ec}{Init}} (int max\+Bytes=512)
+\begin{DoxyCompactList}\small\item\em Initializes or reinitializes internal storage. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_block_buffer_a4e05190e62ca8e4a15a3a8952086a3ad}{Unpack\+Record\+From\+Block}} (\mbox{\hyperlink{class_block}{Block}} \&block, int record\+Index, std\+::string \&record\+Buffer\+Out) const
+\begin{DoxyCompactList}\small\item\em Extracts one packed record string from a block. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_block_buffer_a8c602a5e761e91a9974f29f0172d38f7}{Unpack\+Fields\+To\+Record}} (const std\+::string \&record\+Buffer, \mbox{\hyperlink{class_zip_code_record}{Zip\+Code\+Record}} \&record\+Out) const
+\begin{DoxyCompactList}\small\item\em Parses one packed record buffer into a \doxylink{class_zip_code_record}{Zip\+Code\+Record} object. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_block_buffer_abcb15b0dd27c42ff65fc7d7238788307}{Unpack\+Record\+From\+Block}} (\mbox{\hyperlink{class_block}{Block}} \&block, int record\+Index, \mbox{\hyperlink{class_zip_code_record}{Zip\+Code\+Record}} \&record\+Out) const
+\begin{DoxyCompactList}\small\item\em Convenience method\+: unpack a block record directly into an object. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Buffer helper for reading/writing packed fields and unpacking records from blocks. 
+
+\label{doc-constructors}
+\Hypertarget{class_block_buffer_doc-constructors}
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{class_block_buffer_ac78ac8541183cdc1ce69d6c99d890ce2}\index{BlockBuffer@{BlockBuffer}!BlockBuffer@{BlockBuffer}}
+\index{BlockBuffer@{BlockBuffer}!BlockBuffer@{BlockBuffer}}
+\doxysubsubsection{\texorpdfstring{BlockBuffer()}{BlockBuffer()}}
+{\footnotesize\ttfamily \label{class_block_buffer_ac78ac8541183cdc1ce69d6c99d890ce2} 
+Block\+Buffer\+::\+Block\+Buffer (\begin{DoxyParamCaption}\item[{int}]{max\+Bytes}{ = {\ttfamily 512}}\end{DoxyParamCaption})}
+
+
+
+Constructs a block buffer with a maximum byte capacity. 
+
+Constructs a \doxylink{class_block_buffer}{Block\+Buffer} with the specified maximum byte capacity.
+
+
+\begin{DoxyParams}{Parameters}
+{\em max\+Bytes} & Maximum number of bytes that can be stored in the internal buffer.\\
+\hline
+{\em max\+Bytes} & Maximum number of bytes the buffer can hold.\\
+\hline
+\end{DoxyParams}
+Allocates the internal byte array and initializes the buffer state. 
+
+\label{doc-func-members}
+\Hypertarget{class_block_buffer_doc-func-members}
+\doxysubsection{Member Function Documentation}
+\Hypertarget{class_block_buffer_aa4e009f423ac58501766bc7f1bc60b27}\index{BlockBuffer@{BlockBuffer}!Clear@{Clear}}
+\index{Clear@{Clear}!BlockBuffer@{BlockBuffer}}
+\doxysubsubsection{\texorpdfstring{Clear()}{Clear()}}
+{\footnotesize\ttfamily \label{class_block_buffer_aa4e009f423ac58501766bc7f1bc60b27} 
+void Block\+Buffer\+::\+Clear (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+
+
+Clears packed content and resets cursor positions. 
+
+Clears the buffer state so it can be reused.
+
+Resets the current cursor position and stored size to zero. \Hypertarget{class_block_buffer_a4f2773376a35dc0c993f8039ce11e1ec}\index{BlockBuffer@{BlockBuffer}!Init@{Init}}
+\index{Init@{Init}!BlockBuffer@{BlockBuffer}}
+\doxysubsubsection{\texorpdfstring{Init()}{Init()}}
+{\footnotesize\ttfamily \label{class_block_buffer_a4f2773376a35dc0c993f8039ce11e1ec} 
+int Block\+Buffer\+::\+Init (\begin{DoxyParamCaption}\item[{int}]{max\+Bytes}{ = {\ttfamily 512}}\end{DoxyParamCaption})}
+
+
+
+Initializes or reinitializes internal storage. 
+
+Initializes the buffer storage.
+
+
+\begin{DoxyParams}{Parameters}
+{\em max\+Bytes} & Maximum allowed bytes for this buffer. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Non-\/zero when initialization succeeds.
+\end{DoxyReturn}
+
+\begin{DoxyParams}{Parameters}
+{\em max\+Bytes} & Maximum number of bytes the buffer can hold. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+True if initialization succeeded.
+\end{DoxyReturn}
+Allocates the internal byte array and resets the buffer state. \Hypertarget{class_block_buffer_a28ccf96cd633f994c1380f36031eabca}\index{BlockBuffer@{BlockBuffer}!Pack@{Pack}}
+\index{Pack@{Pack}!BlockBuffer@{BlockBuffer}}
+\doxysubsubsection{\texorpdfstring{Pack()}{Pack()}}
+{\footnotesize\ttfamily \label{class_block_buffer_a28ccf96cd633f994c1380f36031eabca} 
+int Block\+Buffer\+::\+Pack (\begin{DoxyParamCaption}\item[{const char \texorpdfstring{$\ast$}{*}}]{str}{, }\item[{short}]{size}{ = {\ttfamily -\/1}}\end{DoxyParamCaption})}
+
+
+
+Packs one field string into the internal buffer. 
+
+Packs a string into the buffer using a length prefix.
+
+
+\begin{DoxyParams}{Parameters}
+{\em str} & Input C-\/string field value. \\
+\hline
+{\em size} & Optional explicit size, or -\/1 to use string length. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Non-\/zero when pack succeeds; otherwise zero.
+\end{DoxyReturn}
+
+\begin{DoxyParams}{Parameters}
+{\em str} & String to store in the buffer. \\
+\hline
+{\em size} & Number of bytes to pack, or -\/1 to use strlen(str). \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+True if the string was packed successfully; otherwise false.
+\end{DoxyReturn}
+Stores the string length first, then copies the character data into the internal buffer and advances the cursor. \Hypertarget{class_block_buffer_aa7ad99e07b008fdf52b1dc8bba477800}\index{BlockBuffer@{BlockBuffer}!Print@{Print}}
+\index{Print@{Print}!BlockBuffer@{BlockBuffer}}
+\doxysubsubsection{\texorpdfstring{Print()}{Print()}}
+{\footnotesize\ttfamily \label{class_block_buffer_aa7ad99e07b008fdf52b1dc8bba477800} 
+void Block\+Buffer\+::\+Print (\begin{DoxyParamCaption}\item[{ostream \&}]{stream}{}\end{DoxyParamCaption}) const}
+
+
+
+Prints a short diagnostic summary of the internal buffer. 
+
+Prints a summary of the buffer state.
+
+
+\begin{DoxyParams}{Parameters}
+{\em stream} & Output stream.\\
+\hline
+{\em stream} & Output stream used for display. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{class_block_buffer_a00a94a738198ac62c9800b54147c3d41}\index{BlockBuffer@{BlockBuffer}!Read@{Read}}
+\index{Read@{Read}!BlockBuffer@{BlockBuffer}}
+\doxysubsubsection{\texorpdfstring{Read()}{Read()}}
+{\footnotesize\ttfamily \label{class_block_buffer_a00a94a738198ac62c9800b54147c3d41} 
+int Block\+Buffer\+::\+Read (\begin{DoxyParamCaption}\item[{istream \&}]{stream}{}\end{DoxyParamCaption})}
+
+
+
+Reads packed bytes from a stream into the internal buffer. 
+
+Reads a packed buffer from an input stream.
+
+
+\begin{DoxyParams}{Parameters}
+{\em stream} & Source stream. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Non-\/zero when read succeeds; otherwise zero.
+\end{DoxyReturn}
+
+\begin{DoxyParams}{Parameters}
+{\em stream} & Input stream containing length-\/prefixed packed data. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+True if the buffer was read successfully; otherwise false.
+\end{DoxyReturn}
+Reads the size prefix first, validates the size, and then reads the packed bytes into the internal buffer. \Hypertarget{class_block_buffer_af588eb7dac33c62b666a53bbd3608580}\index{BlockBuffer@{BlockBuffer}!Unpack@{Unpack}}
+\index{Unpack@{Unpack}!BlockBuffer@{BlockBuffer}}
+\doxysubsubsection{\texorpdfstring{Unpack()}{Unpack()}}
+{\footnotesize\ttfamily \label{class_block_buffer_af588eb7dac33c62b666a53bbd3608580} 
+int Block\+Buffer\+::\+Unpack (\begin{DoxyParamCaption}\item[{char \texorpdfstring{$\ast$}{*}}]{str}{}\end{DoxyParamCaption})}
+
+
+
+Unpacks one field string from the internal buffer. 
+
+Unpacks the next length-\/prefixed string from the buffer.
+
+
+\begin{DoxyParams}{Parameters}
+{\em str} & Destination C-\/string buffer. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Non-\/zero when unpack succeeds; otherwise zero.
+\end{DoxyReturn}
+
+\begin{DoxyParams}{Parameters}
+{\em str} & Destination buffer that receives the unpacked string. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+True if a string was unpacked successfully; otherwise false.
+\end{DoxyReturn}
+Reads the stored length, copies the matching bytes to the output, and appends a null terminator. \Hypertarget{class_block_buffer_a8c602a5e761e91a9974f29f0172d38f7}\index{BlockBuffer@{BlockBuffer}!UnpackFieldsToRecord@{UnpackFieldsToRecord}}
+\index{UnpackFieldsToRecord@{UnpackFieldsToRecord}!BlockBuffer@{BlockBuffer}}
+\doxysubsubsection{\texorpdfstring{UnpackFieldsToRecord()}{UnpackFieldsToRecord()}}
+{\footnotesize\ttfamily \label{class_block_buffer_a8c602a5e761e91a9974f29f0172d38f7} 
+bool Block\+Buffer\+::\+Unpack\+Fields\+To\+Record (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{record\+Buffer}{, }\item[{\mbox{\hyperlink{class_zip_code_record}{Zip\+Code\+Record}} \&}]{record\+Out}{}\end{DoxyParamCaption}) const}
+
+
+
+Parses one packed record buffer into a \doxylink{class_zip_code_record}{Zip\+Code\+Record} object. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em record\+Buffer} & Packed record in format $<$len$>$,$<$zip$>$,$<$state$>$,$<$lat$>$,$<$long$>$. \\
+\hline
+{\em record\+Out} & Output record object. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true if parse succeeds; otherwise false.
+\end{DoxyReturn}
+
+\begin{DoxyParams}{Parameters}
+{\em record\+Buffer} & Packed record in format $<$len$>$,$<$zip$>$,$<$state$>$,$<$lat$>$,$<$long$>$. \\
+\hline
+{\em record\+Out} & Output \doxylink{class_zip_code_record}{Zip\+Code\+Record} populated from parsed fields. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true when parsing and conversions succeed; otherwise false. 
+\end{DoxyReturn}
+\Hypertarget{class_block_buffer_a4e05190e62ca8e4a15a3a8952086a3ad}\index{BlockBuffer@{BlockBuffer}!UnpackRecordFromBlock@{UnpackRecordFromBlock}}
+\index{UnpackRecordFromBlock@{UnpackRecordFromBlock}!BlockBuffer@{BlockBuffer}}
+\doxysubsubsection{\texorpdfstring{UnpackRecordFromBlock()}{UnpackRecordFromBlock()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily \label{class_block_buffer_a4e05190e62ca8e4a15a3a8952086a3ad} 
+bool Block\+Buffer\+::\+Unpack\+Record\+From\+Block (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_block}{Block}} \&}]{block}{, }\item[{int}]{record\+Index}{, }\item[{std\+::string \&}]{record\+Buffer\+Out}{}\end{DoxyParamCaption}) const}
+
+
+
+Extracts one packed record string from a block. 
+
+Copies one packed record from a block into a record-\/buffer string.
+
+
+\begin{DoxyParams}{Parameters}
+{\em block} & Source block containing packed records. \\
+\hline
+{\em record\+Index} & Zero-\/based index of the record in the block. \\
+\hline
+{\em record\+Buffer\+Out} & Output packed record string. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true if extraction succeeds; otherwise false.
+\end{DoxyReturn}
+
+\begin{DoxyParams}{Parameters}
+{\em block} & Source block containing packed records. \\
+\hline
+{\em record\+Index} & Zero-\/based index of the desired record. \\
+\hline
+{\em record\+Buffer\+Out} & Output packed record string. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true when the index is valid and the record is copied; otherwise false. 
+\end{DoxyReturn}
+\Hypertarget{class_block_buffer_abcb15b0dd27c42ff65fc7d7238788307}\index{BlockBuffer@{BlockBuffer}!UnpackRecordFromBlock@{UnpackRecordFromBlock}}
+\index{UnpackRecordFromBlock@{UnpackRecordFromBlock}!BlockBuffer@{BlockBuffer}}
+\doxysubsubsection{\texorpdfstring{UnpackRecordFromBlock()}{UnpackRecordFromBlock()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily \label{class_block_buffer_abcb15b0dd27c42ff65fc7d7238788307} 
+bool Block\+Buffer\+::\+Unpack\+Record\+From\+Block (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_block}{Block}} \&}]{block}{, }\item[{int}]{record\+Index}{, }\item[{\mbox{\hyperlink{class_zip_code_record}{Zip\+Code\+Record}} \&}]{record\+Out}{}\end{DoxyParamCaption}) const}
+
+
+
+Convenience method\+: unpack a block record directly into an object. 
+
+Convenience overload that performs both unpack stages.
+
+
+\begin{DoxyParams}{Parameters}
+{\em block} & Source block. \\
+\hline
+{\em record\+Index} & Zero-\/based index into block records. \\
+\hline
+{\em record\+Out} & Output record object. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true if both unpack stages succeed; otherwise false.
+\end{DoxyReturn}
+
+\begin{DoxyParams}{Parameters}
+{\em block} & Source block. \\
+\hline
+{\em record\+Index} & Zero-\/based record index in the block. \\
+\hline
+{\em record\+Out} & Output record object. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true when both unpack-\/from-\/block and parse-\/to-\/record succeed. 
+\end{DoxyReturn}
+\Hypertarget{class_block_buffer_aca02e8d32b092ee8ea118334bd346994}\index{BlockBuffer@{BlockBuffer}!Write@{Write}}
+\index{Write@{Write}!BlockBuffer@{BlockBuffer}}
+\doxysubsubsection{\texorpdfstring{Write()}{Write()}}
+{\footnotesize\ttfamily \label{class_block_buffer_aca02e8d32b092ee8ea118334bd346994} 
+int Block\+Buffer\+::\+Write (\begin{DoxyParamCaption}\item[{ostream \&}]{stream}{}\end{DoxyParamCaption}) const}
+
+
+
+Writes packed bytes from the internal buffer to a stream. 
+
+Writes the current packed buffer to an output stream.
+
+
+\begin{DoxyParams}{Parameters}
+{\em stream} & Destination stream. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Non-\/zero when write succeeds; otherwise zero.
+\end{DoxyReturn}
+
+\begin{DoxyParams}{Parameters}
+{\em stream} & Output stream that receives the buffer contents. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+True if the buffer was written successfully; otherwise false.
+\end{DoxyReturn}
+Writes the stored size first, followed by the raw packed bytes. 
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+include/\+Project 3.\+0/\mbox{\hyperlink{_block_buffer_8h}{Block\+Buffer.\+h}}\item 
+src/\+Project 3.\+0/\mbox{\hyperlink{_block_buffer_8cpp}{Block\+Buffer.\+cpp}}\end{DoxyCompactItemize}

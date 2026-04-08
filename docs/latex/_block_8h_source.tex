@@ -1,0 +1,70 @@
+\doxysection{Block.\+h}
+\hypertarget{_block_8h_source}{}\label{_block_8h_source}\index{include/Project 3.0/Block.h@{include/Project 3.0/Block.h}}
+\mbox{\hyperlink{_block_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ }
+\DoxyCodeLine{00011\ }
+\DoxyCodeLine{00012\ \textcolor{preprocessor}{\#ifndef\ BLOCK\_H}}
+\DoxyCodeLine{00013\ \textcolor{preprocessor}{\#define\ BLOCK\_H}}
+\DoxyCodeLine{00014\ }
+\DoxyCodeLine{00015\ \textcolor{preprocessor}{\#include\ <iostream>}}
+\DoxyCodeLine{00016\ \textcolor{preprocessor}{\#include\ <string>}}
+\DoxyCodeLine{00017\ \textcolor{preprocessor}{\#include\ <vector>}}
+\DoxyCodeLine{00018\ }
+\DoxyCodeLine{00019\ \textcolor{keyword}{using\ namespace\ }std;}
+\DoxyCodeLine{00020\ }
+\DoxyCodeLine{00021\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_block_aae3b6684a523c922c27a071082f75d1e}{Block}}}
+\DoxyCodeLine{00022\ \{}
+\DoxyCodeLine{00023\ \ \ \ \ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00024\ }
+\DoxyCodeLine{00026\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ RecordCount\ =\ 0;}
+\DoxyCodeLine{00028\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ RBN\ =\ 0;}
+\DoxyCodeLine{00030\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ PrevRBN\ =\ 0;}
+\DoxyCodeLine{00032\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ NextRBN\ =\ 0;}
+\DoxyCodeLine{00034\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ ByteSize\ =\ 0;}
+\DoxyCodeLine{00036\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ ByteMaxSize\ =\ 512;\ \textcolor{comment}{//512\ is\ default}}
+\DoxyCodeLine{00038\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ ByteMinSize\ =\ 256;\ \textcolor{comment}{//256\ is\ default}}
+\DoxyCodeLine{00040\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ HeaderSize\ =\ 0;}
+\DoxyCodeLine{00041\ }
+\DoxyCodeLine{00043\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{string}\ BlockHeader;}
+\DoxyCodeLine{00045\ \ \ \ \ \ \ \ \ vector<string>\ Records;}
+\DoxyCodeLine{00046\ }
+\DoxyCodeLine{00048\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ UpdateHeader();}
+\DoxyCodeLine{00049\ }
+\DoxyCodeLine{00050\ \ \ \ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00051\ }
+\DoxyCodeLine{00057\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_block_aae3b6684a523c922c27a071082f75d1e}{Block}}(\textcolor{keywordtype}{int}\ prevrbn,\ \textcolor{keywordtype}{int}\ rbn);}
+\DoxyCodeLine{00058\ }
+\DoxyCodeLine{00065\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_block_aa1ea13b343a2f6f83ac24e453f62866b}{AddRecord}}(\textcolor{keyword}{const}\ \textcolor{keywordtype}{string}\&\ Record);}
+\DoxyCodeLine{00066\ }
+\DoxyCodeLine{00072\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_block_a8c80c6c92ff0180d7f68e5b1f1b7bfee}{RemoveRecordAt}}(\textcolor{keywordtype}{size\_t}\ recordIndex);}
+\DoxyCodeLine{00073\ }
+\DoxyCodeLine{00078\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_block_a558f5112306ada6813ba46d5d1a3b2cd}{ReadBlock}}();}
+\DoxyCodeLine{00079\ }
+\DoxyCodeLine{00084\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_block_a9676681bfcc609989fccc4a92f688965}{WriteBlock}}();}
+\DoxyCodeLine{00085\ }
+\DoxyCodeLine{00090\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{class_block_a1ca029e864f8a3ac7bdbc6fd2cd8f3a7}{GetRecordCount}}();}
+\DoxyCodeLine{00091\ }
+\DoxyCodeLine{00096\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{class_block_ac3e50d48d91b25b6496adb096c77d4ab}{GetRBN}}();}
+\DoxyCodeLine{00097\ }
+\DoxyCodeLine{00102\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{class_block_a113cbac5cb8dd3a03199bb6786faf415}{GetPrevRBN}}();}
+\DoxyCodeLine{00103\ }
+\DoxyCodeLine{00108\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{class_block_a2d6ad69c9b3df82e02b301dcfbe4dc0d}{GetNextRBN}}();}
+\DoxyCodeLine{00109\ }
+\DoxyCodeLine{00114\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{class_block_a1e8b0e37021fcc40a1f5bccc447f28c2}{GetByteSize}}();}
+\DoxyCodeLine{00115\ }
+\DoxyCodeLine{00120\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{class_block_a10d98d96dbfe936f77e935bf155029bc}{GetByteMaxSize}}();}
+\DoxyCodeLine{00121\ }
+\DoxyCodeLine{00126\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{class_block_a91eb5b8ca2efae34edd3153a3f7dd43d}{GetByteMinSize}}();}
+\DoxyCodeLine{00127\ }
+\DoxyCodeLine{00132\ \ \ \ \ \ \ \ \ vector<string>\&\ \mbox{\hyperlink{class_block_a245f811b878c46570db25bde129ca478}{GetRecords}}();}
+\DoxyCodeLine{00133\ }
+\DoxyCodeLine{00138\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_block_abd9b160057f95259fcd23be9b83762eb}{SetNextRBN}}(\textcolor{keywordtype}{int}\ nextRbn);}
+\DoxyCodeLine{00139\ }
+\DoxyCodeLine{00144\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_block_af1fe8f1ec31ea225b6b230126ba55973}{SetPrevRBN}}(\textcolor{keywordtype}{int}\ prevRbn);}
+\DoxyCodeLine{00145\ }
+\DoxyCodeLine{00146\ \};}
+\DoxyCodeLine{00147\ }
+\DoxyCodeLine{00148\ \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

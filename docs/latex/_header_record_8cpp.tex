@@ -1,0 +1,64 @@
+\doxysection{src/\+Header\+Record.cpp File Reference}
+\hypertarget{_header_record_8cpp}{}\label{_header_record_8cpp}\index{src/HeaderRecord.cpp@{src/HeaderRecord.cpp}}
+
+
+Implements \doxylink{class_header_record}{Header\+Record}, which builds a serialized header record for the length-\/indicated file format.  
+
+
+{\ttfamily \#include $<$iostream$>$}\newline
+{\ttfamily \#include $<$fstream$>$}\newline
+{\ttfamily \#include $<$filesystem$>$}\newline
+{\ttfamily \#include $<$string$>$}\newline
+{\ttfamily \#include $<$sstream$>$}\newline
+{\ttfamily \#include "{}../include/\+Header\+Record.\+h"{}}\newline
+\doxysubsubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{_header_record_8cpp_ad54859b0a32aa1c66e98ef15218bdced}{HEADERRECORD\+\_\+\+CPP}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+string \mbox{\hyperlink{_header_record_8cpp_a6a59923d010342c49a84156796c9f404}{operator+}} (const string \&s, int value)
+\item 
+string \mbox{\hyperlink{_header_record_8cpp_a28ea8c2235ae244cad51aacd950be35f}{operator+}} (int value, const string \&s)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Implements \doxylink{class_header_record}{Header\+Record}, which builds a serialized header record for the length-\/indicated file format. 
+
+\begin{DoxyAuthor}{Author}
+Zach Houck 
+\end{DoxyAuthor}
+\begin{DoxyDate}{Date}
+2026-\/02-\/11 
+\end{DoxyDate}
+
+
+\label{doc-define-members}
+\Hypertarget{_header_record_8cpp_doc-define-members}
+\doxysubsection{Macro Definition Documentation}
+\Hypertarget{_header_record_8cpp_ad54859b0a32aa1c66e98ef15218bdced}\index{HeaderRecord.cpp@{HeaderRecord.cpp}!HEADERRECORD\_CPP@{HEADERRECORD\_CPP}}
+\index{HEADERRECORD\_CPP@{HEADERRECORD\_CPP}!HeaderRecord.cpp@{HeaderRecord.cpp}}
+\doxysubsubsection{\texorpdfstring{HEADERRECORD\_CPP}{HEADERRECORD\_CPP}}
+{\footnotesize\ttfamily \label{_header_record_8cpp_ad54859b0a32aa1c66e98ef15218bdced} 
+\#define HEADERRECORD\+\_\+\+CPP}
+
+
+
+\label{doc-func-members}
+\Hypertarget{_header_record_8cpp_doc-func-members}
+\doxysubsection{Function Documentation}
+\Hypertarget{_header_record_8cpp_a6a59923d010342c49a84156796c9f404}\index{HeaderRecord.cpp@{HeaderRecord.cpp}!operator+@{operator+}}
+\index{operator+@{operator+}!HeaderRecord.cpp@{HeaderRecord.cpp}}
+\doxysubsubsection{\texorpdfstring{operator+()}{operator+()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily \label{_header_record_8cpp_a6a59923d010342c49a84156796c9f404} 
+string operator+ (\begin{DoxyParamCaption}\item[{const string \&}]{s}{, }\item[{int}]{value}{}\end{DoxyParamCaption})}
+
+\Hypertarget{_header_record_8cpp_a28ea8c2235ae244cad51aacd950be35f}\index{HeaderRecord.cpp@{HeaderRecord.cpp}!operator+@{operator+}}
+\index{operator+@{operator+}!HeaderRecord.cpp@{HeaderRecord.cpp}}
+\doxysubsubsection{\texorpdfstring{operator+()}{operator+()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily \label{_header_record_8cpp_a28ea8c2235ae244cad51aacd950be35f} 
+string operator+ (\begin{DoxyParamCaption}\item[{int}]{value}{, }\item[{const string \&}]{s}{}\end{DoxyParamCaption})}
+

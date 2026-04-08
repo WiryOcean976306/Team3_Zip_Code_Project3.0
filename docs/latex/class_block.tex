@@ -1,0 +1,326 @@
+\doxysection{Block Class Reference}
+\hypertarget{class_block}{}\label{class_block}\index{Block@{Block}}
+
+
+{\ttfamily \#include $<$Block.\+h$>$}
+
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_block_aae3b6684a523c922c27a071082f75d1e}{Block}} (int prevrbn, int rbn)
+\begin{DoxyCompactList}\small\item\em Constructs an empty block and initializes link metadata. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_block_aa1ea13b343a2f6f83ac24e453f62866b}{Add\+Record}} (const string \&Record)
+\begin{DoxyCompactList}\small\item\em Attempts to append one packed record into this block. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_block_a8c80c6c92ff0180d7f68e5b1f1b7bfee}{Remove\+Record\+At}} (size\+\_\+t record\+Index)
+\begin{DoxyCompactList}\small\item\em Removes a record by index and refreshes block accounting metadata. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_block_a558f5112306ada6813ba46d5d1a3b2cd}{Read\+Block}} ()
+\begin{DoxyCompactList}\small\item\em Reads this block\textquotesingle{}s serialized representation from storage. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_block_a9676681bfcc609989fccc4a92f688965}{Write\+Block}} ()
+\begin{DoxyCompactList}\small\item\em Writes this block\textquotesingle{}s serialized representation to storage. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{class_block_a1ca029e864f8a3ac7bdbc6fd2cd8f3a7}{Get\+Record\+Count}} ()
+\begin{DoxyCompactList}\small\item\em Returns the number of records stored in this block. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{class_block_ac3e50d48d91b25b6496adb096c77d4ab}{Get\+RBN}} ()
+\begin{DoxyCompactList}\small\item\em Returns this block\textquotesingle{}s RBN. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{class_block_a113cbac5cb8dd3a03199bb6786faf415}{Get\+Prev\+RBN}} ()
+\begin{DoxyCompactList}\small\item\em Returns the previous block\textquotesingle{}s RBN. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{class_block_a2d6ad69c9b3df82e02b301dcfbe4dc0d}{Get\+Next\+RBN}} ()
+\begin{DoxyCompactList}\small\item\em Returns the next block\textquotesingle{}s RBN. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{class_block_a1e8b0e37021fcc40a1f5bccc447f28c2}{Get\+Byte\+Size}} ()
+\begin{DoxyCompactList}\small\item\em Returns total payload bytes currently consumed in the block. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{class_block_a10d98d96dbfe936f77e935bf155029bc}{Get\+Byte\+Max\+Size}} ()
+\begin{DoxyCompactList}\small\item\em Returns the maximum payload capacity in bytes for this block. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{class_block_a91eb5b8ca2efae34edd3153a3f7dd43d}{Get\+Byte\+Min\+Size}} ()
+\begin{DoxyCompactList}\small\item\em Returns the minimum payload capacity in bytes for this block. \end{DoxyCompactList}\item 
+vector$<$ string $>$ \& \mbox{\hyperlink{class_block_a245f811b878c46570db25bde129ca478}{Get\+Records}} ()
+\begin{DoxyCompactList}\small\item\em Provides mutable access to stored record payloads. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_block_abd9b160057f95259fcd23be9b83762eb}{Set\+Next\+RBN}} (int next\+Rbn)
+\begin{DoxyCompactList}\small\item\em Updates the next-\/block link and refreshes serialized header data. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_block_af1fe8f1ec31ea225b6b230126ba55973}{Set\+Prev\+RBN}} (int prev\+Rbn)
+\begin{DoxyCompactList}\small\item\em Updates the previous-\/block link and refreshes serialized header data. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\label{doc-constructors}
+\Hypertarget{class_block_doc-constructors}
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{class_block_aae3b6684a523c922c27a071082f75d1e}\index{Block@{Block}!Block@{Block}}
+\index{Block@{Block}!Block@{Block}}
+\doxysubsubsection{\texorpdfstring{Block()}{Block()}}
+{\footnotesize\ttfamily \label{class_block_aae3b6684a523c922c27a071082f75d1e} 
+Block\+::\+Block (\begin{DoxyParamCaption}\item[{int}]{prevrbn}{, }\item[{int}]{rbn}{}\end{DoxyParamCaption})}
+
+
+
+Constructs an empty block and initializes link metadata. 
+
+Constructs an empty block with initialized links and metadata.
+
+
+\begin{DoxyParams}{Parameters}
+{\em prevrbn} & RBN of the previous block in the sequence. \\
+\hline
+{\em rbn} & RBN assigned to this block.\\
+\hline
+{\em prevrbn} & RBN of the previous block in the chain. \\
+\hline
+{\em rbn} & RBN assigned to this block. \\
+\hline
+\end{DoxyParams}
+
+
+\label{doc-func-members}
+\Hypertarget{class_block_doc-func-members}
+\doxysubsection{Member Function Documentation}
+\Hypertarget{class_block_aa1ea13b343a2f6f83ac24e453f62866b}\index{Block@{Block}!AddRecord@{AddRecord}}
+\index{AddRecord@{AddRecord}!Block@{Block}}
+\doxysubsubsection{\texorpdfstring{AddRecord()}{AddRecord()}}
+{\footnotesize\ttfamily \label{class_block_aa1ea13b343a2f6f83ac24e453f62866b} 
+bool Block\+::\+Add\+Record (\begin{DoxyParamCaption}\item[{const string \&}]{Record}{}\end{DoxyParamCaption})}
+
+
+
+Attempts to append one packed record into this block. 
+
+Attempts to append one packed record to this block.
+
+
+\begin{DoxyParams}{Parameters}
+{\em Record} & Length-\/indicated record text to add. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+True if the record is valid and fits in the remaining capacity; otherwise false.
+\end{DoxyReturn}
+
+\begin{DoxyParams}{Parameters}
+{\em Record} & Length-\/indicated record string. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+True if record format is valid and capacity permits insertion; otherwise false.
+\end{DoxyReturn}
+Expects a leading numeric size prefix before the first comma. Uses that size to enforce block byte-\/capacity limits. \Hypertarget{class_block_a10d98d96dbfe936f77e935bf155029bc}\index{Block@{Block}!GetByteMaxSize@{GetByteMaxSize}}
+\index{GetByteMaxSize@{GetByteMaxSize}!Block@{Block}}
+\doxysubsubsection{\texorpdfstring{GetByteMaxSize()}{GetByteMaxSize()}}
+{\footnotesize\ttfamily \label{class_block_a10d98d96dbfe936f77e935bf155029bc} 
+int Block\+::\+Get\+Byte\+Max\+Size (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+
+
+Returns the maximum payload capacity in bytes for this block. 
+
+\begin{DoxyReturn}{Returns}
+Maximum byte capacity. 
+\end{DoxyReturn}
+\Hypertarget{class_block_a91eb5b8ca2efae34edd3153a3f7dd43d}\index{Block@{Block}!GetByteMinSize@{GetByteMinSize}}
+\index{GetByteMinSize@{GetByteMinSize}!Block@{Block}}
+\doxysubsubsection{\texorpdfstring{GetByteMinSize()}{GetByteMinSize()}}
+{\footnotesize\ttfamily \label{class_block_a91eb5b8ca2efae34edd3153a3f7dd43d} 
+int Block\+::\+Get\+Byte\+Min\+Size (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+
+
+Returns the minimum payload capacity in bytes for this block. 
+
+\begin{DoxyReturn}{Returns}
+Minimum byte capacity. 
+\end{DoxyReturn}
+\Hypertarget{class_block_a1e8b0e37021fcc40a1f5bccc447f28c2}\index{Block@{Block}!GetByteSize@{GetByteSize}}
+\index{GetByteSize@{GetByteSize}!Block@{Block}}
+\doxysubsubsection{\texorpdfstring{GetByteSize()}{GetByteSize()}}
+{\footnotesize\ttfamily \label{class_block_a1e8b0e37021fcc40a1f5bccc447f28c2} 
+int Block\+::\+Get\+Byte\+Size (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+
+
+Returns total payload bytes currently consumed in the block. 
+
+Returns the payload bytes currently used by records.
+
+\begin{DoxyReturn}{Returns}
+Number of used payload bytes.
+
+Current byte usage. 
+\end{DoxyReturn}
+\Hypertarget{class_block_a2d6ad69c9b3df82e02b301dcfbe4dc0d}\index{Block@{Block}!GetNextRBN@{GetNextRBN}}
+\index{GetNextRBN@{GetNextRBN}!Block@{Block}}
+\doxysubsubsection{\texorpdfstring{GetNextRBN()}{GetNextRBN()}}
+{\footnotesize\ttfamily \label{class_block_a2d6ad69c9b3df82e02b301dcfbe4dc0d} 
+int Block\+::\+Get\+Next\+RBN (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+
+
+Returns the next block\textquotesingle{}s RBN. 
+
+Returns the next block link.
+
+\begin{DoxyReturn}{Returns}
+Next block RBN. 
+\end{DoxyReturn}
+\Hypertarget{class_block_a113cbac5cb8dd3a03199bb6786faf415}\index{Block@{Block}!GetPrevRBN@{GetPrevRBN}}
+\index{GetPrevRBN@{GetPrevRBN}!Block@{Block}}
+\doxysubsubsection{\texorpdfstring{GetPrevRBN()}{GetPrevRBN()}}
+{\footnotesize\ttfamily \label{class_block_a113cbac5cb8dd3a03199bb6786faf415} 
+int Block\+::\+Get\+Prev\+RBN (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+
+
+Returns the previous block\textquotesingle{}s RBN. 
+
+Returns the previous block link.
+
+\begin{DoxyReturn}{Returns}
+Previous block RBN. 
+\end{DoxyReturn}
+\Hypertarget{class_block_ac3e50d48d91b25b6496adb096c77d4ab}\index{Block@{Block}!GetRBN@{GetRBN}}
+\index{GetRBN@{GetRBN}!Block@{Block}}
+\doxysubsubsection{\texorpdfstring{GetRBN()}{GetRBN()}}
+{\footnotesize\ttfamily \label{class_block_ac3e50d48d91b25b6496adb096c77d4ab} 
+int Block\+::\+Get\+RBN (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+
+
+Returns this block\textquotesingle{}s RBN. 
+
+Returns this block\textquotesingle{}s relative block number.
+
+\begin{DoxyReturn}{Returns}
+Current block RBN.
+
+\doxylink{class_block}{Block} RBN. 
+\end{DoxyReturn}
+\Hypertarget{class_block_a1ca029e864f8a3ac7bdbc6fd2cd8f3a7}\index{Block@{Block}!GetRecordCount@{GetRecordCount}}
+\index{GetRecordCount@{GetRecordCount}!Block@{Block}}
+\doxysubsubsection{\texorpdfstring{GetRecordCount()}{GetRecordCount()}}
+{\footnotesize\ttfamily \label{class_block_a1ca029e864f8a3ac7bdbc6fd2cd8f3a7} 
+int Block\+::\+Get\+Record\+Count (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+
+
+Returns the number of records stored in this block. 
+
+\begin{DoxyReturn}{Returns}
+Current record count. 
+\end{DoxyReturn}
+\Hypertarget{class_block_a245f811b878c46570db25bde129ca478}\index{Block@{Block}!GetRecords@{GetRecords}}
+\index{GetRecords@{GetRecords}!Block@{Block}}
+\doxysubsubsection{\texorpdfstring{GetRecords()}{GetRecords()}}
+{\footnotesize\ttfamily \label{class_block_a245f811b878c46570db25bde129ca478} 
+vector$<$ string $>$ \& Block\+::\+Get\+Records (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+
+
+Provides mutable access to stored record payloads. 
+
+Returns mutable access to the block\textquotesingle{}s stored records.
+
+\begin{DoxyReturn}{Returns}
+Reference to the internal record vector.
+
+Reference to the record vector. 
+\end{DoxyReturn}
+\Hypertarget{class_block_a558f5112306ada6813ba46d5d1a3b2cd}\index{Block@{Block}!ReadBlock@{ReadBlock}}
+\index{ReadBlock@{ReadBlock}!Block@{Block}}
+\doxysubsubsection{\texorpdfstring{ReadBlock()}{ReadBlock()}}
+{\footnotesize\ttfamily \label{class_block_a558f5112306ada6813ba46d5d1a3b2cd} 
+bool Block\+::\+Read\+Block (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+
+
+Reads this block\textquotesingle{}s serialized representation from storage. 
+
+Reads this block\textquotesingle{}s serialized representation from disk.
+
+\begin{DoxyReturn}{Returns}
+True on successful read and parse; otherwise false.
+
+True on successful read and parse; otherwise false.
+\end{DoxyReturn}
+first line is block metadata, then one record per line. \Hypertarget{class_block_a8c80c6c92ff0180d7f68e5b1f1b7bfee}\index{Block@{Block}!RemoveRecordAt@{RemoveRecordAt}}
+\index{RemoveRecordAt@{RemoveRecordAt}!Block@{Block}}
+\doxysubsubsection{\texorpdfstring{RemoveRecordAt()}{RemoveRecordAt()}}
+{\footnotesize\ttfamily \label{class_block_a8c80c6c92ff0180d7f68e5b1f1b7bfee} 
+bool Block\+::\+Remove\+Record\+At (\begin{DoxyParamCaption}\item[{size\+\_\+t}]{record\+Index}{}\end{DoxyParamCaption})}
+
+
+
+Removes a record by index and refreshes block accounting metadata. 
+
+Removes one record from this block by index.
+
+
+\begin{DoxyParams}{Parameters}
+{\em record\+Index} & Zero-\/based record index to remove. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+True if the record exists and is removed; otherwise false.
+\end{DoxyReturn}
+
+\begin{DoxyParams}{Parameters}
+{\em record\+Index} & Zero-\/based record index. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+True if removal succeeds; otherwise false.
+\end{DoxyReturn}
+Parses the packed record\textquotesingle{}s size prefix to keep byte accounting consistent with Add\+Record. \Hypertarget{class_block_abd9b160057f95259fcd23be9b83762eb}\index{Block@{Block}!SetNextRBN@{SetNextRBN}}
+\index{SetNextRBN@{SetNextRBN}!Block@{Block}}
+\doxysubsubsection{\texorpdfstring{SetNextRBN()}{SetNextRBN()}}
+{\footnotesize\ttfamily \label{class_block_abd9b160057f95259fcd23be9b83762eb} 
+void Block\+::\+Set\+Next\+RBN (\begin{DoxyParamCaption}\item[{int}]{next\+Rbn}{}\end{DoxyParamCaption})}
+
+
+
+Updates the next-\/block link and refreshes serialized header data. 
+
+Updates the next block link and refreshes header metadata.
+
+
+\begin{DoxyParams}{Parameters}
+{\em next\+Rbn} & RBN value to assign as the next block link.\\
+\hline
+{\em next\+Rbn} & New next block RBN value. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{class_block_af1fe8f1ec31ea225b6b230126ba55973}\index{Block@{Block}!SetPrevRBN@{SetPrevRBN}}
+\index{SetPrevRBN@{SetPrevRBN}!Block@{Block}}
+\doxysubsubsection{\texorpdfstring{SetPrevRBN()}{SetPrevRBN()}}
+{\footnotesize\ttfamily \label{class_block_af1fe8f1ec31ea225b6b230126ba55973} 
+void Block\+::\+Set\+Prev\+RBN (\begin{DoxyParamCaption}\item[{int}]{prev\+Rbn}{}\end{DoxyParamCaption})}
+
+
+
+Updates the previous-\/block link and refreshes serialized header data. 
+
+Updates the previous block link and refreshes header metadata.
+
+
+\begin{DoxyParams}{Parameters}
+{\em prev\+Rbn} & RBN value to assign as the previous block link.\\
+\hline
+{\em prev\+Rbn} & New previous block RBN value. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{class_block_a9676681bfcc609989fccc4a92f688965}\index{Block@{Block}!WriteBlock@{WriteBlock}}
+\index{WriteBlock@{WriteBlock}!Block@{Block}}
+\doxysubsubsection{\texorpdfstring{WriteBlock()}{WriteBlock()}}
+{\footnotesize\ttfamily \label{class_block_a9676681bfcc609989fccc4a92f688965} 
+bool Block\+::\+Write\+Block (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+
+
+Writes this block\textquotesingle{}s serialized representation to storage. 
+
+Writes this block\textquotesingle{}s serialized representation to disk.
+
+\begin{DoxyReturn}{Returns}
+True on successful write; otherwise false.
+
+True on successful write; otherwise false.
+\end{DoxyReturn}
+Uses a simple textbook-\/style format\+: first line is block metadata, then one record per line. 
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+include/\+Project 3.\+0/\mbox{\hyperlink{_block_8h}{Block.\+h}}\item 
+src/\+Project 3.\+0/\mbox{\hyperlink{_block_8cpp}{Block.\+cpp}}\end{DoxyCompactItemize}

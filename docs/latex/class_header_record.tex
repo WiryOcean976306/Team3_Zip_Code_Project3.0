@@ -1,0 +1,194 @@
+\doxysection{Header\+Record Class Reference}
+\hypertarget{class_header_record}{}\label{class_header_record}\index{HeaderRecord@{HeaderRecord}}
+
+
+Metadata model for length-\/indicated and blocked-\/sequence file headers.  
+
+
+
+
+{\ttfamily \#include $<$Header\+Record.\+h$>$}
+
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_header_record_ad279bda7c03ed2fbbf8b0197f6139aee}{Header\+Record}} ()=default
+\begin{DoxyCompactList}\small\item\em Constructs a default header record that can later be populated by parsing. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_header_record_a84208d98ceaabe3e04ad057233372233}{Header\+Record}} (const string \&In\+File)
+\begin{DoxyCompactList}\small\item\em Constructs a \doxylink{class_header_record}{Header\+Record} by inspecting an input CSV file. \end{DoxyCompactList}\item 
+string \mbox{\hyperlink{class_header_record_a224c53b3811e57fef033056c9f6ca332}{Get\+Header}} () const
+\begin{DoxyCompactList}\small\item\em Returns the serialized header record string. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_header_record_a506b60b7f53b79aec6045f98bafa9e1d}{Write\+Header}} (std\+::fstream \&out, const \mbox{\hyperlink{class_header_record}{Header\+Record}} \&header)
+\begin{DoxyCompactList}\small\item\em Writes a serialized header record to a stream. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_header_record_af810bde818f137a5c318de179d4dbbe2}{Read\+Header}} (std\+::fstream \&in, \mbox{\hyperlink{class_header_record}{Header\+Record}} \&header)
+\begin{DoxyCompactList}\small\item\em Reads and parses a serialized header record from a stream. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_header_record_ab9e727687a2f093bc11d2373f08c0315}{Configure\+Blocked\+Sequence\+Header}} (const string \&index\+File\+Name, int record\+Count, int block\+Count, int block\+Size, int min\+Block\+Capacity, int avail\+Head\+RBN, int active\+Head\+RBN, bool stale\+Flag)
+\begin{DoxyCompactList}\small\item\em Configures this header record for a blocked sequence set file. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Friends}
+\begin{DoxyCompactItemize}
+\item 
+class \mbox{\hyperlink{class_header_record_a420cf0b7806a961186ab25d0b0ba1df1}{Header\+Buffer}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Metadata model for length-\/indicated and blocked-\/sequence file headers. 
+
+\label{doc-constructors}
+\Hypertarget{class_header_record_doc-constructors}
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{class_header_record_ad279bda7c03ed2fbbf8b0197f6139aee}\index{HeaderRecord@{HeaderRecord}!HeaderRecord@{HeaderRecord}}
+\index{HeaderRecord@{HeaderRecord}!HeaderRecord@{HeaderRecord}}
+\doxysubsubsection{\texorpdfstring{HeaderRecord()}{HeaderRecord()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily \label{class_header_record_ad279bda7c03ed2fbbf8b0197f6139aee} 
+Header\+Record\+::\+Header\+Record (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [default]}}
+
+
+
+Constructs a default header record that can later be populated by parsing. 
+
+\Hypertarget{class_header_record_a84208d98ceaabe3e04ad057233372233}\index{HeaderRecord@{HeaderRecord}!HeaderRecord@{HeaderRecord}}
+\index{HeaderRecord@{HeaderRecord}!HeaderRecord@{HeaderRecord}}
+\doxysubsubsection{\texorpdfstring{HeaderRecord()}{HeaderRecord()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily \label{class_header_record_a84208d98ceaabe3e04ad057233372233} 
+Header\+Record\+::\+Header\+Record (\begin{DoxyParamCaption}\item[{const string \&}]{In\+File}{}\end{DoxyParamCaption})}
+
+
+
+Constructs a \doxylink{class_header_record}{Header\+Record} by inspecting an input CSV file. 
+
+Builds the serialized header record from static schema values and CSV-\/derived record count.
+
+
+\begin{DoxyParams}{Parameters}
+{\em In\+File} & Path to the source CSV file used to determine record count.\\
+\hline
+{\em In\+File} & Path to the source CSV file used to compute record count. \\
+\hline
+\end{DoxyParams}
+
+
+\label{doc-func-members}
+\Hypertarget{class_header_record_doc-func-members}
+\doxysubsection{Member Function Documentation}
+\Hypertarget{class_header_record_ab9e727687a2f093bc11d2373f08c0315}\index{HeaderRecord@{HeaderRecord}!ConfigureBlockedSequenceHeader@{ConfigureBlockedSequenceHeader}}
+\index{ConfigureBlockedSequenceHeader@{ConfigureBlockedSequenceHeader}!HeaderRecord@{HeaderRecord}}
+\doxysubsubsection{\texorpdfstring{ConfigureBlockedSequenceHeader()}{ConfigureBlockedSequenceHeader()}}
+{\footnotesize\ttfamily \label{class_header_record_ab9e727687a2f093bc11d2373f08c0315} 
+void Header\+Record\+::\+Configure\+Blocked\+Sequence\+Header (\begin{DoxyParamCaption}\item[{const string \&}]{index\+File\+Name}{, }\item[{int}]{record\+Count}{, }\item[{int}]{block\+Count}{, }\item[{int}]{block\+Size}{, }\item[{int}]{min\+Block\+Capacity}{, }\item[{int}]{avail\+Head\+RBN}{, }\item[{int}]{active\+Head\+RBN}{, }\item[{bool}]{stale\+Flag}{}\end{DoxyParamCaption})}
+
+
+
+Configures this header record for a blocked sequence set file. 
+
+Configures blocked-\/sequence metadata fields and regenerates header text.
+
+
+\begin{DoxyParams}{Parameters}
+{\em index\+File\+Name} & Name/path of the simple index file. \\
+\hline
+{\em record\+Count} & Number of records in active blocks. \\
+\hline
+{\em block\+Count} & Number of active blocks. \\
+\hline
+{\em block\+Size} & \doxylink{class_block}{Block} size in bytes. \\
+\hline
+{\em min\+Block\+Capacity} & Minimum block capacity percentage (0-\/100). \\
+\hline
+{\em avail\+Head\+RBN} & RBN of avail-\/list head block. \\
+\hline
+{\em active\+Head\+RBN} & RBN of active-\/list head block. \\
+\hline
+{\em stale\+Flag} & True when the index/header is stale.\\
+\hline
+{\em index\+File\+Name} & Index filename/path stored in the header metadata. \\
+\hline
+{\em record\+Count} & Number of active records written into the sequence set. \\
+\hline
+{\em block\+Count} & Number of active blocks in the sequence set. \\
+\hline
+{\em block\+Size} & \doxylink{class_block}{Block} size in bytes. \\
+\hline
+{\em min\+Block\+Capacity} & Minimum capacity percentage (0-\/100). \\
+\hline
+{\em avail\+Head\+RBN} & Avail-\/list head RBN. \\
+\hline
+{\em active\+Head\+RBN} & Active-\/list head RBN. \\
+\hline
+{\em stale\+Flag} & True when related metadata/index data is stale. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{class_header_record_a224c53b3811e57fef033056c9f6ca332}\index{HeaderRecord@{HeaderRecord}!GetHeader@{GetHeader}}
+\index{GetHeader@{GetHeader}!HeaderRecord@{HeaderRecord}}
+\doxysubsubsection{\texorpdfstring{GetHeader()}{GetHeader()}}
+{\footnotesize\ttfamily \label{class_header_record_a224c53b3811e57fef033056c9f6ca332} 
+string Header\+Record\+::\+Get\+Header (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const}
+
+
+
+Returns the serialized header record string. 
+
+Returns the generated header line.
+
+\begin{DoxyReturn}{Returns}
+Header record text ready to be written to the output data file.
+
+Serialized header record string. 
+\end{DoxyReturn}
+\Hypertarget{class_header_record_af810bde818f137a5c318de179d4dbbe2}\index{HeaderRecord@{HeaderRecord}!ReadHeader@{ReadHeader}}
+\index{ReadHeader@{ReadHeader}!HeaderRecord@{HeaderRecord}}
+\doxysubsubsection{\texorpdfstring{ReadHeader()}{ReadHeader()}}
+{\footnotesize\ttfamily \label{class_header_record_af810bde818f137a5c318de179d4dbbe2} 
+bool Header\+Record\+::\+Read\+Header (\begin{DoxyParamCaption}\item[{std\+::fstream \&}]{in}{, }\item[{\mbox{\hyperlink{class_header_record}{Header\+Record}} \&}]{header}{}\end{DoxyParamCaption})}
+
+
+
+Reads and parses a serialized header record from a stream. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em in} & Input stream containing a header line. \\
+\hline
+{\em header} & Output header model populated from parsed data. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true when parse succeeds; otherwise false.
+\end{DoxyReturn}
+This legacy method remains for compatibility. Prefer \doxylink{class_header_buffer_a67766d602b8927e6bbca9ca02b6ab9ac}{Header\+Buffer\+::read\+Header}. \Hypertarget{class_header_record_a506b60b7f53b79aec6045f98bafa9e1d}\index{HeaderRecord@{HeaderRecord}!WriteHeader@{WriteHeader}}
+\index{WriteHeader@{WriteHeader}!HeaderRecord@{HeaderRecord}}
+\doxysubsubsection{\texorpdfstring{WriteHeader()}{WriteHeader()}}
+{\footnotesize\ttfamily \label{class_header_record_a506b60b7f53b79aec6045f98bafa9e1d} 
+bool Header\+Record\+::\+Write\+Header (\begin{DoxyParamCaption}\item[{std\+::fstream \&}]{out}{, }\item[{const \mbox{\hyperlink{class_header_record}{Header\+Record}} \&}]{header}{}\end{DoxyParamCaption})}
+
+
+
+Writes a serialized header record to a stream. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em out} & Output stream receiving the header line. \\
+\hline
+{\em header} & Header model to serialize and write. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true when the write succeeds; otherwise false.
+\end{DoxyReturn}
+This legacy method remains for compatibility. Prefer \doxylink{class_header_buffer_a4b3221513d04634443e1ca2edc672daa}{Header\+Buffer\+::write\+Header}. 
+
+\label{doc-related-members}
+\Hypertarget{class_header_record_doc-related-members}
+\doxysubsection{Friends And Related Symbol Documentation}
+\Hypertarget{class_header_record_a420cf0b7806a961186ab25d0b0ba1df1}\index{HeaderRecord@{HeaderRecord}!HeaderBuffer@{HeaderBuffer}}
+\index{HeaderBuffer@{HeaderBuffer}!HeaderRecord@{HeaderRecord}}
+\doxysubsubsection{\texorpdfstring{HeaderBuffer}{HeaderBuffer}}
+{\footnotesize\ttfamily \label{class_header_record_a420cf0b7806a961186ab25d0b0ba1df1} 
+friend class \mbox{\hyperlink{class_header_buffer}{Header\+Buffer}}\hspace{0.3cm}{\ttfamily [friend]}}
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+include/\mbox{\hyperlink{_header_record_8h}{Header\+Record.\+h}}\item 
+src/\mbox{\hyperlink{_header_record_8cpp}{Header\+Record.\+cpp}}\end{DoxyCompactItemize}

@@ -7,14 +7,13 @@ Date: 2026-04-06
 
 Summary
 -------
-This project used AI assistance as a development support tool.
+This project used AI assistance as a development support tool. AI was used to help with code refactoring, debugging, command-line interface cleanup, and documentation drafting.
 
 How AI Was Used
 ---------------
 1. Reviewed and explained existing C++ code structure and behavior.
 2. Suggested and implemented targeted code edits
-3. Assisted with documentation
-
+3. Helped with project documentation
 
 How AI Was NOT Used
 -------------------
@@ -24,7 +23,7 @@ How AI Was NOT Used
 
 Verification and Responsibility
 -------------------------------
-All final code, outputs, and submitted materials were reviewed by the team. The team is responsible for correctness, testing, academic integrity, and final submission content.
+All outputs, and submitted materials were reviewed by the team. The team is responsible for correctness, testing, academic integrity, and final submission content.
 
 Acknowledgment
 --------------

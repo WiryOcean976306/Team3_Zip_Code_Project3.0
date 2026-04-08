@@ -3,30 +3,41 @@ Project 3.0 User Guide
 
 Overview
 --------
-This project builds a blocked sequence set from a length-indicated ZIP-code input file,
+This project generates a blocked sequence set from a length-indicated ZIP data file,
 creates a simple primary key index, and supports indexed ZIP lookups.
 
-Main programs:
-1) bin/TestDriver   - builds blocked sequence artifacts and optional add/delete processing
-2) bin/SearchIndex  - searches ZIP codes using the simple index and block files
+Programs
+--------
+1) bin/main
+   Canonical Project 3.0 program. Generates blocked data, dumps, and index artifacts.
+   Can also run optional add/delete operations.
+
+2) bin/SearchIndex
+   Search program that uses the simple index plus block files to look up ZIP records.
+
+3) bin/TestDriver
+   Minimal scenario runner that calls bin/main with predefined settings.
+   This is a convenience harness for repeatable demos.
 
 
-1) Build Instructions
----------------------
+Build
+-----
 From the project root:
 
-make bin/TestDriver
+make bin/main
 make bin/SearchIndex
+make bin/TestDriver
 
 Optional shortcuts:
-- make run-test    (runs TestDriver with its built-in defaults)
-- make run-search  (runs SearchIndex with no args; prints usage)
+- make run        (runs bin/main)
+- make run-search (runs bin/SearchIndex)
+- make run-test   (runs bin/TestDriver scenario)
 
 
-2) Generate Blocked Sequence + Index (TestDriver)
--------------------------------------------------
+1) Generation and Optional Mutations (main)
+-------------------------------------------
 Usage:
-TestDriver
+main
   -in <input_length_indicated_csv>
   -out <blocked_sequence_set_file>
   [-blockSize <bytes>]
@@ -44,9 +55,9 @@ TestDriver
   [-addLog <addition_log_file>]
   [-deleteLog <deletion_log_file>]
 
-Recommended command:
+Example generation command:
 
-.\bin\TestDriver \
+.\bin\main \
   -in data/Length_Indicated_us_postal_codes.csv \
   -out data/blocked_sequence_set.txt \
   -blockSize 512 -minCapacity 0.50 -startRBN 1 \
@@ -57,20 +68,32 @@ Recommended command:
   -indexDump data/simple_index_dump.txt \
   -printRecords 0
 
-Expected terminal output (example):
+Example generation+mutation command:
 
-Blocked sequence set generated successfully.
-Records processed: 40933
-Blocks written: 2408
-Blocked sequence set file: data/blocked_sequence_set.txt
-Physical block dump: data/physical_block_dump.txt
-Logical block dump: data/logical_block_dump.txt
-Index file: data/simple_index.txt
-Index dump: data/simple_index_dump.txt
-Dump file: data/dumped_records.txt
+.\bin\main \
+  -in data/Length_Indicated_us_postal_codes.csv \
+  -out data/blocked_sequence_set.txt \
+  -blockSize 512 -minCapacity 0.50 -startRBN 1 \
+  -dump data/dumped_records.txt \
+  -physicalDump data/physical_block_dump.txt \
+  -logicalDump data/logical_block_dump.txt \
+  -index data/simple_index.txt \
+  -indexDump data/simple_index_dump.txt \
+  -a data/recordsToAdd.txt \
+  -d data/keysToDelete.txt \
+  -addLog data/addition_log.txt \
+  -deleteLog data/deletion_log.txt \
+  -printRecords 0
+
+Expected terminal output includes:
+- Blocked sequence set generated successfully.
+- Records processed: <count>
+- Blocks written: <count>
+- Index and dump file paths
+- For mutation runs: log messages plus artifact refresh confirmation
 
 
-3) Search ZIP Codes (SearchIndex)
+2) Search ZIP Codes (SearchIndex)
 ---------------------------------
 Usage:
 SearchIndex
@@ -79,7 +102,7 @@ SearchIndex
   [-blocks <block_directory>]
   -Z<zip> [-Z<zip> ...]
 
-Example command:
+Example:
 
 .\bin\SearchIndex \
   -data data/blocked_sequence_set.txt \
@@ -87,97 +110,68 @@ Example command:
   -blocks data/blocks \
   -Z00501 -Z56301 -Z99999
 
-Expected terminal output (example):
-
-Zip Code 00501 not found.
-56301, MN, 45.541, -94.1819
-Zip Code 99999 not found.
-
-Interpretation:
-- Found ZIP: printed as zip, state, latitude, longitude.
-- Not found ZIP: printed as "Zip Code <zip> not found."
+Expected output style:
+- Found record: zip, state, latitude, longitude
+- Not found: Zip Code <zip> not found.
 
 
-4) Output Files and What They Mean
-----------------------------------
+3) Scenario Runner (TestDriver)
+-------------------------------
+Usage:
+TestDriver [--mutations] [--print] [--dry-run]
+
+Options:
+- --mutations : include add/delete inputs in the scenario command
+- --print     : pass sample record printing to main
+- --dry-run   : print command only, do not execute
+
+Examples:
+
+.\bin\TestDriver --dry-run
+.\bin\TestDriver --mutations
+.\bin\TestDriver --mutations --print
+
+
+Output Files
+------------
 - data/blocked_sequence_set.txt
-  Header metadata for the blocked sequence set (input file, block size, block count,
-  head/tail RBN, avail list head, etc.).
-
-  Example contents:
-  file_type=BLOCKED_SEQUENCE_SET
-  version=1.0
-  input_file=data/Length_Indicated_us_postal_codes.csv
-  block_data_dir=data/blocks
-  block_size=512
-  min_block_capacity=0.50
-  record_count=40933
-  block_count=2408
-  active_list_head_rbn=1
-  active_list_tail_rbn=2408
-  next_rbn=2409
-  avail_list_head_rbn=0
-  stale_flag=false
+  Blocked-sequence header metadata.
 
 - data/blocks/
-  Physical block files used by the blocked sequence set (one file per RBN).
+  Physical block files (block_<rbn>.blk).
 
 - data/physical_block_dump.txt
-  Block dump in physical block-number order.
+  Physical block-order dump.
 
 - data/logical_block_dump.txt
-  Block dump by logical linked-list traversal (using next pointers).
+  Logical linked-order dump.
 
 - data/simple_index.txt
-  Simple primary index entries: <highest key in block, RBN>.
+  Simple index pairs: highest key in block, RBN.
 
 - data/simple_index_dump.txt
-  Human-readable index dump.
+  Readable index dump.
 
 - data/dumped_records.txt
-  Optional record listing generated by TestDriver.
+  Optional logical record list.
 
-- data/addition_log.txt, data/deletion_log.txt
-  Optional logs when using add/delete files with TestDriver.
-
-
-5) Optional Add/Delete Inputs
------------------------------
-To attempt add/delete operations during TestDriver execution:
-- Provide additions file with -a (for example: data/recordsToAdd.txt)
-- Provide deletions file with -d (for example: data/keysToDelete.txt)
-- Provide logs with -addLog and -deleteLog
-
-Example:
-
-.\bin\TestDriver \
-  -in data/Length_Indicated_us_postal_codes.csv \
-  -out data/blocked_sequence_set.txt \
-  -a data/recordsToAdd.txt \
-  -d data/keysToDelete.txt \
-  -addLog data/addition_log.txt \
-  -deleteLog data/deletion_log.txt
-
-Example log lines:
-[INSERT] Record inserted into existing block 2408.
-[DELETE_SUCCESS] Record with ZIP 00501 deleted from block 1.
-[SUMMARY] Added 3 records.
-[SUMMARY] Deleted 2 records.
+- data/addition_log.txt and data/deletion_log.txt
+  Optional logs for mutation runs.
 
 
-6) Troubleshooting
-------------------
-- If SearchIndex says required options are missing:
-  Confirm -data, -index, and at least one -Z<zip> are provided.
+Troubleshooting
+---------------
+- Missing options in SearchIndex:
+  Ensure -data, -index, and at least one -Z<zip> are present.
 
-- If ZIP searches fail unexpectedly:
-  Regenerate artifacts with TestDriver, then re-run SearchIndex using the same
-  data/header/index outputs.
+- Unexpected search results:
+  Regenerate artifacts with bin/main, then rerun SearchIndex using matching files.
 
-- If build fails after edits:
-  Rebuild both binaries:
-  make bin/TestDriver
+- Build problems:
+  Rebuild all binaries:
+  make bin/main
   make bin/SearchIndex
+  make bin/TestDriver
 
 
 End of User Guide

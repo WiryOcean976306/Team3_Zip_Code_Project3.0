@@ -1,0 +1,74 @@
+\doxysection{Analyzer Class Reference}
+\hypertarget{class_analyzer}{}\label{class_analyzer}\index{Analyzer@{Analyzer}}
+
+
+{\ttfamily \#include $<$analyzer.\+h$>$}
+
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{class_analyzer_aebe5100db33036bd669b0e5290fa9c7e}{consume}} (const \mbox{\hyperlink{class_zip_code_record}{Zip\+Code\+Record}} \&record)
+\begin{DoxyCompactList}\small\item\em consumes one \doxylink{class_zip_code_record}{Zip\+Code\+Record} and updates per state extremes. \end{DoxyCompactList}\item 
+const std\+::map$<$ std\+::string, \mbox{\hyperlink{struct_state_extremes}{State\+Extremes}} $>$ \& \mbox{\hyperlink{class_analyzer_aad69143b4a27b909832b01fcb8b66cb7}{get\+Results}} () const
+\begin{DoxyCompactList}\small\item\em Returns the results of Compute\+Extremes. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\label{doc-func-members}
+\Hypertarget{class_analyzer_doc-func-members}
+\doxysubsection{Member Function Documentation}
+\Hypertarget{class_analyzer_aebe5100db33036bd669b0e5290fa9c7e}\index{Analyzer@{Analyzer}!consume@{consume}}
+\index{consume@{consume}!Analyzer@{Analyzer}}
+\doxysubsubsection{\texorpdfstring{consume()}{consume()}}
+{\footnotesize\ttfamily \label{class_analyzer_aebe5100db33036bd669b0e5290fa9c7e} 
+void Analyzer\+::consume (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{class_zip_code_record}{Zip\+Code\+Record}} \&}]{record}{}\end{DoxyParamCaption})}
+
+
+
+consumes one \doxylink{class_zip_code_record}{Zip\+Code\+Record} and updates per state extremes. 
+
+consumed \doxylink{class_zip_code_record}{Zip\+Code\+Record} objects one at a time and updates per extreme values using coordinate comparisons
+
+
+\begin{DoxyParams}{Parameters}
+{\em record} & Parsed CSV row\\
+\hline
+\end{DoxyParams}
+The consume function takes a \doxylink{class_zip_code_record}{Zip\+Code\+Record} object as input and updates the per state. \begin{DoxyReturn}{Returns}
+void
+\end{DoxyReturn}
+
+\begin{DoxyParams}{Parameters}
+{\em record} & Parsed CSV row as a \doxylink{class_zip_code_record}{Zip\+Code\+Record} object\\
+\hline
+\end{DoxyParams}
+The consume function takes a \doxylink{class_zip_code_record}{Zip\+Code\+Record} object as input and updates the per state. \begin{DoxyReturn}{Returns}
+void 
+\end{DoxyReturn}
+\Hypertarget{class_analyzer_aad69143b4a27b909832b01fcb8b66cb7}\index{Analyzer@{Analyzer}!getResults@{getResults}}
+\index{getResults@{getResults}!Analyzer@{Analyzer}}
+\doxysubsubsection{\texorpdfstring{getResults()}{getResults()}}
+{\footnotesize\ttfamily \label{class_analyzer_aad69143b4a27b909832b01fcb8b66cb7} 
+const std\+::map$<$ std\+::string, \mbox{\hyperlink{struct_state_extremes}{State\+Extremes}} $>$ \& Analyzer\+::get\+Results (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const}
+
+
+
+Returns the results of Compute\+Extremes. 
+
+returns the map of state extremes, which is a map from state ID to that state\textquotesingle{}s extremes.
+
+
+\begin{DoxyParams}{Parameters}
+{\em State} & The state for which to return the extremes\\
+\hline
+\end{DoxyParams}
+The map is returned as a const reference to avoid unnecessary copying of the data, and const reference to ensure that the caller cannot modify the internal state of the \doxylink{class_analyzer}{Analyzer} class, while still allowing them to access the results of the analysis. \begin{DoxyReturn}{Returns}
+A const reference to the map of state extremes, which is a map from state ID to that state\textquotesingle{}s extremes.
+
+The map of state extremes as a const reference to prevent modification of the internal state of the \doxylink{class_analyzer}{Analyzer} class.
+\end{DoxyReturn}
+The map is returned as a const reference to avoid unnecessary copying of the data, which can be expensive in terms of performance. By returning a const reference, we ensure that the caller cannot modify the internal state of the \doxylink{class_analyzer}{Analyzer} class, while still allowing them to access the results of the analysis. 
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+include/\mbox{\hyperlink{analyzer_8h}{analyzer.\+h}}\item 
+src/\mbox{\hyperlink{analyzer_8cpp}{analyzer.\+cpp}}\end{DoxyCompactItemize}

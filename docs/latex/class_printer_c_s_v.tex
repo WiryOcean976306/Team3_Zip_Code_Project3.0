@@ -1,0 +1,49 @@
+\doxysection{Printer\+CSV Class Reference}
+\hypertarget{class_printer_c_s_v}{}\label{class_printer_c_s_v}\index{PrinterCSV@{PrinterCSV}}
+
+
+The \doxylink{class_printer}{Printer} class is responsible for printing the results of the analysis in a CSV file. It provides a method to print the table of state extremes, which includes the easternmost,.  
+
+
+
+
+{\ttfamily \#include $<$Printer\+CSV.\+h$>$}
+
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{class_printer_c_s_v_a5e7dba6ffec9dd0c912594ae4c66152b}{print\+CSV}} (std\+::ostream \&out\+File, std\+::map$<$ std\+::string, \mbox{\hyperlink{struct_state_extremes}{State\+Extremes}} $>$ results)
+\begin{DoxyCompactList}\small\item\em Prints the table of state extremes, which includes the easternmost, westernmost, northernmost, and southernmost zip codes for each state. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+The \doxylink{class_printer}{Printer} class is responsible for printing the results of the analysis in a CSV file. It provides a method to print the table of state extremes, which includes the easternmost,. 
+
+\label{doc-func-members}
+\Hypertarget{class_printer_c_s_v_doc-func-members}
+\doxysubsection{Member Function Documentation}
+\Hypertarget{class_printer_c_s_v_a5e7dba6ffec9dd0c912594ae4c66152b}\index{PrinterCSV@{PrinterCSV}!printCSV@{printCSV}}
+\index{printCSV@{printCSV}!PrinterCSV@{PrinterCSV}}
+\doxysubsubsection{\texorpdfstring{printCSV()}{printCSV()}}
+{\footnotesize\ttfamily \label{class_printer_c_s_v_a5e7dba6ffec9dd0c912594ae4c66152b} 
+void Printer\+CSV\+::print\+CSV (\begin{DoxyParamCaption}\item[{std\+::ostream \&}]{out\+File}{, }\item[{std\+::map$<$ std\+::string, \mbox{\hyperlink{struct_state_extremes}{State\+Extremes}} $>$}]{results}{}\end{DoxyParamCaption})}
+
+
+
+Prints the table of state extremes, which includes the easternmost, westernmost, northernmost, and southernmost zip codes for each state. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em results} & A map of state extremes, where the key is the state ID and the value is a \doxylink{struct_state_extremes}{State\+Extremes} object containing the extreme zip code records for that state. \\
+\hline
+\end{DoxyParams}
+Output the column headers for the table of extremes.
+
+Columns are fixed-\/width to provide a clean, aligned display. The values correspond to the state abbreviation and each directional extreme.
+
+Lamba to convert a \doxylink{class_zip_code_record}{Zip\+Code\+Record} into a printable string (May need to be tweaked depending on what \doxylink{class_zip_code_record}{Zip\+Code\+Record} Contains)
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+include/\mbox{\hyperlink{_printer_c_s_v_8h}{Printer\+CSV.\+h}}\item 
+src/\mbox{\hyperlink{printer_c_s_v_8cpp}{printer\+CSV.\+cpp}}\end{DoxyCompactItemize}

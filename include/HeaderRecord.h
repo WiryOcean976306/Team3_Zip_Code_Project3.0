@@ -16,6 +16,9 @@
 
 using namespace std;
 
+/**
+ * @brief Metadata model for length-indicated and blocked-sequence file headers.
+ */
 class HeaderRecord
 {
     friend class HeaderBuffer;
@@ -49,31 +52,12 @@ class HeaderRecord
 
 
 
-        ///////////////////////////////////
-        // Project 3.0 Modifications
-        ///////////////////////////////////
-        //
-        //  Use both a block buffer class and a record buffer class to read and unpack Zip Code Records from a sequence set block into a sorted container of record objects.
-        //
-        //      -The block buffer unpacks a record from a block into a record buffer.
-        //
-        //      -The record buffer unpacks fields from the record buffer into a record object.
-        //
-        //
-        //    Modify your data file header record buffer class to read and write the blocked sequence set data file header record
-        //
-        
         int BlockSize = 512; /**< Fixed block size in bytes for blocked-sequence files. */
         int MinBlockCapacity = 50; /**< Minimum expected capacity percentage for active blocks. */
         int BlockCount = 0; /**< Number of active blocks in the sequence set. */
         int availListHeadRBN = 0; /**< RBN head pointer for the available-block list. */
         int ActiveListHeadRBN = 0; /**< RBN head pointer for the active logical block list. */
         bool StaleFlag = false; /**< True when dependent metadata/index files are stale. */
-
-
-
-
-        ////////////////////////////////////
 
 
 

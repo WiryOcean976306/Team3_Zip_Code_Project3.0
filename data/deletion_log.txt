@@ -13,3 +13,13 @@
 [DELETE_SUCCESS] Record with ZIP 00501 deleted from block 1.
 [DELETE_SUCCESS] Record with ZIP 00544 deleted from block 1.
 [SUMMARY] Deleted 2 records.
+
+=== Record Deletion Session ===
+[DELETE_SUCCESS] Record with ZIP 00501 deleted from block 1.
+[DELETE_SUCCESS] Record with ZIP 00544 deleted from block 1.
+[SUMMARY] Deleted 2 records.
+
+=== Record Deletion Session ===
+[DELETE_SUCCESS] Record with ZIP 00501 deleted from block 1.
+[DELETE_SUCCESS] Record with ZIP 00544 deleted from block 1.
+[SUMMARY] Deleted 2 records.
